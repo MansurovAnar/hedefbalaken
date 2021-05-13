@@ -1,0 +1,1 @@
+web: gunicorn elc_az.wsgi --log-file -

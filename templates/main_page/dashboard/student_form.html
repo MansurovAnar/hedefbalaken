@@ -1,0 +1,156 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_studentcreate %} class='active' {% endblock active_studentcreate%} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Tələbə əlavə et</h4>
+        </div>
+        <form method="POST" enctype= "multipart/form-data">
+                                  {% csrf_token %}
+                                  <section class="section">
+                                    <div class="container ">
+                                      <div class="columns" style="margin: 0 auto; max-width: 536px;">
+                                        <div class="column is-half is-offset-one-quarter">
+
+                                          {% for hidden in studentForm.hidden_fields %}
+                                              {{ hidden.errors }}
+                                              {{ hidden }}
+                                          {% endfor %}
+
+                                         <div class="field">
+                                            <label>İstifadəçi adı</label>
+                                            <div class="control">
+                                              {% render_field userForm.username style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Username" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Ad</label>
+                                            <div class="control">
+                                              {% render_field userForm.first_name style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Ad" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                         <div class="field">
+                                            <label>Soyad</label>
+                                            <div class="control">
+                                              {% render_field userForm.last_name style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Soyad" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Email</label>
+                                            <div class="control">
+                                              {% render_field userForm.email style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Email" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                                <label>Mobil nömrə</label>
+                                                <div class="select">
+                                                  {% render_field studentForm.phone_prefix %}
+                                                </div>
+                                                <br><br>
+                                                <div class="control">
+                                                  {% render_field studentForm.phone_number class="input" placeholder="Mobil nömrəniz (Məs: 1234567 )" name="" required="" %}
+                                                </div>
+                                              </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Doğum günü</label>
+                                            <div class="control">
+                                              {% render_field studentForm.birthdate style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Şəkil</label>
+                                            <div class="control">
+                                              {% render_field studentForm.image style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Parol</label>
+                                            <div class="control">
+                                              {% render_field userForm.password1 style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Parol" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                            <div class="field">
+                                            <label>Təkrar parol</label>
+                                            <div class="control">
+                                              {% render_field userForm.password2 style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Parolu təkrar yaz" %}
+                                            </div>
+                                          </div>
+                                          <br>
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </section>
+
+
+                                  <div class="row">
+                                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="text-center custom-pro-edt-ds">
+                                            <!-- <input type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10" value="Save"> -->
+                                            <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
+                                              <!-- <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button> -->
+                                              <a type="button" class="btn btn-outline-warning" href="{% url 'dashboardcourses' %}">İmtina et</a>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                 <br>
+                                </form>
+      </div>
+    </div>
+  </div>
+</div> <!-- end content -->
+
+
+{% endblock content %}
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+</div>
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+{% endblock main_body %}
+</body>

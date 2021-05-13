@@ -1,0 +1,1129 @@
+
+C:\Users\user\Desktop\ganda\elc_az>cd..
+
+C:\Users\user\Desktop\ganda>cd..
+
+C:\Users\user\Desktop>cd elc_az
+
+C:\Users\user\Desktop\elc_az>cd elc_az
+
+C:\Users\user\Desktop\elc_az\elc_az>git init
+Initialized empty Git repository in C:/Users/user/Desktop/elc_az/elc_az/.git/
+
+C:\Users\user\Desktop\elc_az\elc_az>git config user.name
+MansurovAnar
+
+C:\Users\user\Desktop\elc_az\elc_az>git add -A
+warning: LF will be replaced by CRLF in static/css/animate.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/bootstrap.min.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/flaticon.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/font-awesome.min.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/magnific-popup.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/nice-select.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/owl.carousel.min.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/reset.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/reset.map.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/slicknav.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/style.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/style.map.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/theme-default.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/theme-default.map.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/css/themify-icons.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/Flaticon.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/fa-brands-400.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/fa-regular-400.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/fa-solid-900.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/flaticon.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/fontawesome-webfont.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/gijgo-material.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/fonts/themify.svg.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/bootstrap.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/gmap3.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/imagesloaded.pkgd.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/isotope.pkgd.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.ajaxchimp.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.counterup.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.form.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.magnific-popup.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.scrollUp.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.slicknav.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/jquery.validate.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/mail-script.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/nice-select.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/owl.carousel.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/plugins.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/popper.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/scrollIt.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/vendor/jquery-1.12.4.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/vendor/modernizr-3.5.0.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/waypoints.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/js/wow.min.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/scss/_blog.scss.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/scss/_contact.scss.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in static/scss/_elements.scss.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/about.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/contact.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/course_details.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/courses.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/elements.html.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in templates/main_page/index.html.
+The file will have its original line endings in your working directory
+
+C:\Users\user\Desktop\elc_az\elc_az>git commit -m "IeC Demo"
+[master (root-commit) 98c2535] IeC Demo
+ 351 files changed, 47236 insertions(+)
+ create mode 100644 db.sqlite3
+ create mode 100644 elc_az/__init__.py
+ create mode 100644 elc_az/__pycache__/__init__.cpython-37.pyc
+ create mode 100644 elc_az/__pycache__/settings.cpython-37.pyc
+ create mode 100644 elc_az/__pycache__/urls.cpython-37.pyc
+ create mode 100644 elc_az/__pycache__/wsgi.cpython-37.pyc
+ create mode 100644 elc_az/asgi.py
+ create mode 100644 elc_az/settings.py
+ create mode 100644 elc_az/urls.py
+ create mode 100644 elc_az/wsgi.py
+ create mode 100644 main_page/__init__.py
+ create mode 100644 main_page/__pycache__/__init__.cpython-37.pyc
+ create mode 100644 main_page/__pycache__/admin.cpython-37.pyc
+ create mode 100644 main_page/__pycache__/forms.cpython-37.pyc
+ create mode 100644 main_page/__pycache__/models.cpython-37.pyc
+ create mode 100644 main_page/__pycache__/urls.cpython-37.pyc
+ create mode 100644 main_page/__pycache__/views.cpython-37.pyc
+ create mode 100644 main_page/admin.py
+ create mode 100644 main_page/apps.py
+ create mode 100644 main_page/forms.py
+ create mode 100644 main_page/migrations/0001_initial.py
+ create mode 100644 main_page/migrations/0002_auto_20200304_2030.py
+ create mode 100644 main_page/migrations/0003_auto_20200316_0017.py
+ create mode 100644 main_page/migrations/0004_auto_20200316_0018.py
+ create mode 100644 main_page/migrations/0005_auto_20200316_0019.py
+ create mode 100644 main_page/migrations/0006_user_u_chosen_course.py
+ create mode 100644 main_page/migrations/0007_auto_20200321_2126.py
+ create mode 100644 main_page/migrations/0008_auto_20200321_2133.py
+ create mode 100644 main_page/migrations/0009_auto_20200321_2135.py
+ create mode 100644 main_page/migrations/0010_auto_20200321_2140.py
+ create mode 100644 main_page/migrations/0011_auto_20200321_2149.py
+ create mode 100644 main_page/migrations/0012_auto_20200326_1648.py
+ create mode 100644 main_page/migrations/0013_auto_20200326_1709.py
+ create mode 100644 main_page/migrations/0014_auto_20200326_1714.py
+ create mode 100644 main_page/migrations/0015_auto_20200326_2323.py
+ create mode 100644 main_page/migrations/0016_auto_20200326_2326.py
+ create mode 100644 main_page/migrations/0017_auto_20200326_2329.py
+ create mode 100644 main_page/migrations/0018_auto_20200327_2255.py
+ create mode 100644 main_page/migrations/0019_auto_20200402_1944.py
+ create mode 100644 main_page/migrations/0020_auto_20200402_1949.py
+ create mode 100644 main_page/migrations/0021_auto_20200402_1954.py
+ create mode 100644 main_page/migrations/0022_auto_20200402_2140.py
+ create mode 100644 main_page/migrations/0023_remove_user_u_chosen_course.py
+ create mode 100644 main_page/migrations/0024_user_u_course.py
+ create mode 100644 main_page/migrations/0025_auto_20200402_2214.py
+ create mode 100644 main_page/migrations/0026_auto_20200402_2218.py
+ create mode 100644 main_page/migrations/0027_auto_20200403_1326.py
+ create mode 100644 main_page/migrations/0028_auto_20200403_2000.py
+ create mode 100644 main_page/migrations/0029_auto_20200404_1429.py
+ create mode 100644 main_page/migrations/0030_auto_20200404_1438.py
+ create mode 100644 main_page/migrations/0031_auto_20200404_1440.py
+ create mode 100644 main_page/migrations/0032_auto_20200404_2135.py
+ create mode 100644 main_page/migrations/0033_auto_20200404_2149.py
+ create mode 100644 main_page/migrations/0034_auto_20200404_2200.py
+ create mode 100644 main_page/migrations/0035_auto_20200404_2216.py
+ create mode 100644 main_page/migrations/0036_auto_20200404_2313.py
+ create mode 100644 main_page/migrations/0037_user_u_phoneprefix.py
+ create mode 100644 main_page/migrations/0038_auto_20200405_1423.py
+ create mode 100644 main_page/migrations/0039_auto_20200405_1425.py
+ create mode 100644 main_page/migrations/0040_auto_20200405_1428.py
+ create mode 100644 main_page/migrations/0041_auto_20200405_1431.py
+ create mode 100644 main_page/migrations/0042_auto_20200405_1434.py
+ create mode 100644 main_page/migrations/0043_auto_20200405_1443.py
+ create mode 100644 main_page/migrations/0044_auto_20200405_1522.py
+ create mode 100644 main_page/migrations/0045_phone.py
+ create mode 100644 main_page/migrations/0046_delete_phone.py
+ create mode 100644 main_page/migrations/0047_auto_20200405_1953.py
+ create mode 100644 main_page/migrations/0048_auto_20200405_2016.py
+ create mode 100644 main_page/migrations/0049_auto_20200405_2018.py
+ create mode 100644 main_page/migrations/0050_auto_20200405_2213.py
+ create mode 100644 main_page/migrations/0051_auto_20200405_2355.py
+ create mode 100644 main_page/migrations/0052_auto_20200406_1833.py
+ create mode 100644 main_page/migrations/0053_auto_20200406_1836.py
+ create mode 100644 main_page/migrations/0054_auto_20200406_1841.py
+ create mode 100644 main_page/migrations/0055_auto_20200408_2351.py
+ create mode 100644 main_page/migrations/0056_auto_20200409_0011.py
+ create mode 100644 main_page/migrations/0057_auto_20200409_1754.py
+ create mode 100644 main_page/migrations/0058_auto_20200409_1758.py
+ create mode 100644 main_page/migrations/0059_auto_20200409_1829.py
+ create mode 100644 main_page/migrations/0060_auto_20200409_1831.py
+ create mode 100644 main_page/migrations/0061_auto_20200409_1835.py
+ create mode 100644 main_page/migrations/0062_auto_20200409_1903.py
+ create mode 100644 main_page/migrations/0063_auto_20200410_1445.py
+ create mode 100644 main_page/migrations/__init__.py
+ create mode 100644 main_page/migrations/__pycache__/0001_initial.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0002_auto_20200304_2030.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0003_auto_20200316_0017.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0004_auto_20200316_0018.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0005_auto_20200316_0019.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0006_user_u_chosen_course.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0007_auto_20200321_2126.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0008_auto_20200321_2133.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0009_auto_20200321_2135.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0010_auto_20200321_2140.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0011_auto_20200321_2149.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0012_auto_20200326_1648.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0013_auto_20200326_1709.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0014_auto_20200326_1714.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0015_auto_20200326_2323.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0016_auto_20200326_2326.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0017_auto_20200326_2329.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0018_auto_20200327_2255.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0019_auto_20200402_1944.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0020_auto_20200402_1949.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0021_auto_20200402_1954.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0022_auto_20200402_2140.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0023_remove_user_u_chosen_course.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0024_user_u_course.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0025_auto_20200402_2214.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0026_auto_20200402_2218.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0027_auto_20200403_1326.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0028_auto_20200403_2000.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0029_auto_20200404_1429.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0030_auto_20200404_1438.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0031_auto_20200404_1440.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0032_auto_20200404_2135.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0033_auto_20200404_2149.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0034_auto_20200404_2200.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0035_auto_20200404_2216.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0036_auto_20200404_2313.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0037_user_u_phoneprefix.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0038_auto_20200405_1423.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0039_auto_20200405_1425.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0040_auto_20200405_1428.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0041_auto_20200405_1431.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0042_auto_20200405_1434.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0043_auto_20200405_1443.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0044_auto_20200405_1522.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0045_phone.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0046_delete_phone.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0047_auto_20200405_1953.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0048_auto_20200405_2016.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0049_auto_20200405_2018.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0050_auto_20200405_2213.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0051_auto_20200405_2355.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0052_auto_20200406_1833.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0053_auto_20200406_1836.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0054_auto_20200406_1841.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0055_auto_20200408_2351.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0056_auto_20200409_0011.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0057_auto_20200409_1754.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0058_auto_20200409_1758.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0059_auto_20200409_1829.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0060_auto_20200409_1831.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0061_auto_20200409_1835.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0062_auto_20200409_1903.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0063_auto_20200410_1445.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/__init__.cpython-37.pyc
+ create mode 100644 main_page/models.py
+ create mode 100644 main_page/tests.py
+ create mode 100644 main_page/urls.py
+ create mode 100644 main_page/views.py
+ create mode 100644 manage.py
+ create mode 100644 static/css/animate.css
+ create mode 100644 static/css/bootstrap.min.css
+ create mode 100644 static/css/confirmation.css
+ create mode 100644 static/css/flaticon.css
+ create mode 100644 static/css/font-awesome.min.css
+ create mode 100644 static/css/gijgo.css
+ create mode 100644 static/css/magnific-popup.css
+ create mode 100644 static/css/nice-select.css
+ create mode 100644 static/css/owl.carousel.min.css
+ create mode 100644 static/css/reset.css
+ create mode 100644 static/css/reset.map
+ create mode 100644 static/css/slicknav.css
+ create mode 100644 static/css/style.css
+ create mode 100644 static/css/style.map
+ create mode 100644 static/css/theme-default.css
+ create mode 100644 static/css/theme-default.map
+ create mode 100644 static/css/themify-icons.css
+ create mode 100644 static/fonts/Flaticon.eot
+ create mode 100644 static/fonts/Flaticon.svg
+ create mode 100644 static/fonts/Flaticon.ttf
+ create mode 100644 static/fonts/Flaticon.woff
+ create mode 100644 static/fonts/Flaticon.woff2
+ create mode 100644 static/fonts/FontAwesome.otf
+ create mode 100644 static/fonts/fa-brands-400.eot
+ create mode 100644 static/fonts/fa-brands-400.svg
+ create mode 100644 static/fonts/fa-brands-400.ttf
+ create mode 100644 static/fonts/fa-brands-400.woff
+ create mode 100644 static/fonts/fa-brands-400.woff2
+ create mode 100644 static/fonts/fa-regular-400.eot
+ create mode 100644 static/fonts/fa-regular-400.svg
+ create mode 100644 static/fonts/fa-regular-400.ttf
+ create mode 100644 static/fonts/fa-regular-400.woff
+ create mode 100644 static/fonts/fa-regular-400.woff2
+ create mode 100644 static/fonts/fa-solid-900.eot
+ create mode 100644 static/fonts/fa-solid-900.svg
+ create mode 100644 static/fonts/fa-solid-900.ttf
+ create mode 100644 static/fonts/fa-solid-900.woff
+ create mode 100644 static/fonts/fa-solid-900.woff2
+ create mode 100644 static/fonts/flaticon.css
+ create mode 100644 static/fonts/fontawesome-webfont.eot
+ create mode 100644 static/fonts/fontawesome-webfont.svg
+ create mode 100644 static/fonts/fontawesome-webfont.ttf
+ create mode 100644 static/fonts/fontawesome-webfont.woff
+ create mode 100644 static/fonts/fontawesome-webfont.woff2
+ create mode 100644 static/fonts/gijgo-material.eot
+ create mode 100644 static/fonts/gijgo-material.svg
+ create mode 100644 static/fonts/gijgo-material.ttf
+ create mode 100644 static/fonts/gijgo-material.woff
+ create mode 100644 static/fonts/themify.eot
+ create mode 100644 static/fonts/themify.svg
+ create mode 100644 static/fonts/themify.ttf
+ create mode 100644 static/fonts/themify.woff
+ create mode 100644 static/img/about/1.png
+ create mode 100644 static/img/about/2.png
+ create mode 100644 static/img/banner/banner.png
+ create mode 100644 static/img/banner/bradcam.png
+ create mode 100644 static/img/banner/bradcam2.png
+ create mode 100644 static/img/banner/edu_ilastration.png
+ create mode 100644 static/img/banner/footer_bg.png
+ create mode 100644 static/img/banner/img.png
+ create mode 100644 static/img/blog/author.png
+ create mode 100644 static/img/blog/blog_1.png
+ create mode 100644 static/img/blog/blog_2.png
+ create mode 100644 static/img/blog/blog_3.png
+ create mode 100644 static/img/blog/blog_4.png
+ create mode 100644 static/img/blog/learn_about_bg.png
+ create mode 100644 static/img/blog/single_blog_1.png
+ create mode 100644 static/img/blog/single_blog_2.png
+ create mode 100644 static/img/blog/single_blog_3.png
+ create mode 100644 static/img/blog/single_blog_4.png
+ create mode 100644 static/img/blog/single_blog_5.png
+ create mode 100644 static/img/blog/slide_thumb_1.png
+ create mode 100644 static/img/comment/comment_1.png
+ create mode 100644 static/img/comment/comment_2.png
+ create mode 100644 static/img/comment/comment_3.png
+ create mode 100644 static/img/courses/a.png
+ create mode 100644 static/img/courses/b.png
+ create mode 100644 static/img/courses/c.png
+ create mode 100644 static/img/elements/a.jpg
+ create mode 100644 static/img/elements/a2.jpg
+ create mode 100644 static/img/elements/d.jpg
+ create mode 100644 static/img/elements/disabled-check.png
+ create mode 100644 static/img/elements/disabled-radio.png
+ create mode 100644 static/img/elements/f1.jpg
+ create mode 100644 static/img/elements/f2.jpg
+ create mode 100644 static/img/elements/f3.jpg
+ create mode 100644 static/img/elements/f4.jpg
+ create mode 100644 static/img/elements/f5.jpg
+ create mode 100644 static/img/elements/f6.jpg
+ create mode 100644 static/img/elements/f7.jpg
+ create mode 100644 static/img/elements/f8.jpg
+ create mode 100644 static/img/elements/g1.jpg
+ create mode 100644 static/img/elements/g2.jpg
+ create mode 100644 static/img/elements/g3.jpg
+ create mode 100644 static/img/elements/g4.jpg
+ create mode 100644 static/img/elements/g5.jpg
+ create mode 100644 static/img/elements/g6.jpg
+ create mode 100644 static/img/elements/g7.jpg
+ create mode 100644 static/img/elements/g8.jpg
+ create mode 100644 static/img/elements/primary-check.png
+ create mode 100644 static/img/elements/primary-radio.png
+ create mode 100644 static/img/elements/success-check.png
+ create mode 100644 static/img/elements/success-radio.png
+ create mode 100644 static/img/favicon.ico
+ create mode 100644 static/img/form-logo.png
+ create mode 100644 static/img/latest_blog/1.png
+ create mode 100644 static/img/latest_blog/2.png
+ create mode 100644 static/img/latest_blog/3.png
+ create mode 100644 static/img/latest_blog/author.png
+ create mode 100644 static/img/latest_blog/video.png
+ create mode 100644 static/img/logo.png
+ create mode 100644 static/img/news/1.png
+ create mode 100644 static/img/news/2.png
+ create mode 100644 static/img/news/3.png
+ create mode 100644 static/img/post/next.png
+ create mode 100644 static/img/post/post_1.png
+ create mode 100644 static/img/post/post_10.png
+ create mode 100644 static/img/post/post_2.png
+ create mode 100644 static/img/post/post_3.png
+ create mode 100644 static/img/post/post_4.png
+ create mode 100644 static/img/post/post_5.png
+ create mode 100644 static/img/post/post_6.png
+ create mode 100644 static/img/post/post_7.png
+ create mode 100644 static/img/post/post_8.png
+ create mode 100644 static/img/post/post_9.png
+ create mode 100644 static/img/post/preview.png
+ create mode 100644 static/img/support/support_bg.png
+ create mode 100644 static/img/team/1.png
+ create mode 100644 static/img/team/2.png
+ create mode 100644 static/img/team/3.png
+ create mode 100644 static/img/team/4.png
+ create mode 100644 static/img/team/overlay.png
+ create mode 100644 static/img/testmonial/author_img.png
+ create mode 100644 static/img/testmonial/testmonial.png
+ create mode 100644 static/js/ajax-form.js
+ create mode 100644 static/js/bootstrap.min.js
+ create mode 100644 static/js/confirmation.js
+ create mode 100644 static/js/contact.js
+ create mode 100644 static/js/gijgo.min.js
+ create mode 100644 static/js/gmap3.min.js
+ create mode 100644 static/js/imagesloaded.pkgd.min.js
+ create mode 100644 static/js/isotope.pkgd.min.js
+ create mode 100644 static/js/jquery.ajaxchimp.min.js
+ create mode 100644 static/js/jquery.counterup.min.js
+ create mode 100644 static/js/jquery.form.js
+ create mode 100644 static/js/jquery.magnific-popup.min.js
+ create mode 100644 static/js/jquery.scrollUp.min.js
+ create mode 100644 static/js/jquery.slicknav.min.js
+ create mode 100644 static/js/jquery.validate.min.js
+ create mode 100644 static/js/mail-script.js
+ create mode 100644 static/js/main.js
+ create mode 100644 static/js/nice-select.min.js
+ create mode 100644 static/js/owl.carousel.min.js
+ create mode 100644 static/js/plugins.js
+ create mode 100644 static/js/popper.min.js
+ create mode 100644 static/js/scrollIt.js
+ create mode 100644 static/js/vendor/jquery-1.12.4.min.js
+ create mode 100644 static/js/vendor/modernizr-3.5.0.min.js
+ create mode 100644 static/js/waypoints.min.js
+ create mode 100644 static/js/wow.min.js
+ create mode 100644 static/scss/_about.scss
+ create mode 100644 static/scss/_blog.scss
+ create mode 100644 static/scss/_blog_part.scss
+ create mode 100644 static/scss/_bradcam.scss
+ create mode 100644 static/scss/_btn.scss
+ create mode 100644 static/scss/_contact.scss
+ create mode 100644 static/scss/_coures.scss
+ create mode 100644 static/scss/_course_details.scss
+ create mode 100644 static/scss/_elements.scss
+ create mode 100644 static/scss/_extend.scss
+ create mode 100644 static/scss/_faq.scss
+ create mode 100644 static/scss/_footer.scss
+ create mode 100644 static/scss/_gallery.scss
+ create mode 100644 static/scss/_header.scss
+ create mode 100644 static/scss/_latest_blog.scss
+ create mode 100644 static/scss/_mixins.scss
+ create mode 100644 static/scss/_nesletter.scss
+ create mode 100644 static/scss/_popular_courses.scss
+ create mode 100644 static/scss/_reset.scss
+ create mode 100644 static/scss/_responsive.scss
+ create mode 100644 static/scss/_section_title.scss
+ create mode 100644 static/scss/_slick-nav.scss
+ create mode 100644 static/scss/_slider.scss
+ create mode 100644 static/scss/_team.scss
+ create mode 100644 static/scss/_testmonial.scss
+ create mode 100644 static/scss/_varriable.scss
+ create mode 100644 static/scss/style.scss
+ create mode 100644 templates/base.html
+ create mode 100644 templates/footer.html
+ create mode 100644 templates/main_page/Registration.html
+ create mode 100644 templates/main_page/about.html
+ create mode 100644 templates/main_page/blog.html
+ create mode 100644 templates/main_page/contact.html
+ create mode 100644 templates/main_page/course_details.html
+ create mode 100644 templates/main_page/courses.html
+ create mode 100644 templates/main_page/elements.html
+ create mode 100644 templates/main_page/index.html
+ create mode 100644 templates/main_page/single-blog.html
+
+C:\Users\user\Desktop\elc_az\elc_az>git remote
+
+C:\Users\user\Desktop\elc_az\elc_az>git show
+commit 98c2535396c77299e1e6c6cf4b7af2080ffc7822 (HEAD -> master)
+Author: MansurovAnar <mansurovanar5@gmail.com>
+Date:   Mon Apr 13 13:10:04 2020 +0400
+
+    IeC Demo
+
+diff --git a/db.sqlite3 b/db.sqlite3
+new file mode 100644
+index 0000000..f9f235b
+Binary files /dev/null and b/db.sqlite3 differ
+diff --git a/elc_az/__init__.py b/elc_az/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/elc_az/__pycache__/__init__.cpython-37.pyc b/elc_az/__pycache__/__init__.cpython-37.pyc
+new file mode 100644
+index 0000000..7abefff
+Binary files /dev/null and b/elc_az/__pycache__/__init__.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/settings.cpython-37.pyc b/elc_az/__pycache__/settings.cpython-37.pyc
+new file mode 100644
+index 0000000..c633166
+Binary files /dev/null and b/elc_az/__pycache__/settings.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/urls.cpython-37.pyc b/elc_az/__pycache__/urls.cpython-37.pyc
+new file mode 100644
+index 0000000..9dcc10b
+Binary files /dev/null and b/elc_az/__pycache__/urls.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/wsgi.cpython-37.pyc b/elc_az/__pycache__/wsgi.cpython-37.pyc
+new file mode 100644
+index 0000000..c3dafe8
+Binary files /dev/null and b/elc_az/__pycache__/wsgi.cpython-37.pyc differ
+diff --git a/elc_az/asgi.py b/elc_az/asgi.py                                                                            new file mode 100644                                                                                                    index 0000000..cd3dd9a                                                                                                  --- /dev/null                                                                                                           +++ b/elc_az/asgi.py
+@@ -0,0 +1,16 @@
++"""
+
+C:\Users\user\Desktop\elc_az\elc_az>
+C:\Users\user\Desktop\elc_az\elc_az>git checkout test_tekin
+error: pathspec 'test_tekin' did not match any file(s) known to git
+
+C:\Users\user\Desktop\elc_az\elc_az>git update
+Warning! `git update` has been deprecated;
+Please use `git update-git-for-windows` instead.
+Git for Windows 2.25.0.windows.1 (64bit)
+Update 2.26.0.windows.1 is available
+Download and install Git for Windows 2.26.0 [N/y]?
+
+C:\Users\user\Desktop\elc_az\elc_az>git init
+Reinitialized existing Git repository in C:/Users/user/Desktop/elc_az/elc_az/.git/
+
+C:\Users\user\Desktop\elc_az\elc_az>gitremote add origin https://github.com/MansurovAnar/elc_az.git
+'gitremote' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\user\Desktop\elc_az\elc_az>git remote add origin https://github.com/MansurovAnar/elc_az.git
+
+C:\Users\user\Desktop\elc_az\elc_az>git add /
+fatal: /: '/' is outside repository
+
+C:\Users\user\Desktop\elc_az\elc_az>git add /
+fatal: /: '/' is outside repository
+
+C:\Users\user\Desktop\elc_az\elc_az>git add .
+
+C:\Users\user\Desktop\elc_az\elc_az>git show
+commit 98c2535396c77299e1e6c6cf4b7af2080ffc7822 (HEAD -> master)
+Author: MansurovAnar <mansurovanar5@gmail.com>
+Date:   Mon Apr 13 13:10:04 2020 +0400
+
+    IeC Demo
+
+diff --git a/db.sqlite3 b/db.sqlite3
+new file mode 100644
+index 0000000..f9f235b
+Binary files /dev/null and b/db.sqlite3 differ
+diff --git a/elc_az/__init__.py b/elc_az/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/elc_az/__pycache__/__init__.cpython-37.pyc b/elc_az/__pycache__/__init__.cpython-37.pyc
+new file mode 100644
+index 0000000..7abefff
+Binary files /dev/null and b/elc_az/__pycache__/__init__.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/settings.cpython-37.pyc b/elc_az/__pycache__/settings.cpython-37.pyc
+new file mode 100644
+index 0000000..c633166
+Binary files /dev/null and b/elc_az/__pycache__/settings.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/urls.cpython-37.pyc b/elc_az/__pycache__/urls.cpython-37.pyc
+new file mode 100644
+index 0000000..9dcc10b
+Binary files /dev/null and b/elc_az/__pycache__/urls.cpython-37.pyc differ
+diff --git a/elc_az/__pycache__/wsgi.cpython-37.pyc b/elc_az/__pycache__/wsgi.cpython-37.pyc
+new file mode 100644
+index 0000000..c3dafe8
+Binary files /dev/null and b/elc_az/__pycache__/wsgi.cpython-37.pyc differ
+
+C:\Users\user\Desktop\elc_az\elc_az>git status
+On branch master
+nothing to commit, working tree clean
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout test_tekin
+error: pathspec 'test_tekin' did not match any file(s) known to git
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout -track origin/test_tekin
+error: did you mean `--track` (with two dashes ?)
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout --track origin/test_tekin
+fatal: 'origin/test_tekin' is not a commit and a branch 'test_tekin' cannot be created from it
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout remote origin test_tekin
+error: pathspec 'remote' did not match any file(s) known to git
+error: pathspec 'origin' did not match any file(s) known to git
+error: pathspec 'test_tekin' did not match any file(s) known to git
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout origin test_tekin
+error: pathspec 'origin' did not match any file(s) known to git
+error: pathspec 'test_tekin' did not match any file(s) known to git
+
+C:\Users\user\Desktop\elc_az\elc_az>git pull origin test_tekin
+Username for 'https://github.com': MansurovAnar
+Password for 'https://MansurovAnar@github.com':
+warning: no common commits
+remote: Enumerating objects: 275, done.
+remote: Counting objects: 100% (275/275), done.
+remote: Compressing objects: 100% (225/225), done.
+remote: Total 275 (delta 48), reused 271 (delta 47), pack-reused 0
+Receiving objects: 100% (275/275), 13.52 MiB | 196.00 KiB/s, done.
+Resolving deltas: 100% (48/48), done.
+From https://github.com/MansurovAnar/elc_az
+ * branch            test_tekin -> FETCH_HEAD
+ * [new branch]      test_tekin -> origin/test_tekin
+First, rewinding head to replay your work on top of it...
+Applying: IeC Demo
+.git/rebase-apply/patch:17037: space before tab in indent.
+        Flaticon icon font: Flaticon
+.git/rebase-apply/patch:17038: space before tab in indent.
+        Creation date: 08/09/2019 09:07
+.git/rebase-apply/patch:17039: space before tab in indent.
+        */
+.git/rebase-apply/patch:17061: trailing whitespace.
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+.git/rebase-apply/patch:17366: trailing whitespace.
+
+warning: squelched 833 whitespace errors
+warning: 838 lines add whitespace errors.
+warning: Cannot merge binary files: main_page/__pycache__/views.cpython-37.pyc (HEAD vs. IeC Demo)
+warning: Cannot merge binary files: main_page/__pycache__/urls.cpython-37.pyc (HEAD vs. IeC Demo)
+warning: Cannot merge binary files: main_page/__pycache__/models.cpython-37.pyc (HEAD vs. IeC Demo)
+warning: Cannot merge binary files: main_page/__pycache__/forms.cpython-37.pyc (HEAD vs. IeC Demo)
+warning: Cannot merge binary files: elc_az/__pycache__/settings.cpython-37.pyc (HEAD vs. IeC Demo)
+warning: Cannot merge binary files: db.sqlite3 (HEAD vs. IeC Demo)
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+CONFLICT (add/add): Merge conflict in templates/main_page/Registration.html
+Auto-merging templates/main_page/Registration.html
+CONFLICT (add/add): Merge conflict in templates/base.html
+Auto-merging templates/base.html
+CONFLICT (add/add): Merge conflict in main_page/views.py
+Auto-merging main_page/views.py
+CONFLICT (add/add): Merge conflict in main_page/urls.py
+Auto-merging main_page/urls.py
+CONFLICT (add/add): Merge conflict in main_page/models.py
+Auto-merging main_page/models.py
+CONFLICT (add/add): Merge conflict in main_page/forms.py
+Auto-merging main_page/forms.py
+CONFLICT (add/add): Merge conflict in main_page/__pycache__/views.cpython-37.pyc
+Auto-merging main_page/__pycache__/views.cpython-37.pyc
+CONFLICT (add/add): Merge conflict in main_page/__pycache__/urls.cpython-37.pyc
+Auto-merging main_page/__pycache__/urls.cpython-37.pyc
+CONFLICT (add/add): Merge conflict in main_page/__pycache__/models.cpython-37.pyc
+Auto-merging main_page/__pycache__/models.cpython-37.pyc
+CONFLICT (add/add): Merge conflict in main_page/__pycache__/forms.cpython-37.pyc
+Auto-merging main_page/__pycache__/forms.cpython-37.pyc
+CONFLICT (add/add): Merge conflict in elc_az/settings.py
+Auto-merging elc_az/settings.py
+CONFLICT (add/add): Merge conflict in elc_az/__pycache__/settings.cpython-37.pyc
+Auto-merging elc_az/__pycache__/settings.cpython-37.pyc
+CONFLICT (add/add): Merge conflict in db.sqlite3
+Auto-merging db.sqlite3
+error: Failed to merge in the changes.
+hint: Use 'git am --show-current-patch' to see the failed patch
+Patch failed at 0001 IeC Demo
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+C:\Users\user\Desktop\elc_az\elc_az>git show
+commit bffe4e912d3db2dee78b7a18a2325a4182c3f534 (HEAD, origin/test_tekin)
+Author: MansurovAnar <mansurovanar5@gmail.com>
+Date:   Mon Apr 13 12:46:35 2020 +0400
+
+    IeC first Demo
+
+diff --git a/README.md b/README.md
+deleted file mode 100644
+index 124b232..0000000
+--- a/README.md
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# elc_az
+-This is the project for course. Still under development
+
+C:\Users\user\Desktop\elc_az\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az\elc_az
+
+04/13/2020  01:30 PM    <DIR>          .
+04/13/2020  01:30 PM    <DIR>          ..
+04/13/2020  01:30 PM           159,744 db.sqlite3
+04/13/2020  01:30 PM    <DIR>          elc_az
+04/13/2020  01:30 PM    <DIR>          main_page
+02/21/2020  07:54 AM               647 manage.py
+04/13/2020  01:07 PM    <DIR>          static
+04/13/2020  01:30 PM    <DIR>          templates
+               2 File(s)        160,391 bytes
+               6 Dir(s)  136,539,467,776 bytes free
+
+C:\Users\user\Desktop\elc_az\elc_az>cd elc_az
+
+C:\Users\user\Desktop\elc_az\elc_az\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az\elc_az\elc_az
+
+04/13/2020  01:30 PM    <DIR>          .
+04/13/2020  01:30 PM    <DIR>          ..
+02/21/2020  07:54 AM               405 asgi.py
+04/13/2020  01:30 PM             3,509 settings.py
+03/08/2020  01:05 AM               888 urls.py
+02/21/2020  07:54 AM               405 wsgi.py
+02/21/2020  07:54 AM                 0 __init__.py
+04/13/2020  01:30 PM    <DIR>          __pycache__
+               5 File(s)          5,207 bytes
+               3 Dir(s)  136,539,467,776 bytes free
+
+C:\Users\user\Desktop\elc_az\elc_az\elc_az>cd //
+The system cannot find the path specified.
+
+C:\Users\user\Desktop\elc_az\elc_az\elc_az>cd 00
+The system cannot find the path specified.
+
+C:\Users\user\Desktop\elc_az\elc_az\elc_az>cd..
+
+C:\Users\user\Desktop\elc_az\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az\elc_az
+
+04/13/2020  01:30 PM    <DIR>          .
+04/13/2020  01:30 PM    <DIR>          ..
+04/13/2020  01:30 PM           159,744 db.sqlite3
+04/13/2020  01:30 PM    <DIR>          elc_az
+04/13/2020  01:30 PM    <DIR>          main_page
+02/21/2020  07:54 AM               647 manage.py
+04/13/2020  01:07 PM    <DIR>          static
+04/13/2020  01:30 PM    <DIR>          templates
+               2 File(s)        160,391 bytes
+               6 Dir(s)  136,540,868,608 bytes free
+
+C:\Users\user\Desktop\elc_az\elc_az>git add -A
+
+C:\Users\user\Desktop\elc_az\elc_az>git checkout test_tekin
+M       elc_az/settings.py
+M       main_page/forms.py
+A       main_page/migrations/0012_auto_20200326_1648.py
+A       main_page/migrations/0013_auto_20200326_1709.py
+A       main_page/migrations/0014_auto_20200326_1714.py
+A       main_page/migrations/0015_auto_20200326_2323.py
+A       main_page/migrations/0016_auto_20200326_2326.py
+A       main_page/migrations/0017_auto_20200326_2329.py
+A       main_page/migrations/0018_auto_20200327_2255.py
+A       main_page/migrations/0019_auto_20200402_1944.py
+A       main_page/migrations/0020_auto_20200402_1949.py
+A       main_page/migrations/0021_auto_20200402_1954.py
+A       main_page/migrations/0022_auto_20200402_2140.py
+A       main_page/migrations/0023_remove_user_u_chosen_course.py
+A       main_page/migrations/0024_user_u_course.py
+A       main_page/migrations/0025_auto_20200402_2214.py
+A       main_page/migrations/0026_auto_20200402_2218.py
+A       main_page/migrations/0027_auto_20200403_1326.py
+A       main_page/migrations/0028_auto_20200403_2000.py
+A       main_page/migrations/0029_auto_20200404_1429.py
+A       main_page/migrations/0030_auto_20200404_1438.py
+A       main_page/migrations/0031_auto_20200404_1440.py
+A       main_page/migrations/0032_auto_20200404_2135.py
+A       main_page/migrations/0033_auto_20200404_2149.py
+A       main_page/migrations/0034_auto_20200404_2200.py
+A       main_page/migrations/0035_auto_20200404_2216.py
+A       main_page/migrations/0036_auto_20200404_2313.py
+A       main_page/migrations/0037_user_u_phoneprefix.py
+A       main_page/migrations/0038_auto_20200405_1423.py
+A       main_page/migrations/0039_auto_20200405_1425.py
+A       main_page/migrations/0040_auto_20200405_1428.py
+A       main_page/migrations/0041_auto_20200405_1431.py
+A       main_page/migrations/0042_auto_20200405_1434.py
+A       main_page/migrations/0043_auto_20200405_1443.py
+A       main_page/migrations/0044_auto_20200405_1522.py
+A       main_page/migrations/0045_phone.py
+A       main_page/migrations/0046_delete_phone.py
+A       main_page/migrations/0047_auto_20200405_1953.py
+A       main_page/migrations/0048_auto_20200405_2016.py
+A       main_page/migrations/0049_auto_20200405_2018.py
+A       main_page/migrations/0050_auto_20200405_2213.py
+A       main_page/migrations/0051_auto_20200405_2355.py
+A       main_page/migrations/0052_auto_20200406_1833.py
+A       main_page/migrations/0053_auto_20200406_1836.py
+A       main_page/migrations/0054_auto_20200406_1841.py
+A       main_page/migrations/0055_auto_20200408_2351.py
+A       main_page/migrations/0056_auto_20200409_0011.py
+A       main_page/migrations/0057_auto_20200409_1754.py
+A       main_page/migrations/0058_auto_20200409_1758.py
+A       main_page/migrations/0059_auto_20200409_1829.py
+A       main_page/migrations/0060_auto_20200409_1831.py
+A       main_page/migrations/0061_auto_20200409_1835.py
+A       main_page/migrations/0062_auto_20200409_1903.py
+A       main_page/migrations/0063_auto_20200410_1445.py
+A       main_page/migrations/__pycache__/0012_auto_20200326_1648.cpython-37.pyc
+A       main_page/migrations/__pycache__/0013_auto_20200326_1709.cpython-37.pyc
+A       main_page/migrations/__pycache__/0014_auto_20200326_1714.cpython-37.pyc
+A       main_page/migrations/__pycache__/0015_auto_20200326_2323.cpython-37.pyc
+A       main_page/migrations/__pycache__/0016_auto_20200326_2326.cpython-37.pyc
+A       main_page/migrations/__pycache__/0017_auto_20200326_2329.cpython-37.pyc
+A       main_page/migrations/__pycache__/0018_auto_20200327_2255.cpython-37.pyc
+A       main_page/migrations/__pycache__/0019_auto_20200402_1944.cpython-37.pyc
+A       main_page/migrations/__pycache__/0020_auto_20200402_1949.cpython-37.pyc
+A       main_page/migrations/__pycache__/0021_auto_20200402_1954.cpython-37.pyc
+A       main_page/migrations/__pycache__/0022_auto_20200402_2140.cpython-37.pyc
+A       main_page/migrations/__pycache__/0023_remove_user_u_chosen_course.cpython-37.pyc
+A       main_page/migrations/__pycache__/0024_user_u_course.cpython-37.pyc
+A       main_page/migrations/__pycache__/0025_auto_20200402_2214.cpython-37.pyc
+A       main_page/migrations/__pycache__/0026_auto_20200402_2218.cpython-37.pyc
+A       main_page/migrations/__pycache__/0027_auto_20200403_1326.cpython-37.pyc
+A       main_page/migrations/__pycache__/0028_auto_20200403_2000.cpython-37.pyc
+A       main_page/migrations/__pycache__/0029_auto_20200404_1429.cpython-37.pyc
+A       main_page/migrations/__pycache__/0030_auto_20200404_1438.cpython-37.pyc
+A       main_page/migrations/__pycache__/0031_auto_20200404_1440.Switched to a new branch 'test_tekin'
+cpython-37.pyc
+A       main_page/migrations/__pycache__/0032_auto_20200404_2135.cpython-37.pyc
+A       main_page/migrations/__pycache__/0033_auto_20200404_2149.cpython-37.pyc
+A       main_page/migrations/__pycache__/0034_auto_20200404_2200.cpython-37.pyc
+A       main_page/migrations/__pycache__/0035_auto_20200404_2216.cpython-37.pyc
+A       main_page/migrations/__pycache__/0036_auto_20200404_2313.cpython-37.pyc
+A       main_page/migrations/__pycache__/0037_user_u_phoneprefix.cpython-37.pyc
+A       main_page/migrations/__pycache__/0038_auto_20200405_1423.cpython-37.pyc
+A       main_page/migrations/__pycache__/0039_auto_20200405_1425.cpython-37.pyc
+A       main_page/migrations/__pycache__/0040_auto_20200405_1428.cpython-37.pyc
+A       main_page/migrations/__pycache__/0041_auto_20200405_1431.cpython-37.pyc
+A       main_page/migrations/__pycache__/0042_auto_20200405_1434.cpython-37.pyc
+A       main_page/migrations/__pycache__/0043_auto_20200405_1443.cpython-37.pyc
+A       main_page/migrations/__pycache__/0044_auto_20200405_1522.cpython-37.pyc
+A       main_page/migrations/__pycache__/0045_phone.cpython-37.pyc
+A       main_page/migrations/__pycache__/0046_delete_phone.cpython-37.pyc
+A       main_page/migrations/__pycache__/0047_auto_20200405_1953.cpython-37.pyc
+A       main_page/migrations/__pycache__/0048_auto_20200405_2016.cpython-37.pyc
+A       main_page/migrations/__pycache__/0049_auto_20200405_2018.cpython-37.pyc
+A       main_page/migrations/__pycache__/0050_auto_20200405_2213.cpython-37.pyc
+A       main_page/migrations/__pycache__/0051_auto_20200405_2355.cpython-37.pyc
+A       main_page/migrations/__pycache__/0052_auto_20200406_1833.cpython-37.pyc
+A       main_page/migrations/__pycache__/0053_auto_20200406_1836.cpython-37.pyc
+A       main_page/migrations/__pycache__/0054_auto_20200406_1841.cpython-37.pyc
+A       main_page/migrations/__pycache__/0055_auto_20200408_2351.cpython-37.pyc
+A       main_page/migrations/__pycache__/0056_auto_20200409_0011.cpython-37.pyc
+A       main_page/migrations/__pycache__/0057_auto_20200409_1754.cpython-37.pyc
+A       main_page/migrations/__pycache__/0058_auto_20200409_1758.cpython-37.pyc
+A       main_page/migrations/__pycache__/0059_auto_20200409_1829.cpython-37.pyc
+A       main_page/migrations/__pycache__/0060_auto_20200409_1831.cpython-37.pyc
+A       main_page/migrations/__pycache__/0061_auto_20200409_1835.cpython-37.pyc
+A       main_page/migrations/__pycache__/0062_auto_20200409_1903.cpython-37.pyc
+A       main_page/migrations/__pycache__/0063_auto_20200410_1445.cpython-37.pyc
+M       main_page/models.py
+M       main_page/urls.py
+M       main_page/views.py
+A       static/css/confirmation.css
+A       static/js/confirmation.js
+M       templates/base.html
+M       templates/main_page/Registration.html
+Branch 'test_tekin' set up to track remote branch 'test_tekin' from 'origin'.
+
+C:\Users\user\Desktop\elc_az\elc_az>git show
+commit bffe4e912d3db2dee78b7a18a2325a4182c3f534 (HEAD -> test_tekin, origin/test_tekin)
+Author: MansurovAnar <mansurovanar5@gmail.com>
+Date:   Mon Apr 13 12:46:35 2020 +0400
+
+    IeC first Demo
+
+diff --git a/README.md b/README.md
+deleted file mode 100644
+index 124b232..0000000
+--- a/README.md
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# elc_az
+-This is the project for course. Still under development
+
+C:\Users\user\Desktop\elc_az\elc_az>git commit -m "Gozlerin qaradi"
+[test_tekin 82ce4c4] Gozlerin qaradi
+ 113 files changed, 1852 insertions(+), 3 deletions(-)
+ create mode 100644 main_page/migrations/0012_auto_20200326_1648.py
+ create mode 100644 main_page/migrations/0013_auto_20200326_1709.py
+ create mode 100644 main_page/migrations/0014_auto_20200326_1714.py
+ create mode 100644 main_page/migrations/0015_auto_20200326_2323.py
+ create mode 100644 main_page/migrations/0016_auto_20200326_2326.py
+ create mode 100644 main_page/migrations/0017_auto_20200326_2329.py
+ create mode 100644 main_page/migrations/0018_auto_20200327_2255.py
+ create mode 100644 main_page/migrations/0019_auto_20200402_1944.py
+ create mode 100644 main_page/migrations/0020_auto_20200402_1949.py
+ create mode 100644 main_page/migrations/0021_auto_20200402_1954.py
+ create mode 100644 main_page/migrations/0022_auto_20200402_2140.py
+ create mode 100644 main_page/migrations/0023_remove_user_u_chosen_course.py
+ create mode 100644 main_page/migrations/0024_user_u_course.py
+ create mode 100644 main_page/migrations/0025_auto_20200402_2214.py
+ create mode 100644 main_page/migrations/0026_auto_20200402_2218.py
+ create mode 100644 main_page/migrations/0027_auto_20200403_1326.py
+ create mode 100644 main_page/migrations/0028_auto_20200403_2000.py
+ create mode 100644 main_page/migrations/0029_auto_20200404_1429.py
+ create mode 100644 main_page/migrations/0030_auto_20200404_1438.py
+ create mode 100644 main_page/migrations/0031_auto_20200404_1440.py
+ create mode 100644 main_page/migrations/0032_auto_20200404_2135.py
+ create mode 100644 main_page/migrations/0033_auto_20200404_2149.py
+ create mode 100644 main_page/migrations/0034_auto_20200404_2200.py
+ create mode 100644 main_page/migrations/0035_auto_20200404_2216.py
+ create mode 100644 main_page/migrations/0036_auto_20200404_2313.py
+ create mode 100644 main_page/migrations/0037_user_u_phoneprefix.py
+ create mode 100644 main_page/migrations/0038_auto_20200405_1423.py
+ create mode 100644 main_page/migrations/0039_auto_20200405_1425.py
+ create mode 100644 main_page/migrations/0040_auto_20200405_1428.py
+ create mode 100644 main_page/migrations/0041_auto_20200405_1431.py
+ create mode 100644 main_page/migrations/0042_auto_20200405_1434.py
+ create mode 100644 main_page/migrations/0043_auto_20200405_1443.py
+ create mode 100644 main_page/migrations/0044_auto_20200405_1522.py
+ create mode 100644 main_page/migrations/0045_phone.py
+ create mode 100644 main_page/migrations/0046_delete_phone.py
+ create mode 100644 main_page/migrations/0047_auto_20200405_1953.py
+ create mode 100644 main_page/migrations/0048_auto_20200405_2016.py
+ create mode 100644 main_page/migrations/0049_auto_20200405_2018.py
+ create mode 100644 main_page/migrations/0050_auto_20200405_2213.py
+ create mode 100644 main_page/migrations/0051_auto_20200405_2355.py
+ create mode 100644 main_page/migrations/0052_auto_20200406_1833.py
+ create mode 100644 main_page/migrations/0053_auto_20200406_1836.py
+ create mode 100644 main_page/migrations/0054_auto_20200406_1841.py
+ create mode 100644 main_page/migrations/0055_auto_20200408_2351.py
+ create mode 100644 main_page/migrations/0056_auto_20200409_0011.py
+ create mode 100644 main_page/migrations/0057_auto_20200409_1754.py
+ create mode 100644 main_page/migrations/0058_auto_20200409_1758.py
+ create mode 100644 main_page/migrations/0059_auto_20200409_1829.py
+ create mode 100644 main_page/migrations/0060_auto_20200409_1831.py
+ create mode 100644 main_page/migrations/0061_auto_20200409_1835.py
+ create mode 100644 main_page/migrations/0062_auto_20200409_1903.py
+ create mode 100644 main_page/migrations/0063_auto_20200410_1445.py
+ create mode 100644 main_page/migrations/__pycache__/0012_auto_20200326_1648.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0013_auto_20200326_1709.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0014_auto_20200326_1714.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0015_auto_20200326_2323.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0016_auto_20200326_2326.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0017_auto_20200326_2329.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0018_auto_20200327_2255.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0019_auto_20200402_1944.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0020_auto_20200402_1949.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0021_auto_20200402_1954.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0022_auto_20200402_2140.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0023_remove_user_u_chosen_course.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0024_user_u_course.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0025_auto_20200402_2214.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0026_auto_20200402_2218.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0027_auto_20200403_1326.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0028_auto_20200403_2000.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0029_auto_20200404_1429.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0030_auto_20200404_1438.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0031_auto_20200404_1440.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0032_auto_20200404_2135.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0033_auto_20200404_2149.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0034_auto_20200404_2200.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0035_auto_20200404_2216.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0036_auto_20200404_2313.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0037_user_u_phoneprefix.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0038_auto_20200405_1423.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0039_auto_20200405_1425.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0040_auto_20200405_1428.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0041_auto_20200405_1431.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0042_auto_20200405_1434.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0043_auto_20200405_1443.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0044_auto_20200405_1522.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0045_phone.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0046_delete_phone.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0047_auto_20200405_1953.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0048_auto_20200405_2016.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0049_auto_20200405_2018.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0050_auto_20200405_2213.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0051_auto_20200405_2355.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0052_auto_20200406_1833.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0053_auto_20200406_1836.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0054_auto_20200406_1841.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0055_auto_20200408_2351.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0056_auto_20200409_0011.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0057_auto_20200409_1754.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0058_auto_20200409_1758.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0059_auto_20200409_1829.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0060_auto_20200409_1831.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0061_auto_20200409_1835.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0062_auto_20200409_1903.cpython-37.pyc
+ create mode 100644 main_page/migrations/__pycache__/0063_auto_20200410_1445.cpython-37.pyc
+ create mode 100644 static/css/confirmation.css
+ create mode 100644 static/js/confirmation.js
+
+C:\Users\user\Desktop\elc_az\elc_az>git push origin test_tekin
+Username for 'https://github.com': MansurovAnar
+Password for 'https://MansurovAnar@github.com':
+Enumerating objects: 141, done.
+Counting objects: 100% (141/141), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (124/124), done.
+Writing objects: 100% (124/124), 33.95 KiB | 3.39 MiB/s, done.
+Total 124 (delta 90), reused 0 (delta 0)
+remote: Resolving deltas: 100% (90/90), completed with 9 local objects.
+To https://github.com/MansurovAnar/elc_az.git
+   bffe4e9..82ce4c4  test_tekin -> test_tekin
+
+C:\Users\user\Desktop\elc_az\elc_az>git push origin test_tekin
+Username for 'https://github.com':
+C:\Users\user\Desktop\elc_az\elc_az>git pull origin test_tekin
+Username for 'https://github.com': MansurovAnar
+Password for 'https://MansurovAnar@github.com':
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 758 bytes | 19.00 KiB/s, done.
+From https://github.com/MansurovAnar/elc_az
+ * branch            test_tekin -> FETCH_HEAD
+   82ce4c4..b73a811  test_tekin -> origin/test_tekin
+fatal: It seems that there is already a rebase-apply directory, and
+I wonder if you are in the middle of another rebase.  If that is the
+case, please try
+        git rebase (--continue | --abort | --skip)
+If that is not the case, please
+        rm -fr ".git/rebase-apply"
+and run me again.  I am stopping in case you still have something
+valuable there.
+
+
+C:\Users\user\Desktop\elc_az\elc_az>git show
+commit 82ce4c406bd6ec8251d17ae2e6050f478dac112c (HEAD -> test_tekin)
+Author: MansurovAnar <mansurovanar5@gmail.com>
+Date:   Mon Apr 13 13:36:39 2020 +0400
+
+    Gozlerin qaradi
+
+diff --git a/elc_az/settings.py b/elc_az/settings.py
+index acd4e31..e93db8b 100644
+--- a/elc_az/settings.py
++++ b/elc_az/settings.py
+@@ -39,7 +39,14 @@ INSTALLED_APPS = [
+     'django.contrib.sessions',
+     'django.contrib.messages',
+     'django.contrib.staticfiles',
++<<<<<<< HEAD
+     'main_page'
++=======
++    'main_page',
++    'phone_field',
++    'widget_tweaks',
++    'bootstrap4',
++>>>>>>> IeC Demo
+ ]
+
+ MIDDLEWARE = [
+diff --git a/main_page/forms.py b/main_page/forms.py
+index 1789c41..0b2ecac 100644
+--- a/main_page/forms.py
++++ b/main_page/forms.py
+@@ -1,6 +1,7 @@
+
+C:\Users\user\Desktop\elc_az\elc_az>git add -A
+
+C:\Users\user\Desktop\elc_az\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az\elc_az
+
+04/13/2020  01:30 PM    <DIR>          .
+04/13/2020  01:30 PM    <DIR>          ..
+04/13/2020  01:30 PM           159,744 db.sqlite3
+04/13/2020  01:30 PM    <DIR>          elc_az
+04/13/2020  01:30 PM    <DIR>          main_page
+02/21/2020  07:54 AM               647 manage.py
+04/13/2020  01:07 PM    <DIR>          static
+04/13/2020  01:30 PM    <DIR>          templates
+               2 File(s)        160,391 bytes
+               6 Dir(s)  136,542,724,096 bytes free
+
+C:\Users\user\Desktop\elc_az\elc_az>cd ..
+
+C:\Users\user\Desktop\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az
+
+04/13/2020  01:07 PM    <DIR>          .
+04/13/2020  01:07 PM    <DIR>          ..
+04/13/2020  01:07 PM    <DIR>          .idea
+04/13/2020  01:30 PM    <DIR>          elc_az
+03/21/2020  09:26 PM             1,626 Notes.txt
+               1 File(s)          1,626 bytes
+               4 Dir(s)  136,542,273,536 bytes free
+
+C:\Users\user\Desktop\elc_az>git fetch origin test_tekin
+fatal: not a git repository (or any of the parent directories): .git
+
+C:\Users\user\Desktop\elc_az>cd e
+The system cannot find the path specified.
+
+C:\Users\user\Desktop\elc_az>cd elc_az
+
+C:\Users\user\Desktop\elc_az\elc_az>git fetch origin test_tekin
+Username for 'https://github.com':
+Password for 'https://github.com':
+remote: Repository not found.
+fatal: Authentication failed for 'https://github.com/MansurovAnar/elc_az.git/'
+
+C:\Users\user\Desktop\elc_az\elc_az>git fetch origin test_tekin
+Username for 'https://github.com': MansurovAnar
+Password for 'https://MansurovAnar@github.com':
+From https://github.com/MansurovAnar/elc_az
+ * branch            test_tekin -> FETCH_HEAD
+
+C:\Users\user\Desktop\elc_az\elc_az>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 64FE-3D38
+
+ Directory of C:\Users\user\Desktop\elc_az\elc_az
+
+04/13/2020  01:30 PM    <DIR>          .
+04/13/2020  01:30 PM    <DIR>          ..
+04/13/2020  01:30 PM           159,744 db.sqlite3
+04/13/2020  01:30 PM    <DIR>          elc_az
+04/13/2020  01:30 PM    <DIR>          main_page
+02/21/2020  07:54 AM               647 manage.py
+04/13/2020  01:07 PM    <DIR>          static
+04/13/2020  01:30 PM    <DIR>          templates
+               2 File(s)        160,391 bytes
+               6 Dir(s)  136,539,750,400 bytes free
+
+
+Force push
+git push -f origin test_tekin

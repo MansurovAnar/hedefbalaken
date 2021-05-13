@@ -1,0 +1,38 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 08/09/2019 09:07
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("../fonts/Flaticon.5070d3eabbf9.eot");
+  src: url("../fonts/Flaticon.5070d3eabbf9.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/Flaticon.e7f04bc08d28.woff2") format("woff2"),
+       url("../fonts/Flaticon.879bef35715e.woff") format("woff"),
+       url("../fonts/Flaticon.b9ebff420262.ttf") format("truetype"),
+       url("../fonts/Flaticon.7b3dd6211abe.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("../fonts/Flaticon.7b3dd6211abe.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+font-style: normal;
+}
+
+.flaticon-user:before { content: "\f100"; }
+.flaticon-question:before { content: "\f101"; }
+.flaticon-clock:before { content: "\f102"; }
+.flaticon-mark-as-favorite-star:before { content: "\f103"; }
+.flaticon-premium:before { content: "\f104"; }
+.flaticon-crown:before { content: "\f105"; }
+.flaticon-business-and-finance:before { content: "\f106"; }
+.flaticon-art-and-design:before { content: "\f107"; }

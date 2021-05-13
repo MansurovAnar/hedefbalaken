@@ -1,0 +1,162 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--          {% block active_quiz_create %} class='active' {% endblock active_quiz_create%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Yeni Quiz</h4>
+              </div>
+             <div class="card-body">
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="form-group">
+                {% render_field quiz.name style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz adını daxil edin" %}
+                </div>
+                <div class="form-group">
+                {% render_field quiz.number_of_questions style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz sual sayını daxil edin" %}
+                 </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                <b>Tələbə görsün? </b>{% render_field quiz.status class="form-check-input" type="checkbox" style="color:#3299a8;border-radius:10px; width: 3%;" %}
+                  <span class="form-check-sign">
+                  <span class="check"></span>
+                </label>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-outline-success">Yadda Saxla</button>
+            </form>
+             </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Hazır Quizlər</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Quizin adı
+                      </th>
+                      <th class="text-right">
+                        Sual sayı
+                      </th>
+                    <th class="text-right">
+                        Tələbəyə <br/> görünsün?
+                      </th>
+                    <th class="text-right">
+                      Quiz məlumatlarını <br/> dəyişdir
+                    </th>
+                    </thead>
+                    <tbody>
+                    {% for quiz in quizes %}
+                      <tr>
+                        <td>
+                         <a href="{% url 'addquestion' id=quiz.id %}">{{ quiz.name }}</a>
+                        </td>
+                        <td  class="text-right">
+                          {{ quiz.number_of_questions }}
+                        </td>
+                        <td class="text-right">
+                           {% if quiz.status %}
+                            <b>Aktiv</b>
+                            {% else %}
+                            <b>Görünmür</b>
+                            {% endif %}
+                        </td>
+                        <td class="text-right" style="padding-right:8%">
+                          <i class="fas fa-edit"></i>
+                        </td>
+                      </tr>
+                    {% endfor %} <!-- end Quiz names list FOR -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="card card-plain">
+              <div class="card-header">
+                <h4 class="card-title"> Arxiv Quizlər</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Country
+                      </th>
+                      <th>
+                        City
+                      </th>
+                      <th class="text-right">
+                        Salary
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          Dakota Rice
+                        </td>
+                        <td>
+                          Niger
+                        </td>
+                        <td>
+                          Oud-Turnhout
+                        </td>
+                        <td class="text-right">
+                          $36,738
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end content -->
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+
+<!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

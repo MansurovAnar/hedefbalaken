@@ -1,0 +1,143 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+
+<body>
+
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_courses %} class='active' {% endblock active_courses %} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"><b>{{ crs_detail.c_name }}</b> haqqında ətraflı məlumat</h4>
+        </div>
+        <br>
+
+        <div class="container" style="margin-left:20px;margin-right:20px;">
+              <div class="row" style="width:100%;">
+                <div class="span4" style="width:100%;">
+                  <a href="{{ MEDIA_URl }}{{ crs_detail.c_photo.url }}"><img class="img-left" src="{{ MEDIA_URl }}{{ crs_detail.c_photo.url }}" style="float: left; margin-right: 10px; width:200px; height:200px;"/></a>
+
+                    <h4 style="margin:0; font-size:15px;color:#1282cc;">Kurs</h4>
+                    <p style="font-size:13px;">{{crs_detail.c_name}}</p>
+
+                    <h4 style="margin:0; font-size:15px;color:#1282cc;">Status</h4>
+                    <p style="font-size:13px;">
+                      {% if crs_detail.c_status %}
+                        Aktiv
+                      {%else%}
+                        Passiv
+                      {%endif%}
+                    </p>
+
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Kursun təsviri</h4>
+                    <p style="font-size:13px;">{{crs_detail.c_description}}</p>
+
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Təlimçilər</h4>
+                    <p style="font-size:13px;">
+                      {% if crs_detail.teachers.all %}
+                        {% for tcr in crs_detail.teachers.all %}<a href="#">{{ tcr }}</a><br/>{% endfor %}
+                      {% else %}
+                      <p>Yoxdur</p>
+                      {% endif %}
+                    </p>
+                  <h4 style="margin:0; font-size:15px; color:#1282cc;">Tələbələr</h4>
+                    <p style="font-size:13px;">
+                      {% if crs_detail.students.all %}
+                        {% for tcr in crs_detail.students.all %}{{ tcr }}<br/>{% endfor %}
+                      {% else %}
+                      <p>Yoxdur</p>
+                      {% endif %}
+                    </p>
+
+                  <div class="row">
+                    <div class="span4">
+                      <a class="btn btn-outline-warning" href="{% url 'updatecourse' pk=crs_detail.pk %}">Update</a>
+                      <a class="btn btn-outline-info" href="{% url 'dashboardcourses' %}">Kurslar listinə geri</a>
+
+                      <!--     ~~~~~~~~~~~~~~~~~~     MOdal test           ~~~~~~~~~~~~~~-->
+
+                      <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('deleteCourse').style.display='block'">
+                                <span data-feather="trash">Delete</span>
+                      </button>
+                      <div id="deleteCourse" class="modal">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deleteCourseTitle">Kursu sil</h5>
+                            </div>
+                            <div class="modal-body">
+                              <b>{{ crs_detail.c_name }}</b> kursunun bütün məlumatları silinəcək. Əminsiniz?
+                            </div>
+                            <div class="modal-footer">
+                              <a class="btn btn-outline-info" onclick="document.getElementById('deleteCourse').style.display='none'" class="close" title="Bağla" >
+                                Bağla
+                              </a>
+                              <a class="btn btn-outline-danger" title="Kursu sil" href="{% url 'deletecourse' pk=crs_detail.pk %}">Sil</a>
+                            </div>
+                          </div>
+                         </div>
+                        </div>
+<!--     ~~~~~~~~~~~~~~~~~~        Modal test end        ~~~~~~~~~~~~~~-->
+
+                    </div>
+                 </div>
+
+                </div>
+             </div>
+             <br/>
+
+          </div>
+       </div>
+    </div>
+  </div>
+
+</div> <!-- end content -->
+
+
+
+{% endblock content %}
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+<script type="text/javascript">
+  function clickAlert() {
+    var con=confirm("Do you want to submit for sure?");
+}
+</script>
+
+{% endblock main_body %}
+</body>

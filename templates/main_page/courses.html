@@ -1,0 +1,148 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% block main_body %}
+
+<div class="header-area ">
+    <div id="sticky-header" class="main-header-area">
+        <div class="container-fluid p-0">
+            <div class="row align-items-center no-gutters">
+                <div class="col-xl-2 col-lg-2">
+                    <div class="logo-img">
+                        <a href="{% url 'mainpage' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-7">
+                    <div class="main-menu  d-none d-lg-block">
+
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                    <div class="log_chat_area d-flex align-items-center">
+                        <a href="{% url 'register' %}" class="login popup-with-form">
+                            <!-- <i class="flaticon-user"></i> -->
+                            <span></span>
+                        </a>
+                        <div class="live_chat_btn">
+                            <a target="_blank" class="boxed_btn_orange" href="{% url 'whatsapp' %}">
+                                <i class="fa fa-phone"></i>
+                                <span>+994 51 355 7271</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mobile_menu d-block d-lg-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
+<!-- header-end -->
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay2">
+    <h3>Kurslarımız</h3>
+</div>
+<!-- bradcam_area_end -->
+
+<!-- popular_courses_start -->
+<div class="popular_courses" id="courses">
+    <!-- <div class="row">
+        <div class="col-xl-12">
+            <div class="course_nav">
+                <nav>
+                    <ul class="nav" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">All Courses</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="all_courses">
+        <div class="container">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                        {% for course in courses %}
+                        <!-- courses -->
+                        <div class="col-xl-4 col-lg-4 col-md-6">
+                            <div class="single_courses">
+                                <div class="thumb">
+                                    <a href="#" data-toggle="modal" data-target="#{{course.c_id}}exampleModal">
+                                        <img src="{{course.c_photo.url}}" alt="">
+                                    </a>
+                            <div class="courses_info">
+                                    <span>{{course.c_name}}</span>
+                                    <h3><a href="#" data-toggle="modal" data-target="#{{course.c_id}}exampleModal">
+                                        {{course.c_description}}</a></h3>
+                                    <div class="star_prise d-flex justify-content-between">
+                                        <div class="star">
+                                            <i class="flaticon-mark-as-favorite-star"></i>
+                                            <span>(4.5)</span>
+                                        </div>
+                                        <div class="prise">
+                                            <span class="active_prise">
+                                                            89.00 AZN
+                                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- asassaasass -->
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;
+{% for courser in courses %}
+ <!-- modal -->
+<div class="modal fade" data-backdrop="false" id="{{courser.c_id}}exampleModal" tabindex="-1" role="dialog" aria-labelledby="{{courser.c_id}}exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="{{courser.c_id}}exampleModalLabel">{{courser.c_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{courser.c_description}}
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+          <button type="button" class="btn btn-primary" onclick="location.href='{% url 'register' %}'"> Qeydiyyatdan keç </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+<!-- popular_courses_end-->
+
+<br/><br/>
+
+{% block footer %}
+{% include 'footer.html'%}
+{% endblock %} <!-- end footer block-->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %} <!-- end main_body block -->

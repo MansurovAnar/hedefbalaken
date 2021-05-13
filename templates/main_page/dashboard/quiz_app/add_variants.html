@@ -1,0 +1,107 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--          {% block active_quiz_create %} class='active' {% endblock active_quiz_create%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+          <div class="row">
+          <div class="col-md-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Quiz adı ~ <strong style="color:#4287f5;">{{ question.quiz }}</strong></h4>
+              </div>
+          </div>
+          </div>
+        </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4 class="card-title"><strong style="color:#4287f5;">" {{ question }} "</strong> sualı üçün variant daxil edin:</h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <form method="POST" enctype= multipart/form-data >
+                                  {% csrf_token %}
+
+                                  <br>
+                                  {% render_field form.text style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Variantı daxil edin" %}
+                                  <br>
+                                  <label>Bu variant doğru cavabdırsa, kliklə</label>{% render_field form.correct style="color:#3299a8;border-radius:10px; width: 3%;" class="form-control" placeholder="Doğru variantdırsa, kliklə" %}
+                                  <br>
+
+                                  <button type="submit" class="btn btn-success">Variantı əlavə et</button>
+                                  <button class="btn btn-info"><a href="{% url 'addquestion' id=question.quiz.id %}">Yeni sual</a></button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+             </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4 class="card-title">
+                              Variantlar
+                              <strong style="color:#4287f5;">{{ q.name }}</strong>
+                          </h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table">
+                                  <thead class=" text-primary">
+                                    <th>№</th>
+                                    <th>Variant</th>
+                                    <th>Doğru cavab</th>
+                                  </thead>
+                                  <tbody>
+                                      {% for variant in variants %}
+                                      <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                          <td> <strong> {{ variant.text }} </strong>
+                                          </td>
+                                          <td>{{ variant.correct }}</td>
+                                      </tr>
+                                  {% endfor %}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          </div>
+         {% endblock content %}
+
+   {% block footer %} {{ block.super }}{% endblock footer%}
+
+  </div>
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

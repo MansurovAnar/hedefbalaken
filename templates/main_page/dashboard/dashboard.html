@@ -1,0 +1,257 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+    <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+        <!-- {% block active_dashboard %} class='active' {% endblock %} -->
+      {% endblock navbar %}
+      <!-- End Navbar -->
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">Aylıq Yeni istifadəçilər</h5> &nbsp;
+                <div class="dropdown">
+                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                    <i class="now-ui-icons loader_gear"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Excel Report çıxart</a>
+                    <a class="dropdown-item" href="#">Cədvəli göstər</a>
+                    <a class="dropdown-item text-danger" href="#">Filter</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="lineChartExample"></canvas>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="now-ui-icons arrows-1_refresh-69"></i> Son versiya
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">Tələbələrin performansı</h5>
+                <div class="dropdown">
+                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                    <i class="now-ui-icons loader_gear"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Həftəlik</a>
+                    <a class="dropdown-item" href="#">Aylıq</a>
+                    <a class="dropdown-item" href="#">İllik</a>
+                    <a class="dropdown-item text-danger" href="#">Filter</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="now-ui-icons arrows-1_refresh-69"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">Filiallar üzrə gəlir</h5>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="barChartSimpleGradientsNumbers"></canvas>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="now-ui-icons ui-2_time-alarm"></i> son 1 il
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card  card-tasks">
+              <div class="card-header ">
+                <h5 class="card-category">İllik hədəflər</h5>
+              </div>
+              <div class="card-body ">
+                <div class="table-full-width table-responsive">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" checked>
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="text-left">Xaricdə təhsil seminarı"</td>
+                        <td class="td-actions text-right">
+                          <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </button>
+                          <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox">
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="text-left">Ərəb dili kursu</td>
+                        <td class="td-actions text-right">
+                          <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </button>
+                          <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" checked>
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="text-left">Tələbələrin performansını artırmaq yollarını araşdırması
+                        </td>
+                        <td class="td-actions text-right">
+                          <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </button>
+                          <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                  <i class="now-ui-icons loader_refresh spin"></i> 1 ay öncə yeniləndi
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-category">Təlimçilər</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Ad / Soyad
+                      </th>
+                      <th>
+                        Filial
+                      </th>
+                      <th>
+                        Fənn
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          Dakota Rice
+                        </td>
+                        <td>
+                          Niger
+                        </td>
+                        <td>
+                          Oud-Turnhout
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Minerva Hooper
+                        </td>
+                        <td>
+                          Curaçao
+                        </td>
+                        <td>
+                          Sinaai-Waas
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Sage Rodriguez
+                        </td>
+                        <td>
+                          Netherlands
+                        </td>
+                        <td>
+                          Baileux
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+
+      {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      demo.initDashboardPageCharts();
+
+    });
+  </script>
+{% endblock main_body %}
+</body>

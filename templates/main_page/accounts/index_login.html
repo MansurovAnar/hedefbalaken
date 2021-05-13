@@ -1,0 +1,89 @@
+{% extends 'base.html'%}
+{% load static%}
+{% load widget_tweaks %}
+
+
+{% block title %} LCC | Daxil Ol  {% endblock %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body style="background-color: #666666;">
+	{% block main_body %}
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+
+				<!-- FORM start -->
+				<form class="login100-form validate-form" method="POST">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-43">
+						Daxil Ol
+					</span>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<span class="fas fa-user"></span>
+						{% render_field form.username class='form-control-lg col-md-10' %}
+			{#	{{form.username}} #}
+
+						<span class="focus-input100"></span>
+
+					</div>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="fas fa-key"></span>
+
+						{% render_field form.password class='form-control-lg col-md-10' %}
+
+						{# {{form.password}} #}
+
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-t-3 p-b-32">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<label class="label-checkbox100" for="ckb1">
+								Məni xatırla
+							</label>
+						</div>
+
+						<div>
+
+							<a href="{% url 'pass_reset'%}" class="txt1">
+
+							<a href="#" class="txt1">
+								Parolu unutmusan?
+							</a>
+						</div>
+					</div>
+					{% for message in messages %}
+					<p style="color:red">{{ message }}</p>
+					{% endfor %}
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Təsdiqlə
+						</button>
+					</div>
+
+					<div class="login100-form-social flex-c-m">
+						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
+							<i class="fa fa-facebook-f" aria-hidden="true"></i>
+						</a>
+
+						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">
+							<i class="fa fa-twitter" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+				<!-- FORM end -->
+
+				<div class="login100-more" style="background-image: url({% static 'img/bg-01.jpg' %} );">
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+</body>

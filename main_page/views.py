@@ -1,0 +1,624 @@
+from .forms import RegisterUser
+from django.urls import reverse
+from .decorators import allowed_users
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect, JsonResponse
+from .models import (Course, TeacherProfile,
+                     StudentProfile, QuizName,
+                     QuizVariants, Quiz,
+                     Question, Answer, Result)
+from .forms import (RegisterForm, LoginUser,
+                    CourseCreate, TeacherProfileForm,
+                    StudentProfileForm,
+                    QuestionForm, AnswerForm,
+                    QuizForm
+                    )
+from .forms import CreateQuizForm, CreateQuestionsForm
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.contrib import messages
+
+
+def index(request):
+    return render(request, 'main_page/index.html')
+
+
+def about(request):
+    return render(request, 'main_page/about.html')
+
+
+@csrf_protect
+def register(request):
+    reg_form = RegisterForm(request.POST)
+    if reg_form.is_valid():
+        reg_form.save()
+        print("Valid")
+    return render(request, 'main_page/Registration.html', {'reg_form': reg_form})
+
+
+######################################################################################
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'reception'])
+def registeruser(request):
+    if request.method == 'POST':
+        form = RegisterUser(request.POST)
+
+        if form.is_valid():
+            the_user = form.save()
+            assigned_group = form.cleaned_data['groups'].values('id')
+            the_user.groups.add(assigned_group)
+            messages.success(request, "Istifadəçi profili yaradıldı")
+        else:
+            messages.error(request, "Düzəlişlər lazımdır")
+    else:
+        form = RegisterUser()
+    context = {'form_reg': form}
+    return render(request, "main_page/accounts/register.html", context)
+
+
+@csrf_protect
+def loginUser(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    else:
+        if request.method == 'POST':
+            form = LoginUser(request.POST)
+
+            if form.is_valid():
+                cd = form.cleaned_data
+                user = authenticate(username=cd['username'],
+                                    password=cd['password'])
+
+                if user is not None:
+                    login(request, user)
+                    return redirect('dashboard')
+                else:
+                    messages.info(request, 'Istifadəçi adı və ya parol səhvdir')
+        else:
+            form = LoginUser()
+
+        context = {'form': form}
+        return render(request, 'main_page/accounts/index_login.html', context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
+
+def password_reset(request):
+    return render(request, 'main_page/accounts/password_reset.html')
+
+
+def password_reset_done(request):
+    return render(request, 'main_page/accounts/password_reset_done.html')
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
+
+###########################################################################################
+
+def courses(request):
+    course_list = Course.objects.all()
+    args = {'courses': course_list}
+    return render(request, 'main_page/courses.html', args)
+
+
+def whatsapp_redirect(request):
+    return HttpResponseRedirect('https://wa.me/00994513557271')
+
+
+##########################################################################
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'main_page/dashboard/dashboard.html')
+
+
+@login_required(login_url='login')
+def notifications(request):
+    return render(request, 'main_page/dashboard/notifications.html')
+
+
+@login_required(login_url='login')
+def tables(request):
+    return render(request, 'main_page/dashboard/tables.html')
+
+
+@login_required(login_url='login')
+def courses_in_dashboard(request):
+    courses_list = Course.objects.all()
+    context = {'courses': courses_list}
+    return render(request, 'main_page/dashboard/course_tables.html', context)
+
+
+@login_required(login_url='login')
+def create_course(request):
+    context = {}
+    if request.method == 'POST':
+        courseForm = CourseCreate(request.POST, request.FILES)
+
+        if courseForm.is_valid():
+            crs = courseForm.save(commit=False)
+            crs.save()
+            courseForm.save_m2m()
+            print(crs)
+
+            courseForm = CourseCreate()
+            context['courseForm'] = courseForm
+            context['success'] = True
+            return render(request, 'main_page/dashboard/course_form.html', context)
+            # return redirect('dashboardcourses')
+        else:
+            print(courseForm.errors)
+    else:
+        courseForm = CourseCreate()
+    context['courseForm'] = courseForm
+    context['success'] = False
+    return render(request, 'main_page/dashboard/course_form.html', context)
+
+
+@login_required(login_url='login')
+def update_course(request, pk):
+    context = {}
+    course = get_object_or_404(Course, pk=pk)
+    print("INSTANCEE   ", course.c_id)
+    courseForm = CourseCreate(request.POST or None, instance=course)
+
+    if courseForm.is_valid():
+        course_form = courseForm.save(commit=False)
+        course_form.save()
+        courseForm.save_m2m()
+        messages.success(request, "Kurs haqqında məlumat yeniləndi.")
+
+        return redirect('dashboardcourses')
+
+    context['courseForm'] = courseForm
+
+    return render(request, 'main_page/dashboard/course_form.html', context)
+
+
+@login_required(login_url='login')
+def course_detail(request, cid):
+    crs = Course.objects.get(c_id=cid)
+    context = {"crs_detail": crs}
+
+    return render(request, 'main_page/dashboard/course_detail.html', context)
+
+
+@login_required(login_url='login')
+def delete_course(request, pk):
+    crs = Course.objects.get(pk=pk)
+    crs.delete()
+
+    return redirect("dashboardcourses")
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TEACHER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def create_teacher(request):
+    if request.method == 'POST':
+        user_form = RegisterUser(data=request.POST)
+        teacher_form = TeacherProfileForm(data=request.POST)
+        if user_form.is_valid() and teacher_form.is_valid():
+            my_group = Group.objects.get(name='teacher')
+            user = user_form.save()
+            my_group.user_set.add(user.id)
+            user.save()
+
+            teacher = teacher_form.save(commit=False)
+            teacher.user = user
+            if 'image' in request.FILES:
+                print('Found it')
+                teacher.image = request.FILES['image']
+            print(teacher.user_id)
+            teacher.save()
+            messages.success(request, 'Teacher added! ', extra_tags='alert')
+
+            print("[ INFO ] TEacher form SAVED")
+            user_form = RegisterUser()
+            teacher_form = TeacherProfileForm()
+            contextt = {"userForm": user_form, "teacherForm": teacher_form}
+            return render(request, 'main_page/dashboard/teacher_form.html', contextt)
+        else:
+            print(user_form.errors, teacher_form.errors)
+    else:
+        user_form = RegisterUser()
+        teacher_form = TeacherProfileForm()
+    context = {"userForm": user_form, "teacherForm": teacher_form}
+    return render(request, 'main_page/dashboard/teacher_form.html', context)
+
+
+@login_required(login_url='login')
+def teacher_detail(request, pk):
+    teachers_student = []
+    teacher = get_object_or_404(TeacherProfile, pk=pk)
+    students = StudentProfile.objects.all()
+
+    for crs in teacher.courses.all():
+        print("Teacher's course name: ", crs)
+        for std in students:
+            if std.coursess.filter(c_name=crs):
+                teachers_student.append(std)
+                print("Student- {}, course- {} ".format(std, std.coursess.filter(c_name=crs)))
+    print("Teacher's students", teachers_student)
+    context = {"teacher_detail": teacher, "teachers_student": teachers_student}
+
+    return render(request, 'main_page/dashboard/teacher_detail.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['teacher', 'student', 'controller'])
+def my_profile(request):
+    html_file = ""
+    context = {}
+    PHONE_PREFIXES = (
+        ('Aze1', '050'),
+        ('Aze2', '051'),
+        ('Bak1', '055'),
+        ('Bak2', '099'),
+        ('Nar1', '070'),
+        ('Nar2', '077'),
+    )
+    current_user = request.user
+    user_groups = current_user.groups.all()
+    for rol in user_groups:
+        if rol.name == "teacher":
+            html_file = "teacher_profile.html"
+            teacher_students = []
+            teacher_courses = []
+            teacher = get_object_or_404(TeacherProfile, pk=current_user.pk)
+
+            if teacher.courses.all():
+                students = StudentProfile.objects.all()
+                for crs in teacher.courses.all():
+                    teacher_courses.append(crs)
+                    if students:
+                        for std in students:
+                            if std.coursess.filter(c_name=crs):
+                                teacher_students.append(std)
+                                # print("Student- {}, course- {} ".format(std, std.coursess.filter(c_name=crs)))
+                    else:
+                        teacher_students.append("Yoxdur")
+            else:
+                teacher_courses.append("Yoxdur")
+
+            user_phonePrefix = dict(PHONE_PREFIXES).get(current_user.usr.phone_prefix)
+            context = {"user": current_user, "user_groups": user_groups,
+                       "prefix": user_phonePrefix, "students": teacher_students,
+                       "courses": teacher_courses}
+        elif rol.name == 'controller':
+            html_file = "controller_profile.html"
+            context = {"user": current_user, "user_groups": user_groups,}
+
+        elif rol.name == "student":
+            html_file = "student_profile.html"
+            student_courses = []
+            student_teachers = []
+            student = get_object_or_404(StudentProfile, pk=current_user.pk)
+            if student.coursess.all():
+                teachers = TeacherProfile.objects.all()
+                for crs in student.coursess.all():
+                    student_courses.append(crs)
+                    if teachers:
+                        for tcr in teachers:
+                            if tcr.courses.filter(c_name=crs):
+                                student_teachers.append(tcr)
+                                print("Teacher- {}, course- {} ".format(tcr, tcr.courses.filter(c_name=crs)))
+                    else:
+                        student_teachers.append("Yoxdur")
+
+            else:
+                student_courses.append("Yoxdur")
+
+            user_phonePrefix = dict(PHONE_PREFIXES).get(current_user.usrr.phone_prefix)
+            context = {"user": current_user, "user_groups": user_groups,
+                       "prefix": user_phonePrefix, "teachers": student_teachers,
+                       "courses": student_courses}
+
+    return render(request, 'main_page/dashboard/{}'.format(html_file), context)
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END TEACHER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def create_student(request):
+    if request.method == 'POST':
+        user_form = RegisterUser(data=request.POST)
+        student_form = StudentProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and student_form.is_valid():
+            my_group = Group.objects.get(name='student')
+            user = user_form.save()
+            my_group.user_set.add(user.id)
+            user.save()
+
+            stdnt = student_form.save(commit=False)
+            stdnt.student = user
+            if 'image' in request.FILES:
+                print('Found it')
+                stdnt.image = request.FILES['image']
+            stdnt.save()
+            # student_form.save_m2m()
+
+            print("[ INFO ] Student form SAVED")
+            # std = StudentProfile.objects.all()
+            # print(std)
+            user_form = RegisterUser()
+            student_form = StudentProfileForm()
+            contextt = {"userForm": user_form, "studentForm": student_form}
+            return render(request, 'main_page/dashboard/student_form.html', contextt)
+        else:
+            print(user_form.errors, student_form.errors)
+    else:
+        user_form = RegisterUser()
+        student_form = StudentProfileForm()
+    context = {"userForm": user_form, "studentForm": student_form}
+    return render(request, 'main_page/dashboard/student_form.html', context)
+
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def create_quiz(request):
+    """ This view is for TEACHERs and controllers - only teachers and controllers can create quizes"""
+    quizes = QuizName.objects.all()
+    if request.method == 'POST':
+        quiz_form = CreateQuizForm(data=request.POST)
+        if quiz_form.is_valid():
+            quiz_form.save()
+
+            context = {"quiz": CreateQuizForm(), "quizes": quizes}
+            return render(request, 'main_page/dashboard/quiz_app/quiz_create.html', context)
+    else:
+        quiz_form = CreateQuizForm()
+
+    context = {"quiz": quiz_form, "quizes": quizes}
+    return render(request, 'main_page/dashboard/quiz_app/quiz_create.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def create_questions(request, id):
+    """ This view is for teachers and controllers - only teacher and controller can create questions """
+    quiz = QuizName.objects.filter(id=id)
+
+    if request.method == 'POST':
+        question_form = CreateQuestionsForm(data=request.POST)
+
+        if question_form.is_valid():
+            instance = question_form.save(commit=False)
+            instance.quiz_name = QuizName.objects.get(id=int(id))
+
+            if 'question_image' in request.FILES:
+                instance.question_image = request.FILES['question_image']
+
+            instance.save()
+            question_form.save()
+            questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(id)))
+            # print("FORM VALID-de QUESTIONS ", questions)
+
+            context = {"quizes": quiz, "questions": questions, "question_form": CreateQuestionsForm()}
+            return render(request, 'main_page/dashboard/quiz_app/create_questions.html', context)
+        else:
+            print(question_form.errors)
+    else:
+        question_form = CreateQuestionsForm()
+
+    questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(id)))
+
+    context = {"quizes": quiz, "questions": questions, "question_form": question_form}
+    return render(request, 'main_page/dashboard/quiz_app/create_questions.html', context)
+
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def quiz_work(request):
+    quizes = Quiz.objects.filter(status=True)
+    context = {"quiz_name": quizes}
+    return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def question_work(request, quiz_id):
+    quizes = QuizName.objects.all()
+    question_form = CreateQuestionsForm()
+    questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(quiz_id)))
+    variants = ...
+
+    if request.method == 'POST':
+        question_form = CreateQuestionsForm()
+        print("POST data:", question_form)
+        if question_form.is_valid():
+            pass
+        else:
+            print(question_form.errors)
+
+    context = {"quizes": quizes, "questions": questions, "question_form_ans": question_form, "vars": variants}
+    return render(request, 'main_page/dashboard/quiz_app/question_work.html', context)
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###########################  Yeni Quiz, Question, Answer modelləri üzərində test viewlar #######################
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def add_quiz(request):
+    """ This view is for TEACHERs and controllers - only teachers and controllers can create quizes"""
+    quizes = Quiz.objects.all()
+    if request.method == 'POST':
+        quiz_form = QuizForm(data=request.POST)
+        if quiz_form.is_valid():
+            quiz_form.save()
+
+            context = {"quiz": QuizForm(), "quizes": quizes}
+            return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
+    else:
+        quiz_form = QuizForm()
+
+    context = {"quiz": quiz_form, "quizes": quizes}
+    return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def add_question(request, id):
+    quiz = Quiz.objects.get(id=id)
+
+    if request.method == 'POST':
+        question_form = QuestionForm(data=request.POST)
+
+        if question_form.is_valid():
+            question_instance = question_form.save(commit=False)
+            question_instance.quiz = Quiz.objects.get(id=int(id))
+
+            if 'image' in request.FILES:
+                question_instance.image = request.FILES['image']
+
+            question_instance.save()
+            question_form.save()
+
+            return HttpResponseRedirect(
+                reverse('addvariants', kwargs={'id': question_instance.id})
+            )
+
+        else:
+            print(question_form.errors)
+
+    questions = Question.objects.filter(quiz=Quiz.objects.get(id=int(id)))
+    context = {"quiz": quiz, "questions": questions, "question_form": QuestionForm()}
+
+    return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def add_variants(request, id):
+    question = Question.objects.get(id=int(id))
+    print("QUESTION Quiz ID: ", question.quiz.id)
+
+    if request.method == 'POST':
+        answer_form = AnswerForm(data=request.POST)
+
+        if answer_form.is_valid():
+            instance = answer_form.save(commit=False)
+            instance.question = question
+
+            instance.save()
+            answer_form.save()
+
+            variants = Answer.objects.filter(question=question)
+
+            context = {'form': AnswerForm(), 'question': question, 'variants': variants}
+            return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+        else:
+            print(answer_form.errors)
+
+    variants = Answer.objects.filter(question=question)
+
+    context = {'form': AnswerForm(), 'question': question, 'variants': variants}
+    return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def quiz_work(request):
+    quizes = Quiz.objects.all()
+    context = {"quiz_name": quizes}
+    return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def question_work(request, quiz_id):
+    quizes = Quiz.objects.all()
+    quiz = Quiz.objects.get(id=int(quiz_id))
+
+    questions = []
+    for q in quiz.get_questions():
+        answers = []
+        for a in q.get_answers():
+            answers.append(a.text)
+        questions.append({str(q): answers})
+
+    # return render(request, 'main_page/dashboard/quiz_app/question_work.html', {})
+    return JsonResponse({
+        "data": questions,
+    })
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def quiz_view(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    return render(request, 'main_page/dashboard/quiz_app/question_work.html', {'obj': quiz})
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'student'])
+def save_quiz_view(request, quiz_id):
+    # print(request.POST)
+    if request.is_ajax():
+        questions = []
+        data = request.POST
+        data_ = dict(data.lists())
+        data_.pop('csrfmiddlewaretoken')
+
+        for k in data_.keys():
+            # print('Key: ', k)
+            question = Question.objects.get(text=k)
+            questions.append(question)
+        # print(questions)
+
+        quiz = Quiz.objects.get(id=quiz_id)
+        results = []
+        correct_answer = None
+        score = 0
+        multiplier = 100 / quiz.get_question_count()
+
+        for q in questions:
+            answer_selected = request.POST.get(q.text)
+
+            if answer_selected != "":
+                question_answers = Answer.objects.filter(question=q)
+                for a in question_answers:
+                    if answer_selected == a.text:
+                        if a.correct:
+                            score += 1
+                            correct_answer = a.text
+                    else:
+                        if a.correct:
+                            correct_answer = a.text
+                results.append({str(q): {'correct_answer': correct_answer,'answered': answer_selected}})
+            else:
+                results.append({str(q): 'not answered'})
+            # print(results)
+
+        score_ = multiplier * score
+        Result.objects.create(std_user=request.user, quiz=quiz, score=score_)
+
+        return JsonResponse({'results': results, 'score': score_})
+    # return JsonResponse({'text': 'works'})

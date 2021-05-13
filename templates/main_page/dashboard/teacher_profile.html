@@ -1,0 +1,171 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_profile %} class='active' {% endblock active_profile %} -->
+      {% endblock navbar %}
+
+      {% block content %}
+
+          <div class="content">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h5 class="card-title">Mənim Profilim<p></p></h5>
+                  </div>
+
+                  <div class="card-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-md-6 pr-1">
+                          <div class="form-group">
+                            <label>İstifadəçi adı</label>
+                            <input type="text" class="form-control" placeholder="istifadəçi adı" value="{{ user }}">
+                          </div>
+                        </div>
+                        <div class="col-md-6 pl-1">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Mail ünvanı</label>
+                            <input type="email" class="form-control" placeholder="e-mail" value="{{ user.email }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 pr-1">
+                          <div class="form-group">
+                            <label>Ad</label>
+                            <input type="text" class="form-control" placeholder="ad" value="{{ user.first_name }}">
+                          </div>
+                        </div>
+                        <div class="col-md-6 pl-1">
+                          <div class="form-group">
+                            <label>Soyad</label>
+                            <input type="text" class="form-control" placeholder="soyad" value="{{ user.last_name }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 pr-1">
+                          <div class="form-group">
+                            <label>Mobil nömrə</label>
+                            <input type="text" class="form-control" placeholder="mobil" value="{{ prefix }}{{ user.usr.phone_number }}">
+                          </div>
+                        </div>
+                        <div class="col-md-4 px-1">
+                          <div class="form-group">
+                            <label>Doğum tarixi</label>
+                            <input type="text" class="form-control" placeholder="Doğum tarixi" value="{{ user.usr.birthdate }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 pr-1">
+                          <div class="form-group">
+                            <label>Kurslarım</label>
+                            <br>
+                            <label style="font-size:15px; color:blue;">
+                                      {% if courses %}
+                                        {% for course in courses %}
+                                              {{ course }}
+                                              <br>
+                                              {% endfor %}
+                                      {% else %}
+                                        Yoxdur
+                                      {% endif %}
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-md-4 px-1">
+                          <div class="form-group">
+                            <label>Tələbələrim</label>
+                            <br>
+                            <label style="font-size:15px; color:blue;">
+                                      {% if students %}
+                                        {% for student in students %}
+                                              {{ student }}
+                                              <br>
+                                              {% endfor %}
+                                      {% else %}
+                                        Yoxdur
+                                      {% endif %}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <button type="button" class="btn btn-outline-info float-right" >Düzəliş et</button>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-user">
+                  <div class="image">
+                    <img src='{% static "img/bg5.jpg" %}' alt="...">
+                  </div>
+                  <div class="card-body">
+                    <div class="author">
+                      <a href="#">
+                        {% if user.usr.image %}
+                          <a href="{{ MEDIA_URl }}{{ user.usr.image.url }}"><img class="avatar border-gray" src="{{ MEDIA_URl }}{{ user.usr.image.url }}" alt="" /></a>
+                        {% endif %}
+                        <h5 class="title">{{ user.first_name }} {{ user.last_name }}</h5>
+                      </a>
+                      <p class="description">
+                        {{ user.username }}
+                      </p>
+                    </div>
+                    <p class="description text-center">
+                      "Fərqlilik yaradan müəllimdir, <br>
+                       sinif otağı deyil"
+                    </p>
+                  </div>
+                  <hr>
+                  <div class="button-container">
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                      <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                      <i class="fab fa-twitter"></i>
+                    </button>
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                      <i class="fab fa-google-plus-g"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+       <!-- end content -->
+      {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

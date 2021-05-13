@@ -1,0 +1,110 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--          {% block active_quiz_create %} class='active' {% endblock active_quiz_create%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+          <div class="row">
+          <div class="col-md-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Quiz adı ~ <strong style="color:#4287f5;">{{ quiz.name }}</strong></h4>
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h4 class="card-title">Sual:</h4>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <form method="POST" enctype= multipart/form-data >
+                              {% csrf_token %}
+
+
+                              {% render_field question_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
+                              <br>
+                              {% render_field question_form.text style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Sualı daxil edin" %}
+                              <br>
+
+                              <button type="submit" class="btn btn-success">Sualı əlavə et</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4 class="card-title">
+                              Suallar
+                          </h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table">
+                                  <thead class=" text-primary">
+                                    <th>№</th>
+                                    <th>Sual</th>
+                                    <th>Şəkil</th>
+                                  </thead>
+                                  <tbody>
+                                      {% for question in questions %}
+                                      <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                          <td>
+                                              <a href="{% url 'addvariants' id=question.id %}"> <strong> {{ question.text }} </strong></a>
+                                          </td>
+                                          <td>
+                                              {% if question.image %}
+                                                <a href="{{ MEDIA_URL }}{{ question.image.url }}"><img src="{{ question.image.url }}" style="width:50px; height:40px;"></a>
+                                              {% endif %}
+                                          </td>
+                                      </tr>
+                                  {% endfor %}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          </div>
+         {% endblock content %}
+
+   {% block footer %} {{ block.super }}{% endblock footer%}
+
+  </div>
+
+<!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

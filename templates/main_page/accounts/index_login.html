@@ -21,41 +21,35 @@
 					</span>
 					
 					
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<span class="fas fa-user"></span>
-						{% render_field form.username class='form-control-lg col-md-10' %}
-			{#	{{form.username}} #}
-
+					<div class="input-group input-group-lg validate-input" data-validate = "Istifadəçi adınızı təkrar yoxlayın">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						&nbsp;&nbsp;
+							{% render_field form.username class='form-control-lg col-md-10' placeholder='  İstifadəçi adı' %}
 						<span class="focus-input100"></span>
-
 					</div>
 					
 					
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<span class="fas fa-key"></span>
-
-						{% render_field form.password class='form-control-lg col-md-10' %}
-
-						{# {{form.password}} #}
-
+					<div class="input-group input-group-lg validate-input" data-validate="Parolu təkrar yoxlayın">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						&nbsp;&nbsp;
+						{% render_field form.password class='form-control-lg col-md-10' placeholder='   Parol'%}
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="flex-sb-m w-full p-t-3 p-b-32">
 						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Məni xatırla
-							</label>
-						</div>
-
-						<div>
-
-							<a href="{% url 'pass_reset'%}" class="txt1">
-
-							<a href="#" class="txt1">
-								Parolu unutmusan?
-							</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="#" class="txt1"> Parolu unutmusan? </a>
+								<a href="{% url 'pass_reset'%}" class="txt1">
+<!--								Parolu yenilə--> </a>
+<!--							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">-->
+<!--							<label class="label-checkbox100" for="ckb1">-->
+<!--								Məni xatırla-->
+<!--							</label>-->
 						</div>
 					</div>
 					{% for message in messages %}
@@ -68,13 +62,13 @@
 					</div>
 
 					<div class="login100-form-social flex-c-m">
-						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
-							<i class="fa fa-facebook-f" aria-hidden="true"></i>
-						</a>
+<!--						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">-->
+<!--							<i class="fa fa-facebook-f" aria-hidden="true"></i>-->
+<!--						</a>-->
 
-						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">
-							<i class="fa fa-twitter" aria-hidden="true"></i>
-						</a>
+<!--						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">-->
+<!--							<i class="fa fa-twitter" aria-hidden="true"></i>-->
+<!--						</a>-->
 					</div>
 				</form>
 				<!-- FORM end -->

@@ -86,7 +86,11 @@
                             {% endif %}
                         </td>
                         <td class="text-right" style="padding-right:8%">
-                          <i class="fas fa-edit"></i>
+                          <button type="button"
+                            class="btn btn-warning btn-sm js-update-quiz"
+                            data-url="{% url 'quizupdate' pk=quiz.id %}">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                          </button>
                         </td>
                       </tr>
                     {% endfor %} <!-- end Quiz names list FOR -->
@@ -107,16 +111,16 @@
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
-                        Name
+                        Mövzu
                       </th>
                       <th>
-                        Country
+                        Quiz adı
                       </th>
                       <th>
-                        City
+                        Nəticələr
                       </th>
                       <th class="text-right">
-                        Salary
+                        Suallara bax
                       </th>
                     </thead>
                     <tbody>

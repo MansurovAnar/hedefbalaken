@@ -4,8 +4,7 @@ from .decorators import allowed_users
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from .models import (Course, TeacherProfile,
-                     StudentProfile, QuizName,
-                     QuizVariants, Quiz,
+                     StudentProfile, Quiz,
                      Question, Answer, Result)
 from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
@@ -13,12 +12,12 @@ from .forms import (RegisterForm, LoginUser,
                     QuestionForm, AnswerForm,
                     QuizForm
                     )
-from .forms import CreateQuizForm, CreateQuestionsForm
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
 from django.contrib import messages
 
 
@@ -154,6 +153,7 @@ def create_course(request):
             courseForm = CourseCreate()
             context['courseForm'] = courseForm
             context['success'] = True
+            context['created_course'] = crs
             return render(request, 'main_page/dashboard/course_form.html', context)
             # return redirect('dashboardcourses')
         else:
@@ -176,7 +176,8 @@ def update_course(request, pk):
         course_form = courseForm.save(commit=False)
         course_form.save()
         courseForm.save_m2m()
-        messages.success(request, "Kurs haqqında məlumat yeniləndi.")
+        print(course_form)
+        messages.success(request, '"' + str(course_form) + '"' + " kursu haqqında məlumat yeniləndi.")
 
         return redirect('dashboardcourses')
 
@@ -220,14 +221,17 @@ def create_teacher(request):
             if 'image' in request.FILES:
                 print('Found it')
                 teacher.image = request.FILES['image']
-            print(teacher.user_id)
+            # print(teacher.user_id)
+
             teacher.save()
-            messages.success(request, 'Teacher added! ', extra_tags='alert')
+            # print(teacher.user)
+            # messages.success(request, 'Teacher added! ', extra_tags='alert')
 
             print("[ INFO ] TEacher form SAVED")
             user_form = RegisterUser()
             teacher_form = TeacherProfileForm()
-            contextt = {"userForm": user_form, "teacherForm": teacher_form}
+            contextt = {"userForm": user_form, "teacherForm": teacher_form,
+                        "success": True, "created_teacher": str(teacher)}
             return render(request, 'main_page/dashboard/teacher_form.html', contextt)
         else:
             print(user_form.errors, teacher_form.errors)
@@ -357,7 +361,8 @@ def create_student(request):
             # print(std)
             user_form = RegisterUser()
             student_form = StudentProfileForm()
-            contextt = {"userForm": user_form, "studentForm": student_form}
+            contextt = {"userForm": user_form, "studentForm": student_form,
+                        "success": True, "created_student": str(stdnt)}
             return render(request, 'main_page/dashboard/student_form.html', contextt)
         else:
             print(user_form.errors, student_form.errors)
@@ -366,94 +371,6 @@ def create_student(request):
         student_form = StudentProfileForm()
     context = {"userForm": user_form, "studentForm": student_form}
     return render(request, 'main_page/dashboard/student_form.html', context)
-
-
-
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'teacher'])
-def create_quiz(request):
-    """ This view is for TEACHERs and controllers - only teachers and controllers can create quizes"""
-    quizes = QuizName.objects.all()
-    if request.method == 'POST':
-        quiz_form = CreateQuizForm(data=request.POST)
-        if quiz_form.is_valid():
-            quiz_form.save()
-
-            context = {"quiz": CreateQuizForm(), "quizes": quizes}
-            return render(request, 'main_page/dashboard/quiz_app/quiz_create.html', context)
-    else:
-        quiz_form = CreateQuizForm()
-
-    context = {"quiz": quiz_form, "quizes": quizes}
-    return render(request, 'main_page/dashboard/quiz_app/quiz_create.html', context)
-
-
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'teacher'])
-def create_questions(request, id):
-    """ This view is for teachers and controllers - only teacher and controller can create questions """
-    quiz = QuizName.objects.filter(id=id)
-
-    if request.method == 'POST':
-        question_form = CreateQuestionsForm(data=request.POST)
-
-        if question_form.is_valid():
-            instance = question_form.save(commit=False)
-            instance.quiz_name = QuizName.objects.get(id=int(id))
-
-            if 'question_image' in request.FILES:
-                instance.question_image = request.FILES['question_image']
-
-            instance.save()
-            question_form.save()
-            questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(id)))
-            # print("FORM VALID-de QUESTIONS ", questions)
-
-            context = {"quizes": quiz, "questions": questions, "question_form": CreateQuestionsForm()}
-            return render(request, 'main_page/dashboard/quiz_app/create_questions.html', context)
-        else:
-            print(question_form.errors)
-    else:
-        question_form = CreateQuestionsForm()
-
-    questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(id)))
-
-    context = {"quizes": quiz, "questions": questions, "question_form": question_form}
-    return render(request, 'main_page/dashboard/quiz_app/create_questions.html', context)
-
-
-
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'student'])
-def quiz_work(request):
-    quizes = Quiz.objects.filter(status=True)
-    context = {"quiz_name": quizes}
-    return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
-
-
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'student'])
-def question_work(request, quiz_id):
-    quizes = QuizName.objects.all()
-    question_form = CreateQuestionsForm()
-    questions = QuizVariants.objects.filter(quiz_name=QuizName.objects.get(id=int(quiz_id)))
-    variants = ...
-
-    if request.method == 'POST':
-        question_form = CreateQuestionsForm()
-        print("POST data:", question_form)
-        if question_form.is_valid():
-            pass
-        else:
-            print(question_form.errors)
-
-    context = {"quizes": quizes, "questions": questions, "question_form_ans": question_form, "vars": variants}
-    return render(request, 'main_page/dashboard/quiz_app/question_work.html', context)
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###########################  Yeni Quiz, Question, Answer modelləri üzərində test viewlar #######################
@@ -546,7 +463,7 @@ def add_variants(request, id):
 def quiz_work(request):
     quizes = Quiz.objects.all()
     context = {"quiz_name": quizes}
-    return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
+    return render(request, 'main_page/dashboard/quiz_app/with_ajax/quiz_list.html', context)
 
 
 @csrf_protect
@@ -597,10 +514,11 @@ def save_quiz_view(request, quiz_id):
         results = []
         correct_answer = None
         score = 0
-        multiplier = 100 / quiz.get_question_count()
+        multiplier = round(100 / quiz.get_question_count(), 2)
 
         for q in questions:
             answer_selected = request.POST.get(q.text)
+            print("Question", q.image)
 
             if answer_selected != "":
                 question_answers = Answer.objects.filter(question=q)
@@ -622,3 +540,77 @@ def save_quiz_view(request, quiz_id):
 
         return JsonResponse({'results': results, 'score': score_})
     # return JsonResponse({'text': 'works'})
+
+# Quiz creating with AJAX
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def quiz_create(request):
+    data = dict()
+
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = 'Valid'
+            quizes = Quiz.objects.all()
+            data['html_quiz_list'] = render_to_string('main_page/dashboard/quiz_app/with_ajax/partial_quiz_list.html', {
+                'quiz_name': quizes
+            })
+            print("QUIZ SAVED")
+        else:
+            print("CANNOT SAVE QUIZ")
+            data['form_is_valid'] = 'NotValid'
+    else:
+        form = QuizForm()
+
+    context = {'form': form}
+    data['html_form'] = render_to_string('main_page/dashboard/quiz_app/with_ajax/quiz_create.html',
+                                 context,
+                                 request=request,
+                                 )
+    return JsonResponse(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Update Quiz model NOT WORKING
+def save_quiz_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            books = Quiz.objects.all()
+            # data['html_book_list'] = render_to_string('books/includes/partial_book_list.html', {
+            #     'books': books
+            # })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+#NOT WORKING
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def quiz_update(request, pk):
+    quiz = get_object_or_404(Quiz, id=pk)
+    if request.method == 'POST':
+        form = QuizForm(request.POST, instance=quiz)
+    else:
+        form = QuizForm(instance=quiz)
+
+    return save_quiz_form(request, form, 'main_page/dashboard/quiz_app/quiz_update.html')

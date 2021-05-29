@@ -3,7 +3,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.forms import UserCreationForm
 from .models import (TeacherProfile, StudentProfile,
-                     Course, QuizName, QuizVariants,
+                     Course,
                      Quiz, Question, Answer)
 from django.contrib.auth.models import User, Group
 from django.core.validators import RegexValidator
@@ -31,23 +31,23 @@ PHONE_PREFIXES = (
 )
 # Course choices
 # Creating a tuble of Courses with PK (first three letters of a Course) from DB
-# course_l = []
-# course_list = Course.objects.all()
-# count = course_list.count()
-#
-# for i in range(count):
-#     course_l.append((course_list[i].c_id, course_list[i].c_name))
-#
-# if course_l:
-#     COURSE_CHOICES = tuple(course_l)
-# else:
-#     COURSE_CHOICES = (
-#         ('YOX', 'Kurs yoxdur'),
-#     )
-COURSE_CHOICES = (
-        ('ENG1', 'English'),
-        ('ENG2', 'English 2'),
+course_l = []
+course_list = Course.objects.all()
+count = course_list.count()
+
+for i in range(count):
+    course_l.append((course_list[i].c_id, course_list[i].c_name))
+
+if course_l:
+    COURSE_CHOICES = tuple(course_l)
+else:
+    COURSE_CHOICES = (
+        ('YOX', 'Kurs yoxdur'),
     )
+# COURSE_CHOICES = (
+#         ('ENG1', 'English'),
+#         ('ENG2', 'English 2'),
+#     )
 
 # END Course choices
 
@@ -217,7 +217,7 @@ class CourseCreate(forms.ModelForm):
     c_id = forms.CharField(required=True, max_length=4)
     c_name = forms.CharField(required=True, max_length=20)
     c_status = forms.BooleanField(initial=True, required=False)
-    c_description = forms.CharField(max_length=200, required=False)
+    c_description = forms.CharField(max_length=200, required=False, widget=forms.Textarea)
     c_photo = forms.ImageField()
     teachers = forms.ModelMultipleChoiceField(
         required=False,
@@ -236,25 +236,11 @@ class CourseCreate(forms.ModelForm):
 
 
 # ~~~~~~~~ Quiz Forms ~~~~~~~~~~```
-class CreateQuizForm(forms.ModelForm):
-    class Meta:
-        model = QuizName
-        fields = ('quiz_name',)
-
-
-class CreateQuestionsForm(forms.ModelForm):
-    class Meta:
-        model = QuizVariants
-        fields = (
-        'question_image', 'question_description', 'variantA', 'variantB', 'variantC', 'variantD', 'teacher_answer',
-        'student_answer')
-
 
 class QuizForm(forms.ModelForm):
     class Meta:
         model = Quiz
         fields = ('name', 'number_of_questions', 'time', 'status')
-
 
 
 class QuestionForm(forms.ModelForm):

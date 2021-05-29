@@ -35,13 +35,6 @@ urlpatterns = [
 
     url(r'^student/create$', views.create_student, name='createstudent'),
 
-    # ~~~~~~~~~~~~~ Quiz URLs ~~~~~~~~~~~
-    url(r'^quiz/questions/(?P<id>[-\w]+)/$', views.create_questions, name='createquestions'),
-    # url(r'^quiz/work/$', views.quiz_work, name='quizwork'), #(?P<id>[-\w]+)/
-
-    # url(r'^quiz/questions/work/(?P<quiz_id>[-\w]+)/$', views.question_work, name='questionwork'),
-    url(r'^quiz/questions/(?P<id>[-\w]+)/$', views.question_work, name='questionwork'),
-
     #~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
     url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
@@ -51,4 +44,10 @@ urlpatterns = [
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/$', views.quiz_view, name='quizview'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/data/$', views.question_work, name='questionwork'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/save/$', views.save_quiz_view, name='savequizview'),
+
+    # ~~~~~~~~~~~~~~~~~~~~Quiz updates~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    url(r'^quiz/update/(?P<pk>[-\w]+)/$', views.quiz_update, name='quizupdate'), #not working, delete later
+
+    # Quiz creating with AJAX
+    url(r'^quiz/create/$', views.quiz_create, name='quiz_create'),
 ]

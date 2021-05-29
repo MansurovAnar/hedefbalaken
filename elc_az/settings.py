@@ -14,8 +14,6 @@ import os
 import dj_database_url
 import django_heroku
 
-# django_heroku.settings(locals())
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf.global_settings import DATABASES
 
@@ -29,15 +27,13 @@ TEMPLATE_DIRS = [
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# SECRET_KEY ='l%!w0#!_++yd7h@!*ui&ah&lh4spqn1-glb0d*rhopchzh6=2$'
-
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://ganda-ems.herokuapp.com/']
-# ALLOWED_HOSTS = ['127.0.0.1']
+# ALLOWED_HOSTS = ['https://ganda-ems.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 

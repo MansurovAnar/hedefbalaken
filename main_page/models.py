@@ -66,6 +66,7 @@ class Course(models.Model):
     c_status = models.BooleanField(default=True)
     c_description = models.TextField(blank=True)
     c_photo = models.ImageField(upload_to="Courses/", default="")
+    # c_cost = models.CharField("Cost of course", max_length=8, blank=True)
     teachers = models.ManyToManyField(TeacherProfile, related_name="courses", blank=True)
     students = models.ManyToManyField(StudentProfile, related_name="coursess", blank=True)
 
@@ -143,30 +144,6 @@ class Branches(models.Model):
 
 
 # ~~~~~~~~~~~~~~~~ Quiz models ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class QuizName(models.Model):
-    # quiz_id = models.AutoField(primary_key=True)
-    quiz_name = models.TextField("Quiz name", max_length=8000)
-    archive_quiz = models.BooleanField("Quiz archived", null=True, blank=True)
-
-    def __str__(self):
-        return self.quiz_name
-
-
-class QuizVariants(models.Model):
-    quiz_name = models.ForeignKey(QuizName, on_delete=models.CASCADE, related_name="variants")
-    question_image = models.ImageField("If question is image question, ADD it: ", null=True, blank=True,
-                                       upload_to="questions/")
-    question_description = models.TextField("Question: ", max_length=500, null=False)
-    variantA = models.TextField("Varaint A:", max_length=250, null=False)
-    variantB = models.TextField("Varinat B:", max_length=250, null=False)
-    variantC = models.TextField("Varinat C:", max_length=250, null=False)
-    variantD = models.TextField("Variant D", max_length=250, null=False)
-    teacher_answer = models.TextField("Right Answer:", max_length=250)
-    student_answer = models.TextField("Student Answer:", null=True, blank=True)
-
-    def __str__(self):
-        return self.question_description
-
 
 class Quiz(models.Model):
     name = models.CharField(max_length=120)

@@ -1,0 +1,12 @@
+{% for quiz in quiz_name %}
+    <tr>
+      <td>{{ quiz.name }}</td>
+      <td>{{ quiz.number_of_questions }}</td>
+      <td>{{ quiz.status }}</td>
+      <td>{{ quiz.time }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7" class="text-center bg-warning">İmtahan yoxdur</td>
+    </tr>
+{% endfor %}

@@ -23,6 +23,14 @@
         <div class="card-header">
           <h4 class="card-title"> Kurs əlavə et</h4>
         </div>
+          {% if success %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              "<b>{{created_course}}</b>" kursu uğurla əlavə olundu.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
         <form method="POST" enctype= "multipart/form-data">
           {% csrf_token %}
           <section class="section">
@@ -112,7 +120,7 @@
                       <h5 class="modal-title" id="addCourseTitle">Yeni kurs</h5>
                     </div>
                     <div class="modal-body">
-                     Kurs əlavə olundu
+                     "<b>{{ created_course}}</b>" kursu əlavə olundu.
                     </div>
                     <div class="modal-footer">
                       <a class="btn btn-outline-info" onclick="document.getElementById('addCourse').style.display='none'" class="close" title="Bağla" >

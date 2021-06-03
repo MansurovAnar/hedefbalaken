@@ -174,6 +174,9 @@ def update_course(request, pk):
 
     if courseForm.is_valid():
         course_form = courseForm.save(commit=False)
+        if 'c_photo' in request.FILES:
+            print('Found it')
+            course_form.c_photo = request.FILES['c_photo']
         course_form.save()
         courseForm.save_m2m()
         print(course_form)
@@ -184,7 +187,6 @@ def update_course(request, pk):
     context['courseForm'] = courseForm
 
     return render(request, 'main_page/dashboard/course_form.html', context)
-
 
 @login_required(login_url='login')
 def course_detail(request, cid):
@@ -359,12 +361,16 @@ def create_student(request):
             print("[ INFO ] Student form SAVED")
             # std = StudentProfile.objects.all()
             # print(std)
+            messages.success(request, '"' + str(stdnt) + '"' + " istifadəçi adlı tələbə uğurla əlavə olundu.")
             user_form = RegisterUser()
             student_form = StudentProfileForm()
             contextt = {"userForm": user_form, "studentForm": student_form,
-                        "success": True, "created_student": str(stdnt)}
+                        # "success": True, "created_student": str(stdnt)
+                        }
             return render(request, 'main_page/dashboard/student_form.html', contextt)
         else:
+            messages.error(request, user_form.errors)
+            messages.error(request, student_form.errors)
             print(user_form.errors, student_form.errors)
     else:
         user_form = RegisterUser()
@@ -384,14 +390,47 @@ def add_quiz(request):
     if request.method == 'POST':
         quiz_form = QuizForm(data=request.POST)
         if quiz_form.is_valid():
+            quiz_instance = quiz_form.save(commit=False)
+            quiz_instance.number_of_questions = 0
+            quiz_instance.save()
             quiz_form.save()
 
+            messages.success(request, '"' + str(quiz_instance) + '"' + " imtahanı yaradıldı.")
             context = {"quiz": QuizForm(), "quizes": quizes}
             return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
     else:
         quiz_form = QuizForm()
 
     context = {"quiz": quiz_form, "quizes": quizes}
+    return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def update_quiz(request, quiz_id):
+    """ This view is for TEACHERs and controllers - only teachers and controllers can update quizes"""
+    quizes = Quiz.objects.all()
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    quizForm = QuizForm(request.POST or None, instance=quiz)
+
+    if quizForm.is_valid():
+        quiz_form = quizForm.save(commit=False)
+        quiz_form.number_of_questions = quiz.get_question_count()
+        quiz_form.save()
+        quizForm.save()
+
+        messages.success(request, '"' + str(quiz_form) + '"' + " imtahanı haqqında məlumat yeniləndi.")
+
+        # context = {"quiz": QuizForm(), "quizes": quizes}
+        # return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
+        return HttpResponseRedirect(
+            reverse('createquiz')
+        )
+    else:
+        print(quizForm.errors)
+
+
+    context = {"quiz": quizForm, "quizes": quizes, "update": True}
     return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
 
 
@@ -426,6 +465,34 @@ def add_question(request, id):
 
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def update_question(request, quiz_id, question_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    question = get_object_or_404(Question, id=question_id)
+    questionForm = QuestionForm(request.POST or None, instance=question)
+
+    if questionForm.is_valid():
+        question_form = questionForm.save(commit=False)
+        question_form.quiz = quiz
+        if 'image' in request.FILES:
+            question_form.image = request.FILES['image']
+        question_form.save()
+        questionForm.save()
+
+        messages.success(request, '"' + str(question_form) + '"' + " sualı haqqında məlumat yeniləndi.")
+        questions = Question.objects.filter(quiz=Quiz.objects.get(id=quiz_id))
+
+        # context = {"question_form": QuestionForm(), "quiz": quiz, "questions":questions}
+        return HttpResponseRedirect(
+            reverse('addquestion', kwargs={'id': question.quiz.id})
+        )
+        # return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
+
+    questions = Question.objects.filter(quiz=Quiz.objects.get(id=quiz_id))
+    context = {"question_form": questionForm, "quiz": quiz, "questions":questions, "update": True}
+    return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
 @csrf_protect
 @login_required(login_url='login')
@@ -444,6 +511,7 @@ def add_variants(request, id):
             instance.save()
             answer_form.save()
 
+            messages.success(request, '"' + str(instance.text) + '"' + " variantı əlavə edildi.")
             variants = Answer.objects.filter(question=question)
 
             context = {'form': AnswerForm(), 'question': question, 'variants': variants}
@@ -456,6 +524,79 @@ def add_variants(request, id):
     context = {'form': AnswerForm(), 'question': question, 'variants': variants}
     return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
 
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def update_variant(request, q_id, v_id):
+    question = Question.objects.get(id=int(q_id))
+    variant = get_object_or_404(Answer, id=v_id)
+    print("QUESTION Quiz ID: ", question.quiz.id)
+
+    answer_form = AnswerForm(request.POST or None, instance=variant)
+
+    if answer_form.is_valid():
+        instance = answer_form.save(commit=False)
+        instance.question = question
+
+        instance.save()
+        answer_form.save()
+
+        messages.success(request, "Variantda dəyişiklik edildi.")
+
+        # variants = Answer.objects.filter(question=question)
+
+        return HttpResponseRedirect(
+            reverse('addvariants', kwargs={'id': instance.question.id})
+        )
+        # context = {'form': AnswerForm(), 'question': question, 'variants': variants}
+        # return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+    else:
+        print(answer_form.errors)
+
+    variants = Answer.objects.filter(question=question)
+
+    context = {'form': answer_form, 'question': question, 'variants': variants,'update':True}
+    return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def delete_variant(request, id):
+    variant = Answer.objects.get(id=id)
+    variant.delete()
+
+    messages.warning(request, '"' + str(variant.text) + '"' +   " variantı silindi.")
+
+    return HttpResponseRedirect(
+        reverse('addvariants', kwargs={'id': variant.question.id})
+    )
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def delete_question(request, id):
+    question = Question.objects.get(id=id)
+    question.delete()
+
+    messages.warning(request, '"' + str(question.text) + '"' +  " sualı silindi.")
+
+    return HttpResponseRedirect(
+        reverse('addquestion', kwargs={'id': question.quiz.id})
+    )
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def delete_quiz(request, id):
+    quiz = Quiz.objects.get(id=id)
+    quiz.delete()
+
+    messages.warning(request, '"' + str(quiz.name) + '"' +  " quiz-i silindi.")
+
+    return HttpResponseRedirect(
+        reverse('createquiz')
+    )
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -463,7 +604,7 @@ def add_variants(request, id):
 def quiz_work(request):
     quizes = Quiz.objects.all()
     context = {"quiz_name": quizes}
-    return render(request, 'main_page/dashboard/quiz_app/with_ajax/quiz_list.html', context)
+    return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
 
 
 @csrf_protect
@@ -491,6 +632,7 @@ def question_work(request, quiz_id):
 @allowed_users(allowed_roles=['controller', 'student'])
 def quiz_view(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
+    print("QUIZ ID", quiz_id)
     return render(request, 'main_page/dashboard/quiz_app/question_work.html', {'obj': quiz})
 
 @csrf_protect
@@ -541,76 +683,4 @@ def save_quiz_view(request, quiz_id):
         return JsonResponse({'results': results, 'score': score_})
     # return JsonResponse({'text': 'works'})
 
-# Quiz creating with AJAX
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'teacher'])
-def quiz_create(request):
-    data = dict()
 
-    if request.method == 'POST':
-        form = QuizForm(request.POST)
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = 'Valid'
-            quizes = Quiz.objects.all()
-            data['html_quiz_list'] = render_to_string('main_page/dashboard/quiz_app/with_ajax/partial_quiz_list.html', {
-                'quiz_name': quizes
-            })
-            print("QUIZ SAVED")
-        else:
-            print("CANNOT SAVE QUIZ")
-            data['form_is_valid'] = 'NotValid'
-    else:
-        form = QuizForm()
-
-    context = {'form': form}
-    data['html_form'] = render_to_string('main_page/dashboard/quiz_app/with_ajax/quiz_create.html',
-                                 context,
-                                 request=request,
-                                 )
-    return JsonResponse(data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Update Quiz model NOT WORKING
-def save_quiz_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            books = Quiz.objects.all()
-            # data['html_book_list'] = render_to_string('books/includes/partial_book_list.html', {
-            #     'books': books
-            # })
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-#NOT WORKING
-@csrf_protect
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['controller', 'teacher'])
-def quiz_update(request, pk):
-    quiz = get_object_or_404(Quiz, id=pk)
-    if request.method == 'POST':
-        form = QuizForm(request.POST, instance=quiz)
-    else:
-        form = QuizForm(instance=quiz)
-
-    return save_quiz_form(request, form, 'main_page/dashboard/quiz_app/quiz_update.html')

@@ -74,7 +74,7 @@ def check_fincode(value):
 
 
 class RegisterForm(forms.ModelForm):
-    """docstring - registeration from for users - new coning students"""
+    """docstring - registeration from for users - new coming students"""
     error_css_class = 'error'
     required_css_class = 'required'
 
@@ -178,7 +178,17 @@ class TeacherProfileForm(forms.ModelForm):
     phone_prefix = forms.ChoiceField(choices=PHONE_PREFIXES, required=True,
                                      widget=forms.Select(attrs={'class': 'form-control-lg col-md-1'})
                                      )
-    phone_number = forms.CharField(max_length=7)
+    phone_number = forms.CharField(
+        required=True,  # Note: validators are not run against empty fields
+        validators=[phone_validator],
+        max_length=7,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control-lg col-md-4',
+                'placeholder': 'Mobil nömrə (e.g 1234567) '
+            }
+        )
+    )
     birthdate = forms.DateField(required=True,
                                 widget=forms.SelectDateWidget(years=YEARS,
                                                               attrs={
@@ -197,7 +207,17 @@ class StudentProfileForm(forms.ModelForm):
     phone_prefix = forms.ChoiceField(choices=PHONE_PREFIXES, required=True,
                                      widget=forms.Select(attrs={'class': 'form-control-lg col-md-1'})
                                      )
-    phone_number = forms.CharField(max_length=10)
+    phone_number = forms.CharField(
+        required=True,  # Note: validators are not run against empty fields
+        validators=[phone_validator],
+        max_length=7,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control-lg col-md-4',
+                'placeholder': 'Mobil nömrə (e.g 1234567) '
+            }
+        )
+    )
     birthdate = forms.DateField(required=True,
                                 widget=forms.SelectDateWidget(years=YEARS,
                                                               attrs={
@@ -238,6 +258,7 @@ class CourseCreate(forms.ModelForm):
 # ~~~~~~~~ Quiz Forms ~~~~~~~~~~```
 
 class QuizForm(forms.ModelForm):
+    number_of_questions = forms.IntegerField(required=False, initial=0)
     class Meta:
         model = Quiz
         fields = ('name', 'number_of_questions', 'time', 'status')

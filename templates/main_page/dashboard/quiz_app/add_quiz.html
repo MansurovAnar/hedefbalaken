@@ -20,17 +20,33 @@
           <div class="col-md-12">
           <div class="card">
              <div class="card-header">
+               {% if update %}
+                <h4 class="card-title">Dəyişiklik et</h4>
+               {% else %}
                 <h4 class="card-title">Yeni Quiz</h4>
+               {% endif %}
+
               </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                  <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              {% endif %}
+
              <div class="card-body">
             <form method="POST" >
                 {% csrf_token %}
                 <div class="form-group">
                 {% render_field quiz.name style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz adını daxil edin" %}
                 </div>
-                <div class="form-group">
-                {% render_field quiz.number_of_questions style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz sual sayını daxil edin" %}
-                 </div>
               <div class="form-check">
                 <label class="form-check-label">
                 <b>Tələbə görsün? </b>{% render_field quiz.status class="form-check-input" type="checkbox" style="color:#3299a8;border-radius:10px; width: 3%;" %}
@@ -54,48 +70,76 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Quizin adı
-                      </th>
+                  {% if quizes %}
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          Quizin adı
+                        </th>
+                        <th class="text-right">
+                          Sual sayı
+                        </th>
                       <th class="text-right">
-                        Sual sayı
+                          Tələbəyə <br/> görünsün?
+                        </th>
+                      <th class="text-right">
+                        Quiz məlumatlarını <br/> dəyişdir
                       </th>
-                    <th class="text-right">
-                        Tələbəyə <br/> görünsün?
-                      </th>
-                    <th class="text-right">
-                      Quiz məlumatlarını <br/> dəyişdir
-                    </th>
-                    </thead>
-                    <tbody>
-                    {% for quiz in quizes %}
-                      <tr>
-                        <td>
-                         <a href="{% url 'addquestion' id=quiz.id %}">{{ quiz.name }}</a>
-                        </td>
-                        <td  class="text-right">
-                          {{ quiz.number_of_questions }}
-                        </td>
-                        <td class="text-right">
-                           {% if quiz.status %}
-                            <b>Aktiv</b>
-                            {% else %}
-                            <b>Görünmür</b>
-                            {% endif %}
-                        </td>
-                        <td class="text-right" style="padding-right:8%">
-                          <button type="button"
-                            class="btn btn-warning btn-sm js-update-quiz"
-                            data-url="{% url 'quizupdate' pk=quiz.id %}">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit
-                          </button>
-                        </td>
-                      </tr>
-                    {% endfor %} <!-- end Quiz names list FOR -->
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {% for quiz in quizes %}
+                          <tr>
+                            <td>
+                             <a href="{% url 'addquestion' id=quiz.id %}">{{ quiz.name }}</a>
+                            </td>
+                            <td  class="text-right">
+                              <!-- Quiz-dəki aktiv sual sayı üçün 'quiz.get_question_count'  -->
+                              {{ quiz.get_question_count }}
+                            </td>
+                            <td class="text-right">
+                               {% if quiz.status %}
+                                <b>Aktiv</b>
+                                {% else %}
+                                <b>Görünmür</b>
+                                {% endif %}
+                            </td>
+                            <td class="text-right" style="padding-right:8%">
+                                <a href="{% url 'updatequiz' quiz_id=quiz.id %}" title="Dəyişdir">
+                                  <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                            <td>
+                          <!--   Quiz-i silmək üçün modal-->
+                                <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('{{quiz.id}}deleteQuiz').style.display='block'">
+                                      <span data-feather="trash">Sil</span>
+                            </button>
+                            <div id="{{quiz.id}}deleteQuiz" class="modal">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="{{quiz.id}}deleteQuizTitle">Quiz-i sil</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                    <b>{{ quiz.name }}</b> quiz-i silinəcək. Əminsiniz?
+                                  </div>
+                                  <div class="modal-footer">
+                                    <a class="btn btn-outline-info" onclick="document.getElementById('{{quiz.id}}deleteQuiz').style.display='none'" class="close" title="Bağla" >
+                                      Bağla
+                                    </a>
+                                    <a class="btn btn-outline-danger" title="Quizi sil" href="{% url 'deletequiz' id=quiz.id %}">Sil</a>
+                                  </div>
+                                </div>
+                               </div>
+                              </div>
+                            </td>
+                          </tr>
+                        {% endfor %} <!-- end Quiz names list FOR -->
+                      </tbody>
+                    </table>
+                  {% else %}
+                    <h3 class="text-center">Quiz yoxdur</h3>
+                  {% endif %}
                 </div>
               </div>
             </div>

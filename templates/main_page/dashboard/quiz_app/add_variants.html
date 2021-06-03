@@ -29,8 +29,24 @@
               <div class="col-md-12">
                   <div class="card">
                       <div class="card-header">
-                          <h4 class="card-title"><strong style="color:#4287f5;">" {{ question }} "</strong> sualı üçün variant daxil edin:</h4>
+                          {% if update %}
+                            <h4 class="card-title">Variantda dəyişiklik et</h4>
+                          {% else %}
+                            <h4 class="card-title"><strong style="color:#4287f5;">" {{ question }} "</strong> sualı üçün variant daxil edin</h4>
+                          {% endif %}
                       </div>
+                      {% if messages %}
+                        {% for message in messages %}
+                          <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              {{ message }}
+                            </div>
+                          </div>
+                          {% endfor %}
+                      {% endif %}
                       <div class="card-body">
                           <div class="table-responsive">
                               <form method="POST" enctype= multipart/form-data >
@@ -42,8 +58,8 @@
                                   <label>Bu variant doğru cavabdırsa, kliklə</label>{% render_field form.correct style="color:#3299a8;border-radius:10px; width: 3%;" class="form-control" placeholder="Doğru variantdırsa, kliklə" %}
                                   <br>
 
-                                  <button type="submit" class="btn btn-success">Variantı əlavə et</button>
-                                  <button class="btn btn-info"><a href="{% url 'addquestion' id=question.quiz.id %}">Yeni sual</a></button>
+                                  <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
+                                  <button class="btn btn-outline-info"><a href="{% url 'addquestion' id=question.quiz.id %}">Yeni sual</a></button>
                               </form>
                           </div>
                       </div>
@@ -62,23 +78,64 @@
                       </div>
                       <div class="card-body">
                           <div class="table-responsive">
-                              <table class="table">
-                                  <thead class=" text-primary">
-                                    <th>№</th>
-                                    <th>Variant</th>
-                                    <th>Doğru cavab</th>
-                                  </thead>
-                                  <tbody>
-                                      {% for variant in variants %}
-                                      <tr>
-                                          <td>{{ forloop.counter }}</td>
-                                          <td> <strong> {{ variant.text }} </strong>
-                                          </td>
-                                          <td>{{ variant.correct }}</td>
-                                      </tr>
-                                  {% endfor %}
-                                  </tbody>
-                              </table>
+                              {% if variants %}
+                                  <table class="table">
+                                      <thead class=" text-primary">
+                                        <th>№</th>
+                                        <th>Variant</th>
+                                        <th>Doğru cavab</th>
+                                      </thead>
+                                      <tbody>
+                                          {% for variant in variants %}
+                                          <tr>
+                                              <td>{{ forloop.counter }}</td>
+                                              <td>
+                                                  <strong> {{ variant.text }} </strong>
+                                              </td>
+                                              <td>
+                                                  {% if variant.correct %}
+                                                    Doğru
+                                                  {% else %}
+                                                    Yanlış
+                                                  {% endif %}
+                                              </td>
+                                              <td>
+                                                  <a title="Dəyişdir" href="{% url 'updatevariant' q_id=question.id v_id=variant.id %}">
+                                                      <i class="fas fa-edit"></i>
+                                                  </a>
+                                              </td>
+                                              <td>
+                                            <!--   Variantı silmək üçün modal-->
+                                                  <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('{{variant.id}}deleteVariant').style.display='block'">
+                                                        <span data-feather="trash">Sil</span>
+                                              </button>
+                                              <div id="{{variant.id}}deleteVariant" class="modal">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="{{variant.id}}deleteVariantTitle">Variantı sil</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <b>{{ variant.text }}</b> variantı silinəcək. Əminsiniz?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <a class="btn btn-outline-info" onclick="document.getElementById('{{variant.id}}deleteVariant').style.display='none'" class="close" title="Bağla" >
+                                                        Bağla
+                                                      </a>
+                                                      <a class="btn btn-outline-danger" title="Variantı sil" href="{% url 'deletevariant' id=variant.id %}">Sil</a>
+                                                    </div>
+                                                  </div>
+                                                 </div>
+                                                </div>
+                                              </td>
+                                          </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                  </table>
+                              {% else %}
+                                <h3 class="text-center">Variant yoxdur</h3>
+                              {% endif %}
                           </div>
                       </div>
                   </div>

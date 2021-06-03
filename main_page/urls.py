@@ -38,16 +38,19 @@ urlpatterns = [
     #~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
     url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
-    url(r'^question/add/variant/(?P<id>[-\w]+)/$', views.add_variants, name='addvariants'),
+    url(r'^question/(?P<id>[-\w]+)/add/variant/$', views.add_variants, name='addvariants'),
+
+    url(r'^quiz/update/(?P<quiz_id>[-\w]+)/$', views.update_quiz, name='updatequiz'),
+    url(r'^question/update/(?P<quiz_id>[-\w]+)/(?P<question_id>[-\w]+)/$', views.update_question, name='updatequestion'),
+    url(r'^variant/update/(?P<q_id>[-\w]+)/(?P<v_id>[-\w]+)/$', views.update_variant, name='updatevariant'),
+
+    url(r'^variant/delete/(?P<id>[-\w]+)/$', views.delete_variant, name='deletevariant'),
+    url(r'^question/delete/(?P<id>[-\w]+)/$', views.delete_question, name='deletequestion'),
+    url(r'^quiz/delete/(?P<id>[-\w]+)/$', views.delete_quiz, name='deletequiz'),
 
     url(r'^quiz/work/$', views.quiz_work, name='quizwork'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/$', views.quiz_view, name='quizview'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/data/$', views.question_work, name='questionwork'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/save/$', views.save_quiz_view, name='savequizview'),
 
-    # ~~~~~~~~~~~~~~~~~~~~Quiz updates~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    url(r'^quiz/update/(?P<pk>[-\w]+)/$', views.quiz_update, name='quizupdate'), #not working, delete later
-
-    # Quiz creating with AJAX
-    url(r'^quiz/create/$', views.quiz_create, name='quiz_create'),
 ]

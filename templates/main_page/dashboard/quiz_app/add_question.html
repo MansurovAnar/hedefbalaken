@@ -29,8 +29,24 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">
-                      <h4 class="card-title">Sual:</h4>
+                      {% if update %}
+                        <h4 class="card-title">Dəyişiklik et</h4>
+                      {% else %}
+                        <h4 class="card-title">Yeni sual</h4>
+                      {% endif %}
                   </div>
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="container-fluid p-0">
+                        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          {{ message }}
+                        </div>
+                      </div>
+                      {% endfor %}
+                  {% endif %}
                   <div class="card-body">
                       <div class="table-responsive">
                           <form method="POST" enctype= multipart/form-data >
@@ -42,7 +58,7 @@
                               {% render_field question_form.text style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Sualı daxil edin" %}
                               <br>
 
-                              <button type="submit" class="btn btn-success">Sualı əlavə et</button>
+                              <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
                           </form>
                       </div>
                   </div>
@@ -60,11 +76,13 @@
                       </div>
                       <div class="card-body">
                           <div class="table-responsive">
+                              {% if questions %}
                               <table class="table">
                                   <thead class=" text-primary">
                                     <th>№</th>
                                     <th>Sual</th>
                                     <th>Şəkil</th>
+                                    <th></th>
                                   </thead>
                                   <tbody>
                                       {% for question in questions %}
@@ -76,12 +94,47 @@
                                           <td>
                                               {% if question.image %}
                                                 <a href="{{ MEDIA_URL }}{{ question.image.url }}"><img src="{{ question.image.url }}" style="width:50px; height:40px;"></a>
+                                              {% else %}
+                                                Yoxdur
                                               {% endif %}
                                           </td>
+                                          <td>
+                                              <a title="Dəyişdir" href="{% url 'updatequestion' quiz_id=quiz.id question_id=question.id %}">
+                                                  <i class="fas fa-edit"></i>
+                                              </a>
+                                          </td>
+                                          <td>
+                                            <!--   Sualı silmək üçün modal-->
+                                                  <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='block'">
+                                                        <span data-feather="trash">Sil</span>
+                                              </button>
+                                              <div id="{{question.id}}deleteQuestion" class="modal">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="{{question.id}}deleteQuestionTitle">Sualı sil</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <b>{{ question.text }}</b> sualı silinəcək. Əminsiniz?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <a class="btn btn-outline-info" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='none'" class="close" title="Bağla" >
+                                                        Bağla
+                                                      </a>
+                                                      <a class="btn btn-outline-danger" title="Sualı sil" href="{% url 'deletequestion' id=question.id %}">Sil</a>
+                                                    </div>
+                                                  </div>
+                                                 </div>
+                                                </div>
+                                              </td>
                                       </tr>
                                   {% endfor %}
                                   </tbody>
                               </table>
+                              {% else %}
+                                <h3 class="text-center">Sual yoxdur</h3>
+                              {% endif %}
                           </div>
                       </div>
                   </div>

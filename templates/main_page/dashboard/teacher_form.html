@@ -3,6 +3,27 @@
 {% load widget_tweaks %}
 {% block title %} ELC | Dashboard {% endblock%}
 
+<style>
+  #req:after {
+    content:" *";
+    color: red;
+  }
+  label{
+    color: #626269;
+    font-size: 17px;
+  }
+
+  #indx{
+    display: show;
+  }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
 <body>
 {% block sidebar %} {{block.super}} {% endblock sidebar %}
 
@@ -23,15 +44,21 @@
         <div class="card-header">
           <h4 class="card-title"> Müəllim əlavə et</h4>
         </div>
-        {% if success %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              "<b>{{created_teacher}}</b>" istifadəçi adlı müəllim uğurla əlavə olundu.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{ message }}
+                </div>
+              </div>
+              {% endfor %}
           {% endif %}
-        <form method="POST" enctype= "multipart/form-data">
+
+        <form method="POST" id="tchr_form" enctype= "multipart/form-data">
           {% csrf_token %}
           <section class="section">
             <div class="container ">
@@ -76,14 +103,15 @@
                   <br>
 
                     <div class="field">
-                        <label>Mobil nömrə</label>
+                        <label id="req">Mobil nömrə</label>
                         <div class="select">
                           {% render_field teacherForm.phone_prefix %}
                         </div>
                         <br><br>
                         <div class="control">
-                          {% render_field teacherForm.phone_number class="input" placeholder="Mobil nömrəniz (Məs: 1234567 )" name="" required="" %}
+                          {% render_field teacherForm.phone_number class="input" id="form_fphone" placeholder="Mobil nömrəniz (Məs: 1234567 )" name="" required="" %}
                         </div>
+                        <span class="error_form" id="fphone_error_message"></span>
                       </div>
                   <br>
 
@@ -159,6 +187,45 @@
   <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
   <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
   <script src="{% static 'demo/demo.js' %}"></script>
+
+<script type="text/javascript">
+
+  $(function() {
+     $("#fphone_error_message").hide();
+
+     var error_fphone = false;
+
+     $("#form_fphone").focusout(function(){
+        check_fphone();
+     });
+
+     function check_fphone() {
+        var pattern = /^[0-9]{7,7}$/;
+        var fphone = $("#form_fphone").val();
+        if (pattern.test(fphone) && fphone !== '') {
+           $("#fphone_error_message").hide();
+           $("#form_fphone").css("border","1px solid #34F458");
+        } else {
+           $("#fphone_error_message").html("Mobil nömrə ancaq rəqəmlərdən ibarət ola bilər");
+           $("#fphone_error_message").show();
+           $("#fphone_fname").css("border","1px solid #F90A0A");
+           error_fphone = true;
+        }
+        if (fphone.length < 7 ){
+          $("#fphone_error_message").html("Mobil nömrə 7 rəqəmdən ibarət olmalıdır");
+          $("#fphone_error_message").show();
+          $("#form_fphone").css("border","1px solid #F90A0A");
+          error_fphone = true;
+        }
+     }
+
+     $("#tchr_form").submit(function() {
+        error_fphone = false;
+
+        check_fphone();
+  });
+});
+ </script>
 
 {% endblock main_body %}
 </body>

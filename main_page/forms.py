@@ -15,6 +15,8 @@ from .models import user
 from django.core.validators import RegexValidator
 import datetime
 
+from django.forms import formset_factory
+
 this_year = datetime.date.today().year
 YEARS = [x for x in range(1940, this_year + 1)]  # automaticaly takes from 1940 to current year
 
@@ -275,3 +277,4 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ('text', 'correct')
 
+AnswerFormset = formset_factory(AnswerForm, extra=1)

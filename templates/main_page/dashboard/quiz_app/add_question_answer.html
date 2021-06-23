@@ -52,13 +52,12 @@
                           <form method="POST" enctype= multipart/form-data >
                               {% csrf_token %}
 
-
-                              {% render_field question_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
+                              {% render_field q_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
                               <br>
-                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 75%;" class="form-control" placeholder="Sualı daxil edin" %}
+                              {% render_field q_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 75%;" class="form-control" placeholder="Sualı daxil edin" %}
                               <br>
                               <div id="variant_field_div">
-                               {% render_field answer.text  id="variant_field" style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Variantı daxil edin" %}
+                               {% render_field a_form.text  id="variant_field" style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Variantı daxil edin" %}
                               </div>
                               <div id="variant_field_add"> </div>
                               <button id="addvariant" type="button" class="btn btn-default"><span class="now-ui-icons ui-1_simple-add"></span></button>

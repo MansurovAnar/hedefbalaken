@@ -10,7 +10,7 @@ from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
                     StudentProfileForm,
                     QuestionForm, AnswerForm,
-                    QuizForm
+                    QuizForm, AnswerFormset
                     )
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
@@ -461,7 +461,7 @@ def add_question(request, id):
             print(question_form.errors)
 
     questions = Question.objects.filter(quiz=Quiz.objects.get(id=int(id)))
-    context = {"quiz": quiz, "questions": questions, "question_form": QuestionForm()}
+    context = {"quiz": quiz, "questions": questions, "question_form": QuestionForm(), "answer":AnswerForm()}
 
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
@@ -491,7 +491,7 @@ def update_question(request, quiz_id, question_id):
         # return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
     questions = Question.objects.filter(quiz=Quiz.objects.get(id=quiz_id))
-    context = {"question_form": questionForm, "quiz": quiz, "questions":questions, "update": True}
+    context = {"question_form": questionForm, "quiz": quiz, "questions":questions, "answer": AnswerForm(), "update": True}
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
 @csrf_protect
@@ -523,6 +523,98 @@ def add_variants(request, id):
 
     context = {'form': AnswerForm(), 'question': question, 'variants': variants}
     return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+
+# ~~~~~~~~~~~~~~~~ Question & Variant-i eyni formda add testi ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def add_question_variant(request, id):
+    quiz = Quiz.objects.get(id=id)
+    if request.method == 'POST':
+        question_form = QuestionForm(data=request.POST, prefix="question_form")
+        variant_form = AnswerForm(data=request.POST, prefix="variant_form")
+        print("METHOD POST")
+
+        if question_form.is_valid() and variant_form.is_valid():
+            print("FORM-lar valid")
+            # before, save question
+            question_instance = question_form.save(commit=False)
+            question_instance.quiz = quiz
+            if 'image' in request.FILES:
+                question_instance.image = request.FILES['image']
+
+            question_instance.save()
+            question_form.save()
+            print("Question saved")
+
+            # save answer
+            answer_instance = variant_form.save(commit=False)
+            answer_instance.question = question_instance
+            print("QUestion instance: ", question_instance)
+            print("QUestion form: ", question_form)
+
+            answer_instance.save()
+            variant_form.save()
+            print("Answer saved")
+
+            context = {'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"), 'q_form': QuestionForm(prefix="question_form")}
+            return render(request, 'main_page/dashboard/quiz_app/add_question_answer.html', context)
+        else:
+            print("Form-lar valid deyil")
+            print("Question form errror \n", question_form.errors)
+            print("Answer form error \n", variant_form.errors)
+
+    print("Nothing yet")
+    context ={'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"), 'q_form': QuestionForm(prefix="question_form")}
+
+    return render(request, 'main_page/dashboard/quiz_app/add_question_answer.html', context)
+
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def add_question_variant_formset(request, id):
+    quiz = Quiz.objects.get(id=id)
+
+    if request.method == 'GET':
+        answer_formset = AnswerFormset(request.GET or None)
+        question_form = QuestionForm()
+    elif request.method == 'POST':
+        answer_formset = AnswerFormset(request.POST)
+        question_form = QuestionForm(request.POST)
+        if question_form.is_valid() and answer_formset.is_valid():
+            print("FORM-lar valid")
+            # before, save question
+            question_instance = question_form.save(commit=False)
+            question_instance.quiz = quiz
+            if 'image' in request.FILES:
+                question_instance.image = request.FILES['image']
+
+            question_instance.save()
+            question_form.save()
+            print("Question saved")
+
+            for form in answer_formset:
+                # save answer
+                answer_instance = form.save(commit=False)
+                answer_instance.question = question_instance
+                print("QUestion instance: ", question_instance)
+                print("QUestion form: ", question_form)
+
+                answer_instance.save()
+                # form.save()
+                print("Answer saved")
+
+            return redirect('createquiz')
+
+    return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+                  {'quiz': quiz,
+                   'formset': answer_formset,
+                   'question_form': question_form})
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+
 
 @csrf_protect
 @login_required(login_url='login')

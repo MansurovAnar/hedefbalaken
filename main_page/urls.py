@@ -37,7 +37,9 @@ urlpatterns = [
 
     #~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
-    url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
+    # url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
+    # question & answer-i birge add etme testi uchun
+    url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question_variant_formset, name='addquestion'),
     url(r'^question/(?P<id>[-\w]+)/add/variant/$', views.add_variants, name='addvariants'),
 
     url(r'^quiz/update/(?P<quiz_id>[-\w]+)/$', views.update_quiz, name='updatequiz'),

@@ -52,18 +52,23 @@
                           <form method="POST" enctype= multipart/form-data >
                               {% csrf_token %}
 
-
                               {% render_field question_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
                               <br>
-                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 75%;" class="form-control" placeholder="Sualı daxil edin" %}
+                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 100%;" class="form-control" placeholder="Sualı daxil edin" %}
                               <br>
-                              <div id="variant_field_div">
-                               {% render_field answer.text  id="variant_field" style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Variantı daxil edin" %}
-                              </div>
-                              <div id="variant_field_add"> </div>
-                              <button id="addvariant" type="button" class="btn btn-default"><span class="now-ui-icons ui-1_simple-add"></span></button>
-                              <button id="removevariant" type="button" class="btn btn-default"><span class="now-ui-icons ui-1_simple-delete"></span></button>
-                              <br>
+                             {{ formset.management_form }}
+                                {% for form in formset %}
+                                <div class="row form-row spacer">
+                                    <div class="col-4">
+                                        <div class="input-group">
+                                            {% render_field form.text  id="variant_field" style="color:#3299a8;border-radius:10px; width: 100%; height: 10%;" class="form-control" placeholder="Variantı daxil edin" %}
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success add-form-row">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
                               <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
                           </form>
                       </div>
@@ -165,6 +170,66 @@
   <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
   <script src="{% static 'demo/demo.js' %}"></script>
   <script src="{% static 'js/quiz_add_new_variants.js' %}"></script>
+
+    <script type='text/javascript'>
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+)');
+        var replacement = prefix + '-' + ndx;
+        if ($(el).prop("for")) $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+    function cloneMore(selector, prefix) {
+        var newElement = $(selector).clone(true);
+        var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+        newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+            var name = $(this).prop('name').replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).prop({'name': name, 'id': id}).val('').removeAttr('checked');
+        });
+        newElement.find('label').each(function() {
+            var forValue = $(this).prop('for');
+            if (forValue) {
+              forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+              $(this).prop({'for': forValue});
+            }
+        });
+        total++;
+        $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+        $(selector).after(newElement);
+        var conditionRow = $('.form-row:not(:last)');
+        conditionRow.find('.btn.add-form-row')
+        .removeClass('btn-success').addClass('btn-danger')
+        .removeClass('add-form-row').addClass('remove-form-row')
+        .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+        return false;
+    }
+    function deleteForm(prefix, btn) {
+        var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (total > 1){
+            btn.closest('.form-row').remove();
+            var forms = $('.form-row');
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            for (var i=0, formCount=forms.length; i<formCount; i++) {
+                $(forms.get(i)).find(':input').each(function() {
+                    updateElementIndex(this, prefix, i);
+                });
+            }
+        }
+        return false;
+    }
+    $(document).on('click', '.add-form-row', function(e){
+        e.preventDefault();
+        console.log("Clone");
+        cloneMore('.form-row:last', 'form');
+        return false;
+    });
+    $(document).on('click', '.remove-form-row', function(e){
+        e.preventDefault();
+        deleteForm('form', $(this));
+        return false;
+    });
+    </script>
 
   {% endblock main_body %}
 </body>

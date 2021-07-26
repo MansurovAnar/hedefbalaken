@@ -21,11 +21,11 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Kurs əlavə et</h4>
+          <h4 class="card-title"> Qrup məlumatları</h4>
         </div>
           {% if success %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-              "<b>{{created_course}}</b>" kursu uğurla əlavə olundu.
+              "<b>{{created_course}}</b>" qrupu uğurla əlavə olundu.
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -51,7 +51,7 @@
                     {% endif %}
 
                   <div class="field">
-                    <label>Kurs ID</label>
+                    <label>Qrup ID</label>
                     <div class="control">
                       {% render_field courseForm.c_id style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Code" %}
                     </div>

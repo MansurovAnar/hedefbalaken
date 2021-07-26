@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^question/(?P<id>[-\w]+)/add/variant/$', views.add_variants, name='addvariants'),
 
     url(r'^quiz/update/(?P<quiz_id>[-\w]+)/$', views.update_quiz, name='updatequiz'),
-    url(r'^question/update/(?P<quiz_id>[-\w]+)/(?P<question_id>[-\w]+)/$', views.update_question, name='updatequestion'),
+    url(r'^question/update/(?P<quiz_id>[-\w]+)/(?P<question_id>[-\w]+)/$', views.update_question_variant_formset, name='updatequestion'),
     url(r'^variant/update/(?P<q_id>[-\w]+)/(?P<v_id>[-\w]+)/$', views.update_variant, name='updatevariant'),
 
     url(r'^variant/delete/(?P<id>[-\w]+)/$', views.delete_variant, name='deletevariant'),

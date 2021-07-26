@@ -158,8 +158,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# session time is 20 minutes
-SESSION_COOKIE_AGE = 1200
+# session time is 40 minutes
+SESSION_COOKIE_AGE = 2400
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 django_heroku.settings(locals())

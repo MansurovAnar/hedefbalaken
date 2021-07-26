@@ -48,7 +48,7 @@
                         <td>
                             {% if quiz.status %}
                                 <b>aktiv</b>
-                                {% else %}
+                            {% else %}
                                 <b>aktiv deyil</b>
                             {% endif %}
                         <td  class="text-right">
@@ -67,6 +67,7 @@
                                     {% else %}
                                     <b>aktiv deyil</b>
                                 {% endif %}
+                            </td>
                             <td  class="text-right" style="padding-right:8%">
                               {{ quiz.get_question_count }}
                             </td>

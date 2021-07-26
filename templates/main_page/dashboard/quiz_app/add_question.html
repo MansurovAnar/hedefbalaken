@@ -96,6 +96,7 @@
                                           <td>{{ forloop.counter }}</td>
                                           <td>
                                               <a href="{% url 'addvariants' id=question.id %}"> <strong> {{ question.text }} </strong></a>
+                                              <span>{{ answer.text }}</span>
                                           </td>
                                           <td>
                                               {% if question.image %}

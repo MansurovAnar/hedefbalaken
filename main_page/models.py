@@ -107,7 +107,6 @@ class user(models.Model):
     u_phonenumberprefix = models.CharField("User Phone prefix", max_length=5, choices=PHONE_PREFIXES, default='Nar1')
     u_phonenumber = models.CharField(validators=[phone_regex], max_length=7, blank=True)
     u_birthdate = models.DateField("User's birthdate", auto_now=False)
-    # u_course = models.ForeignKey(Course, on_delete=models.CASCADE, default='Empty')
     u_course = models.CharField("User's course", max_length=20, choices=COURSE_CHOICES, default='Rus')
     u_regis_date = models.DateTimeField("User's registration date", default=timezone.now)
 
@@ -150,6 +149,7 @@ class Quiz(models.Model):
     number_of_questions = models.IntegerField(help_text="Number of Quiz's questions")
     time = models.IntegerField(help_text="Duration of quiz in minutes", blank=True, null=True)
     status = models.BooleanField("Akitv|Deaktiv", null=False)
+    group = models.ManyToManyField(Course, related_name="quiz_group")
 
     def __str__(self):
         return self.name

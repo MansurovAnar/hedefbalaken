@@ -16,6 +16,8 @@ from django.core.validators import RegexValidator
 import datetime
 
 from django.forms import formset_factory
+from django.forms import BaseInlineFormSet
+
 
 this_year = datetime.date.today().year
 YEARS = [x for x in range(1940, this_year + 1)]  # automaticaly takes from 1940 to current year
@@ -261,9 +263,14 @@ class CourseCreate(forms.ModelForm):
 
 class QuizForm(forms.ModelForm):
     number_of_questions = forms.IntegerField(required=False, initial=0)
+    group = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Course.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
     class Meta:
         model = Quiz
-        fields = ('name', 'number_of_questions', 'time', 'status')
+        fields = ('name', 'number_of_questions', 'time', 'status', 'group')
 
 
 class QuestionForm(forms.ModelForm):
@@ -278,3 +285,9 @@ class AnswerForm(forms.ModelForm):
         fields = ('text', 'correct')
 
 AnswerFormset = formset_factory(AnswerForm, extra=1)
+
+class CustomInlineFormset(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+        for form in self.forms:
+            print("Inside CUSTOM INLINE FORMSET- FORM \n: ", form)

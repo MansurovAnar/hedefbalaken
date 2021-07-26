@@ -44,18 +44,34 @@
              <div class="card-body">
             <form method="POST" >
                 {% csrf_token %}
-                <div class="form-group">
-                {% render_field quiz.name style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz adını daxil edin" %}
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="form-group">
+                  {% render_field quiz.name style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Quiz adını daxil edin" %}
+                  </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                  <b>Tələbə görsün? </b>{% render_field quiz.status class="form-check-input" type="checkbox" style="color:#3299a8;border-radius:10px; width: 3%;" %}
+                    <span class="form-check-sign">
+                    <span class="check"></span>
+                  </label>
                 </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                <b>Tələbə görsün? </b>{% render_field quiz.status class="form-check-input" type="checkbox" style="color:#3299a8;border-radius:10px; width: 3%;" %}
-                  <span class="form-check-sign">
-                  <span class="check"></span>
-                </label>
+                </div> <!-- left col-->
+
+                <div class="col-md-4">
+                  <div class="form-group field">
+                    <label class="form-check-label">
+                    <b>Tələbə Qrupunu seç: </b>{% render_field quiz.group style="color:#3299a8;border-radius:10px;" class="form-check-input" %}
+                    </label>
+                  </div>
+                </div> <!-- right col-->
+              </div> <!--row -->
+              <br/> <br/>
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"> <button type="submit" class="btn btn-success">Yadda Saxla</button></div>
+                <div class="col"></div>
               </div>
-              <br>
-              <button type="submit" class="btn btn-outline-success">Yadda Saxla</button>
             </form>
              </div>
           </div>
@@ -76,14 +92,15 @@
                         <th>
                           Quizin adı
                         </th>
-                        <th class="text-right">
+                        <th class="text-center">
                           Sual sayı
                         </th>
                       <th class="text-right">
-                          Tələbəyə <br/> görünsün?
+                          Tələbəyə görünsün?
                         </th>
-                      <th class="text-right">
-                        Quiz məlumatlarını <br/> dəyişdir
+                        &nbsp;&nbsp;
+                      <th class="text-center">
+                        Əməliyyatlar
                       </th>
                       </thead>
                       <tbody>
@@ -92,26 +109,25 @@
                             <td>
                              <a href="{% url 'addquestion' id=quiz.id %}">{{ quiz.name }}</a>
                             </td>
-                            <td  class="text-right">
+                            <td  class="text-center">
                               <!-- Quiz-dəki aktiv sual sayı üçün 'quiz.get_question_count'  -->
                               {{ quiz.get_question_count }}
                             </td>
-                            <td class="text-right">
+                            <td class="text-center">
                                {% if quiz.status %}
                                 <b>Aktiv</b>
                                 {% else %}
                                 <b>Görünmür</b>
                                 {% endif %}
                             </td>
-                            <td class="text-right" style="padding-right:8%">
-                                <a href="{% url 'updatequiz' quiz_id=quiz.id %}" title="Dəyişdir">
+                            <td class="text-center" style="padding-right:3px%">
+                                <a href="{% url 'updatequiz' quiz_id=quiz.id %}" title="Dəyişdir" class="btn btn-success">
                                   <i class="fas fa-edit"></i>
                                 </a>
-                            </td>
-                            <td>
+                              &nbsp;&nbsp;
                           <!--   Quiz-i silmək üçün modal-->
-                                <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('{{quiz.id}}deleteQuiz').style.display='block'">
-                                      <span data-feather="trash">Sil</span>
+                                <button type="button" name="button" class="btn btn-danger" onclick="document.getElementById('{{quiz.id}}deleteQuiz').style.display='block'">
+                                  <span data-feather="trash" ><i class="fas fa-trash"></i></span>
                             </button>
                             <div id="{{quiz.id}}deleteQuiz" class="modal">
                               <div class="modal-dialog modal-dialog-centered" role="document">

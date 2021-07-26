@@ -54,22 +54,42 @@
 
                               {% render_field question_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
                               <br>
-                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 100%;" class="form-control" placeholder="Sualı daxil edin" %}
+                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 90%;" class="form-control" placeholder="Sualı daxil edin" %}
                               <br>
+                              {% for hidden in formset.hidden_fields %}
+                                {{ hidden }}
+                                {{ hidden.errors }}
+                              {% endfor %}
                              {{ formset.management_form }}
+                              {{ formset.non_form_errors }}
+
                                 {% for form in formset %}
-                                <div class="row form-row spacer">
-                                    <div class="col-4">
-                                        <div class="input-group">
-                                            {% render_field form.text  id="variant_field" style="color:#3299a8;border-radius:10px; width: 100%; height: 10%;" class="form-control" placeholder="Variantı daxil edin" %}
-                                            <div class="input-group-append">
-                                                <button class="btn btn-success add-form-row">+</button>
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    <div class="row form-row spacer">
+                                            <div class="col-4">
+                                                <div class="input-group">
+                                                    <div>
+                                                        <ul>
+                                                        <label>Varinat: </label><li>{{ form.text }}</li>
+                                                        <label>Doğrudur?: </label><li>{{ form.correct }}</li>
+                                                        {% if formset.can_delete %}
+                                                        <label>Varinatı sil: </label><li>{{ form.DELETE }}</li>
+                                                        {% endif %}
+                                                    </ul>
+                                                    </div>
+
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-success add-form-row">+</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                              <br>
                                 {% endfor %}
                               <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
+                              <a type="button" class="btn btn-outline-warning" href="{% url 'addquestion' id=quiz.id %}">İmtina et</a>
                           </form>
                       </div>
                   </div>
@@ -89,18 +109,18 @@
                           <div class="table-responsive">
                               {% if questions %}
                               <table class="table">
-                                  <thead class=" text-primary">
+                                  <thead class="text-primary">
                                     <th>№</th>
                                     <th>Sual</th>
                                     <th>Şəkil</th>
-                                    <th></th>
+                                    <th class="text-center">Əməliyyatlar</th>
                                   </thead>
                                   <tbody>
                                       {% for question in questions %}
                                       <tr>
                                           <td>{{ forloop.counter }}</td>
                                           <td>
-                                              <a href="{% url 'addvariants' id=question.id %}"> <strong> {{ question.text }} </strong></a>
+                                              <strong> {{ question.text }} </strong> <br/>
                                           </td>
                                           <td>
                                               {% if question.image %}
@@ -109,15 +129,13 @@
                                                 Yoxdur
                                               {% endif %}
                                           </td>
-                                          <td>
-                                              <a title="Dəyişdir" href="{% url 'updatequestion' quiz_id=quiz.id question_id=question.id %}">
+                                          <td class="text-center">
+                                              <a title="Dəyişdir" class="btn btn-success" href="{% url 'updatequestion' quiz_id=quiz.id question_id=question.id %}">
                                                   <i class="fas fa-edit"></i>
                                               </a>
-                                          </td>
-                                          <td>
                                             <!--   Sualı silmək üçün modal-->
-                                                  <button type="button" name="button" class="btn btn-outline-danger" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='block'">
-                                                        <span data-feather="trash">Sil</span>
+                                                  <button type="button" name="button" class="btn btn-danger" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='block'">
+                                                        <span data-feather="trash"><i class="fas fa-trash"></i></span>
                                               </button>
                                               <div id="{{question.id}}deleteQuestion" class="modal">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -201,7 +219,7 @@
         conditionRow.find('.btn.add-form-row')
         .removeClass('btn-success').addClass('btn-danger')
         .removeClass('add-form-row').addClass('remove-form-row')
-        .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+        .html('<span class="glyphicon glyphicon-minus" aria-hidden="false"></span>');
         return false;
     }
     function deleteForm(prefix, btn) {

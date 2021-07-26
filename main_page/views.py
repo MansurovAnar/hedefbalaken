@@ -10,7 +10,7 @@ from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
                     StudentProfileForm,
                     QuestionForm, AnswerForm,
-                    QuizForm, AnswerFormset
+                    QuizForm, AnswerFormset, CustomInlineFormset
                     )
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.template.loader import render_to_string
 from django.contrib import messages
-
+from django.forms import inlineformset_factory
 
 def index(request):
     return render(request, 'main_page/index.html')
@@ -155,7 +155,6 @@ def create_course(request):
             context['success'] = True
             context['created_course'] = crs
             return render(request, 'main_page/dashboard/course_form.html', context)
-            # return redirect('dashboardcourses')
         else:
             print(courseForm.errors)
     else:
@@ -180,7 +179,7 @@ def update_course(request, pk):
         course_form.save()
         courseForm.save_m2m()
         print(course_form)
-        messages.success(request, '"' + str(course_form) + '"' + " kursu haqqında məlumat yeniləndi.")
+        messages.success(request, '"' + str(course_form) + '"' + " qrupu haqqında məlumat yeniləndi.")
 
         return redirect('dashboardcourses')
 
@@ -223,13 +222,8 @@ def create_teacher(request):
             if 'image' in request.FILES:
                 print('Found it')
                 teacher.image = request.FILES['image']
-            # print(teacher.user_id)
 
             teacher.save()
-            # print(teacher.user)
-            # messages.success(request, 'Teacher added! ', extra_tags='alert')
-
-            print("[ INFO ] TEacher form SAVED")
             user_form = RegisterUser()
             teacher_form = TeacherProfileForm()
             contextt = {"userForm": user_form, "teacherForm": teacher_form,
@@ -400,7 +394,6 @@ def add_quiz(request):
             return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
     else:
         quiz_form = QuizForm()
-
     context = {"quiz": quiz_form, "quizes": quizes}
     return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
 
@@ -421,8 +414,6 @@ def update_quiz(request, quiz_id):
 
         messages.success(request, '"' + str(quiz_form) + '"' + " imtahanı haqqında məlumat yeniləndi.")
 
-        # context = {"quiz": QuizForm(), "quizes": quizes}
-        # return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
         return HttpResponseRedirect(
             reverse('createquiz')
         )
@@ -439,6 +430,11 @@ def update_quiz(request, quiz_id):
 @allowed_users(allowed_roles=['controller', 'teacher'])
 def add_question(request, id):
     quiz = Quiz.objects.get(id=id)
+    quests = Question.objects.filter(quiz=quiz)
+    answers = {}
+    for question in quests:
+        print("Sual: ", question)
+        print("Variantlar: ", Answer.objects.filter(question=question))
 
     if request.method == 'POST':
         question_form = QuestionForm(data=request.POST)
@@ -456,12 +452,12 @@ def add_question(request, id):
             return HttpResponseRedirect(
                 reverse('addvariants', kwargs={'id': question_instance.id})
             )
-
         else:
             print(question_form.errors)
 
     questions = Question.objects.filter(quiz=Quiz.objects.get(id=int(id)))
-    context = {"quiz": quiz, "questions": questions, "question_form": QuestionForm(), "answer":AnswerForm()}
+    answers = Question.get_answers()
+    context = {"quiz": quiz, "questions": questions, "answer": answers, "question_form": QuestionForm(), "answer":AnswerForm()}
 
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
@@ -525,6 +521,7 @@ def add_variants(request, id):
     return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
 
 # ~~~~~~~~~~~~~~~~ Question & Variant-i eyni formda add testi ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# bu view sadece sual ve 1 varianti eyni anda elave edir, front-da bundan istifade olunmayib
 @csrf_protect
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller', 'teacher'])
@@ -595,22 +592,109 @@ def add_question_variant_formset(request, id):
             print("Question saved")
 
             for form in answer_formset:
-                # save answer
-                answer_instance = form.save(commit=False)
-                answer_instance.question = question_instance
-                print("QUestion instance: ", question_instance)
-                print("QUestion form: ", question_form)
+                if form['text'].value():
+                    # save answer
+                    answer_instance = form.save(commit=False)
+                    answer_instance.question = question_instance
+                    print("QUestion instance: ", question_instance)
+                    print("QUestion form: ", question_form)
 
-                answer_instance.save()
-                # form.save()
-                print("Answer saved")
+                    answer_instance.save()
+                    # form.save()
+                    print("Answer saved")
 
-            return redirect('createquiz')
+            questions = Question.objects.filter(quiz=quiz)
 
+            context = {'quiz': quiz,
+                        'questions': questions,
+                        'formset': AnswerFormset(),
+                        'question_form': QuestionForm()
+                        }
+            return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+                          context)
+
+    questions = Question.objects.filter(quiz=quiz)
     return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
                   {'quiz': quiz,
+                   'questions': questions,
                    'formset': answer_formset,
                    'question_form': question_form})
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller', 'teacher'])
+def update_question_variant_formset(request, quiz_id, question_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    question = get_object_or_404(Question, id=question_id)
+
+    AnswerInlineformset = inlineformset_factory(Question, Answer, fields=('text', 'correct',),
+                                                can_delete=True, max_num=6, extra=3)
+
+    print("Debug 000 ")
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST, instance=question)
+        formset = AnswerInlineformset(request.POST, instance=question)
+        print("Formset: ", formset)
+        print(": ", question_form)
+
+        print("Debug 0 ")
+        if question_form.is_valid() and formset.is_valid():
+            print("Debug 1 ")
+            print("FORM-lar valid")
+            # before, save question
+            question_instance = question_form.save(commit=False)
+            question_instance.quiz = quiz
+            if 'image' in request.FILES:
+                print("Debug 2 ")
+                question_instance.image = request.FILES['image']
+
+            question_instance.save()
+            question_form.save()
+            print("Question saved")
+
+            for form in formset:
+                if form['text'].value():
+                    print("DELETED? ", form['DELETE'].value())
+                    # save answer
+                    answer_instance = form.save(commit=False)
+                    if form['DELETE'].value():
+                        answer_instance.delete()
+                        print("Instance DELETED")
+                    else:
+                        answer_instance.question = question_instance
+                        print("QUestion instance: ", question_instance)
+                        print("QUestion form: ", question_form)
+
+                        answer_instance.save()
+                        # form.save()
+                        print("Answer updated")
+            # print("FORMSET HAS CHANGED ", formset.has_changed())
+            messages.success(request, '"' + str(question.text) + '"' + " sualının variant(lar)ı yeniləndi.")
+        else:
+            print("Question Form Errorrs", question_form.errors)
+            print("ANswer formset Errors ", formset.errors)
+            print("Answer NON formset Errors ", formset.non_form_errors)
+        questions = Question.objects.filter(quiz=quiz)
+        return HttpResponseRedirect(
+            reverse('addquestion', kwargs={
+                'id': quiz_id})
+        )
+        # return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+        #               {'update': True,
+        #                'quiz': quiz,
+        #                'questions': questions,
+        #                'formset': AnswerFormset(),
+        #                'question_form': QuestionForm()
+        #                })
+
+    questions = Question.objects.filter(quiz=quiz)
+    return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+                  {'update': True,
+                   'quiz': quiz,
+                   'questions': questions,
+                   'formset': AnswerInlineformset(instance=question),
+                   'question_form': QuestionForm(instance=question)
+                   })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 

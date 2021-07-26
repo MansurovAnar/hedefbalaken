@@ -23,7 +23,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"><b>{{ crs_detail.c_name }}</b> kursu haqqında ətraflı məlumat</h4>
+          <h4 class="card-title"><b>{{ crs_detail.c_name }}</b> qrupu haqqında ətraflı məlumat</h4>
         </div>
         <br>
 
@@ -32,7 +32,7 @@
                 <div class="span4" style="width:100%;">
                   <a href="{{ MEDIA_URl }}{{ crs_detail.c_photo.url }}"><img class="img-left" src="{{ MEDIA_URl }}{{ crs_detail.c_photo.url }}" style="float: left; margin-right: 10px; width:200px; height:200px;"/></a>
 
-                    <h4 style="margin:0; font-size:15px;color:#1282cc;">Kurs</h4>
+                    <h4 style="margin:0; font-size:15px;color:#1282cc;">Qrup</h4>
                     <p style="font-size:13px;">{{crs_detail.c_name}}</p>
 
                     <h4 style="margin:0; font-size:15px;color:#1282cc;">Status</h4>
@@ -44,7 +44,7 @@
                       {%endif%}
                     </p>
 
-                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Kursun təsviri</h4>
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Qrupun təsviri</h4>
                     <p style="font-size:13px;">{{crs_detail.c_description}}</p>
 
                     <h4 style="margin:0; font-size:15px; color:#1282cc;">Təlimçilər</h4>
@@ -67,7 +67,7 @@
                   <div class="row">
                     <div class="span4">
                       <a class="btn btn-outline-warning" href="{% url 'updatecourse' pk=crs_detail.pk %}">Dəyişdir</a>
-                      <a class="btn btn-outline-info" href="{% url 'dashboardcourses' %}">Kurslar listinə qayıt</a>
+                      <a class="btn btn-outline-info" href="{% url 'dashboardcourses' %}">Qruplar listinə qayıt</a>
 
                       <!--     ~~~~~~~~~~~~~~~~~~     MOdal test           ~~~~~~~~~~~~~~-->
 
@@ -79,16 +79,16 @@
 
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="deleteCourseTitle">Kursu sil</h5>
+                              <h5 class="modal-title" id="deleteCourseTitle">Qrupu sil</h5>
                             </div>
                             <div class="modal-body">
-                              <b>{{ crs_detail.c_name }}</b> kursunun bütün məlumatları silinəcək. Əminsiniz?
+                              <b>{{ crs_detail.c_name }}</b> qrupunun bütün məlumatları silinəcək. Əminsiniz?
                             </div>
                             <div class="modal-footer">
                               <a class="btn btn-outline-info" onclick="document.getElementById('deleteCourse').style.display='none'" class="close" title="Bağla" >
                                 Bağla
                               </a>
-                              <a class="btn btn-outline-danger" title="Kursu sil" href="{% url 'deletecourse' pk=crs_detail.pk %}">Sil</a>
+                              <a class="btn btn-outline-danger" title="Qrupu sil" href="{% url 'deletecourse' pk=crs_detail.pk %}">Sil</a>
                             </div>
                           </div>
                          </div>

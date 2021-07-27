@@ -58,21 +58,27 @@
       <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~` -->
                         {% if request.user|hasgroup:"student" %}
                          {% if quiz.status %}
-                            <td>
-                             <a href="{% url 'quizview' quiz_id=quiz.id %}">{{ quiz.name }}</a>
-                            </td>
-                            <td>
-                                {% if quiz.status %}
-                                    <b>aktiv</b>
-                                    {% else %}
-                                    <b>aktiv deyil</b>
-                                {% endif %}
-                            </td>
-                            <td  class="text-right" style="padding-right:8%">
-                              {{ quiz.get_question_count }}
-                            </td>
-                        {% endif %} <!-- end quiz-status if -->
-                        {% endif %} <!-- end ROLE-std if -->
+                            {% for user_q in user_quizes %}
+                                {% if user_q.name == quiz.name %}
+                                <td>
+                                 <a href="{% url 'quizview' quiz_id=quiz.id %}">{{ quiz.name }}</a>
+                                </td>
+                                <td>
+                                    {% if quiz.status %}
+                                        <b>aktiv</b>
+                                        {% else %}
+                                        <b>aktiv deyil</b>
+                                    {% endif %}
+                                </td>
+                                <td  class="text-right" style="padding-right:8%">
+                                  {{ quiz.get_question_count }}
+                                </td>
+
+                            {% endif %}  <!-- end inner if -->
+                            {% endfor %}
+
+                          {% endif %} <!-- end quiz-status if -->
+                          {% endif %} <!-- end ROLE-std if -->
                       </tr>
                     {% endfor %} <!-- end Quiz names list FOR -->
                     </tbody>
@@ -107,16 +113,16 @@
                     <tbody>
                       <tr>
                         <td>
-                          Dakota Rice
+                          --
                         </td>
                         <td>
-                          Niger
+                          --
                         </td>
                         <td>
-                          Oud-Turnhout
+                          --
                         </td>
                         <td class="text-right">
-                          $36,738
+                          --
                         </td>
                       </tr>
 

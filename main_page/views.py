@@ -679,13 +679,6 @@ def update_question_variant_formset(request, quiz_id, question_id):
             reverse('addquestion', kwargs={
                 'id': quiz_id})
         )
-        # return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
-        #               {'update': True,
-        #                'quiz': quiz,
-        #                'questions': questions,
-        #                'formset': AnswerFormset(),
-        #                'question_form': QuestionForm()
-        #                })
 
     questions = Question.objects.filter(quiz=quiz)
     return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
@@ -724,8 +717,6 @@ def update_variant(request, q_id, v_id):
         return HttpResponseRedirect(
             reverse('addvariants', kwargs={'id': instance.question.id})
         )
-        # context = {'form': AnswerForm(), 'question': question, 'variants': variants}
-        # return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
     else:
         print(answer_form.errors)
 
@@ -779,7 +770,35 @@ def delete_quiz(request, id):
 @allowed_users(allowed_roles=['controller', 'student'])
 def quiz_work(request):
     quizes = Quiz.objects.all()
-    context = {"quiz_name": quizes}
+    course = Course.objects.all()
+
+    current_user = request.user
+    user_courses = []
+    user_quizes = []
+
+    for c in course:
+        if c.students.all():
+            for std in c.students.all():
+                if str(current_user) == str(std.student.username):
+                    user_courses.append(c.c_name)
+
+    print("Current user-in kurslari: ", user_courses)
+
+    for q in quizes:
+        if q.group.all():
+            for user_grup in user_courses:
+                for grup in q.group.all():
+                    if str(user_grup) == str(grup):
+                        if not (q in user_quizes):
+                            user_quizes.append(q)
+
+    print(str(current_user) + " -un quiz-leri: ", user_quizes)
+
+
+    context = {"quiz_name": quizes,
+               "group": course,
+               "user_quizes": user_quizes
+               }
     return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
 
 
@@ -796,8 +815,6 @@ def question_work(request, quiz_id):
         for a in q.get_answers():
             answers.append(a.text)
         questions.append({str(q): answers})
-
-    # return render(request, 'main_page/dashboard/quiz_app/question_work.html', {})
     return JsonResponse({
         "data": questions,
     })
@@ -815,7 +832,6 @@ def quiz_view(request, quiz_id):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller', 'student'])
 def save_quiz_view(request, quiz_id):
-    # print(request.POST)
     if request.is_ajax():
         questions = []
         data = request.POST
@@ -823,10 +839,8 @@ def save_quiz_view(request, quiz_id):
         data_.pop('csrfmiddlewaretoken')
 
         for k in data_.keys():
-            # print('Key: ', k)
             question = Question.objects.get(text=k)
             questions.append(question)
-        # print(questions)
 
         quiz = Quiz.objects.get(id=quiz_id)
         results = []
@@ -848,15 +862,13 @@ def save_quiz_view(request, quiz_id):
                     else:
                         if a.correct:
                             correct_answer = a.text
-                results.append({str(q): {'correct_answer': correct_answer,'answered': answer_selected}})
+                results.append({str(q): {'correct_answer': correct_answer, 'answered': answer_selected}})
             else:
                 results.append({str(q): 'not answered'})
-            # print(results)
 
         score_ = multiplier * score
         Result.objects.create(std_user=request.user, quiz=quiz, score=score_)
 
         return JsonResponse({'results': results, 'score': score_})
-    # return JsonResponse({'text': 'works'})
 
 

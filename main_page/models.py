@@ -43,16 +43,12 @@ class TeacherProfile(models.Model):
 class StudentProfile(models.Model):
     """ docstring for Student model"""
 
-    # student_id = models.AutoField(primary_key=True)
     student = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="usrr")
     image = models.ImageField(upload_to="profile_pics/", blank=True, default="/user.png")
     phone_regex = RegexValidator(regex=r'^\d{7}$', message="Mobil nömrə 7 rəqəmli olmalıdır. Məs: 1234567")
     phone_prefix = models.CharField(max_length=5, choices=PHONE_PREFIXES, default='Nar1')
     phone_number = models.CharField(validators=[phone_regex], max_length=7, blank=True)
     birthdate = models.DateField()
-
-    # courses = models.ManyToManyField(Course, related_name="students")
-    # teacher = models.ManyToManyField(TeacherProfile, related_name='teacher')
 
     def __str__(self):
         return self.student.username

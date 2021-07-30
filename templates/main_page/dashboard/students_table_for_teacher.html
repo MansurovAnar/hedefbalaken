@@ -1,0 +1,133 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--           {% block active_profile %} class='active' {% endblock active_profile%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Tələbələrimin siyahısı</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Ad
+                      </th>
+                      <th>
+                        Soyad
+                      </th>
+                       <th class="text-center">
+                        Nömrə
+                      </th>
+                       <th class="text-center">
+                        Doğum tarixi
+                      </th>
+                      <th>
+                        Qrupu
+                      </th>
+                      <th class="text-center">
+                        Performansı
+                      </th>
+                    </thead>
+                    <tbody>
+                    {% for key, values in teacher_students.items %}
+                      {% if request.user.username == key %}
+                        {% for std in values %}
+                      <tr>
+                        <td>
+                         {{ std.student.first_name }}
+                        </td>
+                        <td>
+                          {{ std.student.last_name }}
+                        </td>
+                        <td>
+                          {{ std.phone_prefix }}{{ std.phone_number }}
+                        </td>
+                        <td class="text-center">
+                          {{ std.birthdate}}
+                        </td>
+                          <td class="text-center">
+                          {{ std.coursess.c_name }}
+                        </td>
+                          <td class="text-center">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{student.student.id}}studentsModalLong">
+                              <i class="fas fa-eye"></i></button>
+                        </td>
+                      </tr>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end content -->
+
+    <!-- Students list modal -->
+    {% for student in teacher_students %}
+<div class="modal fade" data-backdrop="false" id="{{student.student.id}}studentsModalLong" tabindex="-1" role="dialog" aria-labelledby="{{student.student.id}}studentsModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{student.student.id}}studentsModalLongTitle">{{ student.student.first_name }}-in quizlər ortalaması: X</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>Quiz adı</th>
+              <th>İşlənmə tarixi</th>
+              <th>Nəticə</th>
+            </thead>
+            <tbody>
+              <tr>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+</div>
+     {% endfor %}
+
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+   <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  {% endblock main_body %}
+</body>

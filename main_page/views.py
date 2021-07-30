@@ -21,6 +21,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.forms import inlineformset_factory
 
+
 def index(request):
     return render(request, 'main_page/index.html')
 
@@ -130,6 +131,77 @@ def notifications(request):
 def tables(request):
     return render(request, 'main_page/dashboard/tables.html')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def students_table(request):
+    students_info = StudentProfile.objects.all()
+    teacher_info = TeacherProfile.objects.all()
+    teachers_student_detail = {}
+
+    for tcr in teacher_info:
+        teacher_students = []
+        for grp in tcr.get_groups():
+            for std in students_info:
+                for std_grp in std.get_groups():
+                    if std_grp == grp:
+                        if not (std in teacher_students):
+                            teacher_students.append(std)
+        teachers_student_detail[str(tcr)] = teacher_students
+
+    context = {'students_info': students_info, 'teacher_students': teachers_student_detail}
+    return render(request, 'main_page/dashboard/students_table.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['teacher'])
+def students_table_for_teacher(request):
+    students_info = StudentProfile.objects.all()
+    teacher_info = TeacherProfile.objects.all()
+    teachers_student_detail = {}
+
+    for tcr in teacher_info:
+        teacher_students = []
+        for grp in tcr.get_groups():
+            for std in students_info:
+                for std_grp in std.get_groups():
+                    if std_grp == grp:
+                        if not (std in teacher_students):
+                            teacher_students.append(std)
+        teachers_student_detail[str(tcr)] = teacher_students
+
+    context = {'students_info': students_info, 'teacher_students': teachers_student_detail}
+    return render(request, 'main_page/dashboard/students_table_for_teacher.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def teachers_table(request):
+    teacher_info = TeacherProfile.objects.all()
+    teacher_info_detail = {}
+    students = StudentProfile.objects.all()
+    teachers_student_detail = {}
+
+    for teacher in teacher_info:
+        teacher_groups = []
+        if teacher.get_groups():
+            for group in teacher.get_groups():
+                teacher_groups.append(group)
+            teacher_info_detail[str(teacher)] = teacher_groups
+
+    for tcr in teacher_info:
+        teacher_students = []
+        for grp in tcr.get_groups():
+            for std in students:
+                for std_grp in std.get_groups():
+                    if std_grp == grp:
+                        if not (std in teacher_students):
+                            teacher_students.append(std)
+        teachers_student_detail[str(tcr)] = teacher_students
+
+    context = {'teacher_info': teacher_info,
+               'teacher_info_detail': teacher_info_detail,
+               'teachers_students': teachers_student_detail}
+    return render(request, 'main_page/dashboard/teachers_table.html', context)
+
 
 @login_required(login_url='login')
 def courses_in_dashboard(request):
@@ -186,6 +258,7 @@ def update_course(request, pk):
     context['courseForm'] = courseForm
 
     return render(request, 'main_page/dashboard/course_form.html', context)
+
 
 @login_required(login_url='login')
 def course_detail(request, cid):
@@ -245,7 +318,6 @@ def teacher_detail(request, pk):
     students = StudentProfile.objects.all()
 
     for crs in teacher.courses.all():
-        print("Teacher's course name: ", crs)
         for std in students:
             if std.coursess.filter(c_name=crs):
                 teachers_student.append(std)
@@ -299,7 +371,7 @@ def my_profile(request):
                        "courses": teacher_courses}
         elif rol.name == 'controller':
             html_file = "controller_profile.html"
-            context = {"user": current_user, "user_groups": user_groups,}
+            context = {"user": current_user, "user_groups": user_groups, }
 
         elif rol.name == "student":
             html_file = "student_profile.html"
@@ -372,6 +444,7 @@ def create_student(request):
     context = {"userForm": user_form, "studentForm": student_form}
     return render(request, 'main_page/dashboard/student_form.html', context)
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###########################  Yeni Quiz, Question, Answer modelləri üzərində test viewlar #######################
 
@@ -397,6 +470,7 @@ def add_quiz(request):
     context = {"quiz": quiz_form, "quizes": quizes}
     return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
 
+
 @csrf_protect
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller', 'teacher'])
@@ -420,7 +494,6 @@ def update_quiz(request, quiz_id):
     else:
         print(quizForm.errors)
 
-
     context = {"quiz": quizForm, "quizes": quizes, "update": True}
     return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
 
@@ -430,11 +503,6 @@ def update_quiz(request, quiz_id):
 @allowed_users(allowed_roles=['controller', 'teacher'])
 def add_question(request, id):
     quiz = Quiz.objects.get(id=id)
-    quests = Question.objects.filter(quiz=quiz)
-    answers = {}
-    for question in quests:
-        print("Sual: ", question)
-        print("Variantlar: ", Answer.objects.filter(question=question))
 
     if request.method == 'POST':
         question_form = QuestionForm(data=request.POST)
@@ -457,9 +525,11 @@ def add_question(request, id):
 
     questions = Question.objects.filter(quiz=Quiz.objects.get(id=int(id)))
     answers = Question.get_answers()
-    context = {"quiz": quiz, "questions": questions, "answer": answers, "question_form": QuestionForm(), "answer":AnswerForm()}
+    context = {"quiz": quiz, "questions": questions, "answer": answers, "question_form": QuestionForm(),
+               "answer": AnswerForm()}
 
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -487,8 +557,10 @@ def update_question(request, quiz_id, question_id):
         # return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
 
     questions = Question.objects.filter(quiz=Quiz.objects.get(id=quiz_id))
-    context = {"question_form": questionForm, "quiz": quiz, "questions":questions, "answer": AnswerForm(), "update": True}
+    context = {"question_form": questionForm, "quiz": quiz, "questions": questions, "answer": AnswerForm(),
+               "update": True}
     return render(request, 'main_page/dashboard/quiz_app/add_question.html', context)
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -519,6 +591,7 @@ def add_variants(request, id):
 
     context = {'form': AnswerForm(), 'question': question, 'variants': variants}
     return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+
 
 # ~~~~~~~~~~~~~~~~ Question & Variant-i eyni formda add testi ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # bu view sadece sual ve 1 varianti eyni anda elave edir, front-da bundan istifade olunmayib
@@ -554,7 +627,8 @@ def add_question_variant(request, id):
             variant_form.save()
             print("Answer saved")
 
-            context = {'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"), 'q_form': QuestionForm(prefix="question_form")}
+            context = {'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"),
+                       'q_form': QuestionForm(prefix="question_form")}
             return render(request, 'main_page/dashboard/quiz_app/add_question_answer.html', context)
         else:
             print("Form-lar valid deyil")
@@ -562,7 +636,8 @@ def add_question_variant(request, id):
             print("Answer form error \n", variant_form.errors)
 
     print("Nothing yet")
-    context ={'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"), 'q_form': QuestionForm(prefix="question_form")}
+    context = {'quiz': quiz, 'a_form': AnswerForm(prefix="variant_form"),
+               'q_form': QuestionForm(prefix="question_form")}
 
     return render(request, 'main_page/dashboard/quiz_app/add_question_answer.html', context)
 
@@ -572,6 +647,20 @@ def add_question_variant(request, id):
 @allowed_users(allowed_roles=['controller', 'teacher'])
 def add_question_variant_formset(request, id):
     quiz = Quiz.objects.get(id=id)
+    quests = Question.objects.filter(quiz=quiz)
+
+    question_variants = {}
+
+    for q in quests:
+        if q.get_answers():
+            answers_list = []
+            variants_list = []
+            for answr in q.get_answers():
+                answers_list.append(answr)
+            variants_list = answers_list
+            print("Answers list: ", variants_list)
+            question_variants[str(q)] = variants_list
+    print(question_variants)
 
     if request.method == 'GET':
         answer_formset = AnswerFormset(request.GET or None)
@@ -606,10 +695,11 @@ def add_question_variant_formset(request, id):
             questions = Question.objects.filter(quiz=quiz)
 
             context = {'quiz': quiz,
-                        'questions': questions,
-                        'formset': AnswerFormset(),
-                        'question_form': QuestionForm()
-                        }
+                       'questions': questions,
+                       'question_variants': question_variants,
+                       'formset': AnswerFormset(),
+                       'question_form': QuestionForm()
+                       }
             return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
                           context)
 
@@ -617,8 +707,10 @@ def add_question_variant_formset(request, id):
     return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
                   {'quiz': quiz,
                    'questions': questions,
+                   'question_variants': question_variants,
                    'formset': answer_formset,
                    'question_form': question_form})
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -689,8 +781,8 @@ def update_question_variant_formset(request, quiz_id, question_id):
                    'question_form': QuestionForm(instance=question)
                    })
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
 
 @csrf_protect
@@ -722,8 +814,9 @@ def update_variant(request, q_id, v_id):
 
     variants = Answer.objects.filter(question=question)
 
-    context = {'form': answer_form, 'question': question, 'variants': variants,'update':True}
+    context = {'form': answer_form, 'question': question, 'variants': variants, 'update': True}
     return render(request, 'main_page/dashboard/quiz_app/add_variants.html', context)
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -732,11 +825,12 @@ def delete_variant(request, id):
     variant = Answer.objects.get(id=id)
     variant.delete()
 
-    messages.warning(request, '"' + str(variant.text) + '"' +   " variantı silindi.")
+    messages.warning(request, '"' + str(variant.text) + '"' + " variantı silindi.")
 
     return HttpResponseRedirect(
         reverse('addvariants', kwargs={'id': variant.question.id})
     )
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -745,11 +839,12 @@ def delete_question(request, id):
     question = Question.objects.get(id=id)
     question.delete()
 
-    messages.warning(request, '"' + str(question.text) + '"' +  " sualı silindi.")
+    messages.warning(request, '"' + str(question.text) + '"' + " sualı silindi.")
 
     return HttpResponseRedirect(
         reverse('addquestion', kwargs={'id': question.quiz.id})
     )
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -758,7 +853,7 @@ def delete_quiz(request, id):
     quiz = Quiz.objects.get(id=id)
     quiz.delete()
 
-    messages.warning(request, '"' + str(quiz.name) + '"' +  " quiz-i silindi.")
+    messages.warning(request, '"' + str(quiz.name) + '"' + " quiz-i silindi.")
 
     return HttpResponseRedirect(
         reverse('createquiz')
@@ -794,7 +889,6 @@ def quiz_work(request):
 
     print(str(current_user) + " -un quiz-leri: ", user_quizes)
 
-
     context = {"quiz_name": quizes,
                "group": course,
                "user_quizes": user_quizes
@@ -827,6 +921,7 @@ def quiz_view(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
     print("QUIZ ID", quiz_id)
     return render(request, 'main_page/dashboard/quiz_app/question_work.html', {'obj': quiz})
+
 
 @csrf_protect
 @login_required(login_url='login')
@@ -870,5 +965,3 @@ def save_quiz_view(request, quiz_id):
         Result.objects.create(std_user=request.user, quiz=quiz, score=score_)
 
         return JsonResponse({'results': results, 'score': score_})
-
-

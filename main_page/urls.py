@@ -20,6 +20,7 @@ urlpatterns = [
 
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^tables$', views.tables, name='tables'),
+
     url(r'^dashboard/courses$', views.courses_in_dashboard, name='dashboardcourses'),
     url(r'^notifications$', views.notifications, name='notifications'),
 
@@ -29,13 +30,16 @@ urlpatterns = [
     url(r'^course/detail/(?P<cid>[-\w]+)/$', views.course_detail, name='coursedetail'),
     url(r'^course/delete/(?P<pk>[-\w]+)/$', views.delete_course, name='deletecourse'),
 
+    url(r'^teacher/table$', views.teachers_table, name='teachers'),
     url(r'^teacher/create$', views.create_teacher, name='createteacher'),
     url(r'^teacher/detail/(?P<pk>[-\w]+)/$', views.teacher_detail, name='teacherdetail'),
     url(r'^profile$', views.my_profile, name='myprofile'),
 
+    url(r'^student/table$', views.students_table, name='students'),
+    url(r'^student/table4teacher$', views.students_table_for_teacher, name='students_for_teacher'),
     url(r'^student/create$', views.create_student, name='createstudent'),
 
-    #~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
+    # ~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
     # url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
     # question & answer-i birge add etme testi uchun
@@ -43,7 +47,8 @@ urlpatterns = [
     url(r'^question/(?P<id>[-\w]+)/add/variant/$', views.add_variants, name='addvariants'),
 
     url(r'^quiz/update/(?P<quiz_id>[-\w]+)/$', views.update_quiz, name='updatequiz'),
-    url(r'^question/update/(?P<quiz_id>[-\w]+)/(?P<question_id>[-\w]+)/$', views.update_question_variant_formset, name='updatequestion'),
+    url(r'^question/update/(?P<quiz_id>[-\w]+)/(?P<question_id>[-\w]+)/$', views.update_question_variant_formset,
+        name='updatequestion'),
     url(r'^variant/update/(?P<q_id>[-\w]+)/(?P<v_id>[-\w]+)/$', views.update_variant, name='updatevariant'),
 
     url(r'^variant/delete/(?P<id>[-\w]+)/$', views.delete_variant, name='deletevariant'),

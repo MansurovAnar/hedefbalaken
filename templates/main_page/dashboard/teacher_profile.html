@@ -70,7 +70,7 @@
                       <div class="row">
                         <div class="col-md-4 pr-1">
                           <div class="form-group">
-                            <label>Kurslarım</label>
+                            <label>Qruplarım</label>
                             <br>
                             <label style="font-size:15px; color:blue;">
                                       {% if courses %}
@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-4 px-1">
                           <div class="form-group">
-                            <label>Tələbələrim</label>
+                             <a href="{% url 'students_for_teacher'%}" class="btn btn-warning">Tələbələrim</a>
                             <br>
                             <label style="font-size:15px; color:blue;">
                                       {% if students %}

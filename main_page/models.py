@@ -40,6 +40,10 @@ class TeacherProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def get_groups(self):
+        return self.courses.all()
+
+
 class StudentProfile(models.Model):
     """ docstring for Student model"""
 
@@ -53,6 +57,8 @@ class StudentProfile(models.Model):
     def __str__(self):
         return self.student.username
 
+    def get_groups(self):
+        return self.coursess.all()
 
 # Create your models here.
 class Course(models.Model):
@@ -74,7 +80,7 @@ class user(models.Model):
     """docstring for User model"""
 
     # Creating a tuble of Courses with PK (first three letters of a Course) from DB
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # if Course.objects.all():
     #     course_l = []
@@ -90,10 +96,9 @@ class user(models.Model):
     #     )
 
     COURSE_CHOICES = (
-               ('Yox1', 'Kurs yoxdur'),
-               ('Eng', 'English')
-             )
-
+        ('Yox1', 'Kurs yoxdur'),
+        ('Eng', 'English')
+    )
 
     u_shx_pin = models.CharField("User's ID card pin", max_length=7, primary_key=True)
     u_name = models.CharField("User's name", max_length=20, validators=[check_name, ])
@@ -152,11 +157,13 @@ class Quiz(models.Model):
 
     def get_questions(self):
         return self.question_set.all()
+
     def get_question_count(self):
         return self.question_set.count()
 
     class Meta:
         verbose_name_plural = "Quizes"
+
 
 class Question(models.Model):
     text = models.CharField(max_length=200)

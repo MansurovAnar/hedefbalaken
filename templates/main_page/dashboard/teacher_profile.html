@@ -87,17 +87,6 @@
                         <div class="col-md-4 px-1">
                           <div class="form-group">
                              <a href="{% url 'students_for_teacher'%}" class="btn btn-warning">Tələbələrim</a>
-                            <br>
-                            <label style="font-size:15px; color:blue;">
-                                      {% if students %}
-                                        {% for student in students %}
-                                              {{ student }}
-                                              <br>
-                                              {% endfor %}
-                                      {% else %}
-                                        Yoxdur
-                                      {% endif %}
-                            </label>
                           </div>
                         </div>
                       </div>

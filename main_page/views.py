@@ -904,11 +904,17 @@ def question_work(request, quiz_id):
     quiz = Quiz.objects.get(id=int(quiz_id))
 
     questions = []
+    image_urls = []
     for q in quiz.get_questions():
         answers = []
+        if q.image:
+            image_urls.append({str(q): q.image.url})
+        else:
+            image_urls.append({str(q): 0})
         for a in q.get_answers():
             answers.append(a.text)
-        questions.append({str(q): answers})
+        questions.append({str(q): [image_urls, answers]})
+    # print("Suallar ve shekli: ", image_urls)
     return JsonResponse({
         "data": questions,
     })

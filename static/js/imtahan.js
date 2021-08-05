@@ -1,4 +1,4 @@
-console.log('Hello Tekin')
+//console.log('Hello Tekin')
 const url = window.location.href
 //console.log(url)
 window['example'] = null;

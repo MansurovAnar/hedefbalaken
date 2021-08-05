@@ -1,4 +1,4 @@
-console.log('Hello Tekin')
+//console.log('Hello Tekin')
 const url = window.location.href
 //console.log(url)
 window['example'] = null;
@@ -16,10 +16,11 @@ $.ajax({
     data.forEach(function (el, i) {
       for(const [question, values] of Object.entries(el)){
         quizBox.innerHTML += `
-          <hr>
-          <div class="mb-2">
-            <b>${i+1}. ${question}</b>
-          </div>
+            <hr>
+            <div class="mb-2">
+              <b>${i+1}. ${question}</b>
+             </div>
+        `
 
         values[0].forEach(el => {
             for (const [key, value] of Object.entries(el)) {
@@ -27,10 +28,11 @@ $.ajax({
 //              console.log("Value: ", value);
               if(question == key && value != 0) {
                    quizBox.innerHTML += `
-                   <hr>
-                   <div class="mb-2">
-                     <img src=${value} width="360px;" height="220px;"/>
-                   </div>                `
+                       <hr>
+                       <div class="mb-2">
+                         <img src=${value} width="360px;" height="220px;"/>
+                       </div>
+                   `
             }
             }
 
@@ -94,7 +96,7 @@ const sendData = () => {
                     const correct = resp['correct_answer']
                     if(resp == 'not answered'){
                         resDiv.innerHTML += `<p></p> <i>* Cavab verilməyib`
-                        resDiv.classList.add('bg-danger')
+                        resDiv.classList.add('bg-warning')
                     }
                     else{
                         const answer = resp['answered']

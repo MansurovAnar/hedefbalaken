@@ -694,6 +694,19 @@ def add_question_variant_formset(request, id):
 
             questions = Question.objects.filter(quiz=quiz)
 
+            # Yeni sualın variantlarını görmək üçün
+            # ( Kod təkrar olur - irəlisi üçün optimallaşdırarıq-
+            # Funksiya şəklində yazmağa çalışdım işləmədi niyəsə :))
+            for q in questions:
+                if q.get_answers():
+                    answers_list = []
+                    variants_list = []
+                    for answr in q.get_answers():
+                        answers_list.append(answr)
+                    variants_list = answers_list
+                    print("Answers list: ", variants_list)
+                    question_variants[str(q)] = variants_list
+            messages.success(request, '"' + str(question_instance.text) + '"' + " sualı əlavə edildi.")
             context = {'quiz': quiz,
                        'questions': questions,
                        'question_variants': question_variants,
@@ -718,6 +731,20 @@ def add_question_variant_formset(request, id):
 def update_question_variant_formset(request, quiz_id, question_id):
     quiz = Quiz.objects.get(id=quiz_id)
     question = get_object_or_404(Question, id=question_id)
+    quests = Question.objects.filter(quiz=quiz)
+
+    # Sualların variantlarını görmək üçün
+    question_variants = {}
+    for q in quests:
+        if q.get_answers():
+            answers_list = []
+            variants_list = []
+            for answr in q.get_answers():
+                answers_list.append(answr)
+            variants_list = answers_list
+            print("Answers list: ", variants_list)
+            question_variants[str(q)] = variants_list
+    print(question_variants)
 
     AnswerInlineformset = inlineformset_factory(Question, Answer, fields=('text', 'correct',),
                                                 can_delete=True, max_num=6, extra=3)
@@ -777,6 +804,7 @@ def update_question_variant_formset(request, quiz_id, question_id):
                   {'update': True,
                    'quiz': quiz,
                    'questions': questions,
+                   'question_variants': question_variants,
                    'formset': AnswerInlineformset(instance=question),
                    'question_form': QuestionForm(instance=question)
                    })

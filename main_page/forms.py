@@ -265,13 +265,28 @@ class QuizForm(forms.ModelForm):
     number_of_questions = forms.IntegerField(required=False, initial=0)
     group = forms.ModelMultipleChoiceField(
         required=False,
-        queryset=Course.objects.all(),
+        queryset=None,
         widget=forms.CheckboxSelectMultiple
     )
     class Meta:
         model = Quiz
         fields = ('name', 'number_of_questions', 'time', 'status', 'group')
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(QuizForm, self).__init__(*args, **kwargs)
+
+        if self.request:
+            current_user_group = self.request.user.groups.all()
+            for group in current_user_group:
+                if group.name == "controller":
+                    self.fields["group"].queryset = Course.objects.all()
+                elif group.name == "teacher":
+                    self.fields["group"].queryset = Course.objects.filter(
+                        teachers__in=TeacherProfile.objects.filter(
+                            user=self.request.user
+                        )
+                    )
 
 class QuestionForm(forms.ModelForm):
     class Meta:

@@ -169,6 +169,7 @@ def students_table_for_teacher(request):
                             teacher_students.append(std)
         teachers_student_detail[str(tcr)] = teacher_students
 
+
     context = {'students_info': students_info, 'teacher_students': teachers_student_detail}
     return render(request, 'main_page/dashboard/students_table_for_teacher.html', context)
 
@@ -455,7 +456,7 @@ def add_quiz(request):
     """ This view is for TEACHERs and controllers - only teachers and controllers can create quizes"""
     quizes = Quiz.objects.all()
     if request.method == 'POST':
-        quiz_form = QuizForm(data=request.POST)
+        quiz_form = QuizForm(data=request.POST, request=request)
         if quiz_form.is_valid():
             quiz_instance = quiz_form.save(commit=False)
             quiz_instance.number_of_questions = 0
@@ -463,10 +464,10 @@ def add_quiz(request):
             quiz_form.save()
 
             messages.success(request, '"' + str(quiz_instance) + '"' + " imtahanı yaradıldı.")
-            context = {"quiz": QuizForm(), "quizes": quizes}
+            context = {"quiz": QuizForm(request=request), "quizes": quizes}
             return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
     else:
-        quiz_form = QuizForm()
+        quiz_form = QuizForm(request=request)
     context = {"quiz": quiz_form, "quizes": quizes}
     return render(request, 'main_page/dashboard/quiz_app/add_quiz.html', context)
 
@@ -478,7 +479,7 @@ def update_quiz(request, quiz_id):
     """ This view is for TEACHERs and controllers - only teachers and controllers can update quizes"""
     quizes = Quiz.objects.all()
     quiz = get_object_or_404(Quiz, id=quiz_id)
-    quizForm = QuizForm(request.POST or None, instance=quiz)
+    quizForm = QuizForm(request.POST or None, instance=quiz, request=request)
 
     if quizForm.is_valid():
         quiz_form = quizForm.save(commit=False)

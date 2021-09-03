@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
 
@@ -41,7 +42,7 @@ urlpatterns = [
 
     # ~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
-    # url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question, name='addquestion'),
+
     # question & answer-i birge add etme testi uchun
     url(r'^question/add/(?P<id>[-\w]+)/$', views.add_question_variant_formset, name='addquestion'),
     url(r'^question/(?P<id>[-\w]+)/add/variant/$', views.add_variants, name='addvariants'),
@@ -60,4 +61,8 @@ urlpatterns = [
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/data/$', views.question_work, name='questionwork'),
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/save/$', views.save_quiz_view, name='savequizview'),
 
+    url(r'^lesson_materials/$', views.lesson_materials, name='topics_n_materials'),
+
+    path('validate-username/', csrf_exempt(views.UsernameValidationView.as_view()),
+         name="validate-username"),
 ]

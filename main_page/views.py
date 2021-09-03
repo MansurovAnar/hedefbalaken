@@ -1,11 +1,14 @@
+from typing import List, Any
+
 from .forms import RegisterUser
 from django.urls import reverse
 from .decorators import allowed_users
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from .models import (Course, TeacherProfile,
                      StudentProfile, Quiz,
-                     Question, Answer, Result)
+                     Question, Answer, Result,
+                     )
 from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
                     StudentProfileForm,
@@ -20,7 +23,11 @@ from django.contrib.auth.models import Group
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.forms import inlineformset_factory
-
+from .queries import (QuizData, QuizDataForTeacher)
+from django.contrib.auth.models import User
+from django.core import serializers
+from django.views import View
+import json
 
 def index(request):
     return render(request, 'main_page/index.html')
@@ -63,7 +70,10 @@ def registeruser(request):
 @csrf_protect
 def loginUser(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        if request.GET.get('next'):
+            return redirect(request.GET.get('next'))
+        else:
+            return redirect('dashboard')
     else:
         if request.method == 'POST':
             form = LoginUser(request.POST)
@@ -75,7 +85,10 @@ def loginUser(request):
 
                 if user is not None:
                     login(request, user)
-                    return redirect('dashboard')
+                    if request.GET.get('next'):
+                        return redirect(request.GET.get('next'))
+                    else:
+                        return redirect('dashboard')
                 else:
                     messages.info(request, 'Istifadəçi adı və ya parol səhvdir')
         else:
@@ -131,6 +144,7 @@ def notifications(request):
 def tables(request):
     return render(request, 'main_page/dashboard/tables.html')
 
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller'])
 def students_table(request):
@@ -158,6 +172,7 @@ def students_table_for_teacher(request):
     students_info = StudentProfile.objects.all()
     teacher_info = TeacherProfile.objects.all()
     teachers_student_detail = {}
+    quizData = QuizDataForTeacher(request)
 
     for tcr in teacher_info:
         teacher_students = []
@@ -169,9 +184,14 @@ def students_table_for_teacher(request):
                             teacher_students.append(std)
         teachers_student_detail[str(tcr)] = teacher_students
 
+    std_results_for_tcr = quizData.get_results_for_teacher()
+    print("Student results:", std_results_for_tcr)
 
-    context = {'students_info': students_info, 'teacher_students': teachers_student_detail}
+    context = {'students_info': students_info, 'teacher_students': teachers_student_detail,
+               'std_results': std_results_for_tcr
+               }
     return render(request, 'main_page/dashboard/students_table_for_teacher.html', context)
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller'])
@@ -300,15 +320,18 @@ def create_teacher(request):
             teacher.save()
             user_form = RegisterUser()
             teacher_form = TeacherProfileForm()
+
             contextt = {"userForm": user_form, "teacherForm": teacher_form,
-                        "success": True, "created_teacher": str(teacher)}
+                        "success": True, "created_teacher": str(teacher),
+                        }
             return render(request, 'main_page/dashboard/teacher_form.html', contextt)
         else:
             print(user_form.errors, teacher_form.errors)
     else:
         user_form = RegisterUser()
         teacher_form = TeacherProfileForm()
-    context = {"userForm": user_form, "teacherForm": teacher_form}
+    context = {"userForm": user_form, "teacherForm": teacher_form,
+               }
     return render(request, 'main_page/dashboard/teacher_form.html', context)
 
 
@@ -813,7 +836,6 @@ def update_question_variant_formset(request, quiz_id, question_id):
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
-
 @csrf_protect
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller', 'teacher'])
@@ -895,6 +917,7 @@ def delete_quiz(request, id):
 def quiz_work(request):
     quizes = Quiz.objects.all()
     course = Course.objects.all()
+    quizData = QuizData(request)
 
     current_user = request.user
     user_courses = []
@@ -905,8 +928,7 @@ def quiz_work(request):
             for std in c.students.all():
                 if str(current_user) == str(std.student.username):
                     user_courses.append(c.c_name)
-
-    print("Current user-in kurslari: ", user_courses)
+    # print("Current user-in kurslari: ", user_courses)
 
     for q in quizes:
         if q.group.all():
@@ -915,12 +937,14 @@ def quiz_work(request):
                     if str(user_grup) == str(grup):
                         if not (q in user_quizes):
                             user_quizes.append(q)
+    # print(str(current_user) + " -un quiz-leri: ", user_quizes)
 
-    print(str(current_user) + " -un quiz-leri: ", user_quizes)
+    user_old_quiz = quizData.get_results()
 
     context = {"quiz_name": quizes,
                "group": course,
-               "user_quizes": user_quizes
+               "user_quizes": user_quizes,
+               "user_result": user_old_quiz
                }
     return render(request, 'main_page/dashboard/quiz_app/quiz_work.html', context)
 
@@ -929,7 +953,6 @@ def quiz_work(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller', 'student'])
 def question_work(request, quiz_id):
-    quizes = Quiz.objects.all()
     quiz = Quiz.objects.get(id=int(quiz_id))
 
     questions = []
@@ -1000,3 +1023,24 @@ def save_quiz_view(request, quiz_id):
         Result.objects.create(std_user=request.user, quiz=quiz, score=score_)
 
         return JsonResponse({'results': results, 'score': score_})
+
+
+def lesson_materials(request):
+    return render(request, 'main_page/dashboard/lesson_materials/topics_and_materials.html')
+
+# Username uniqness test
+class UsernameValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        username = data['username']
+
+
+        # if str(username) == "empty string":
+        #     return JsonResponse({'username_error': 'İstifadəçi adı mütləqdir.'}, status=406)
+        if len(username) < 3 and len(username) > 0:
+            return JsonResponse({'username_error': 'İstifadəçi adı minimum 3 simovoldan ibarət ola bilər.'}, status=408)
+        if not str(username).isalnum():
+            return JsonResponse({'username_error': 'İstifadəçi adı hərf və rəqəmdən ibarət ola bilər.'}, status=400)
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'username_error': 'Bu istifadəçi adı artıq götürülüb.'}, status=409)
+        return JsonResponse({'username_valid': True})

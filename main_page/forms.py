@@ -13,6 +13,8 @@ from .models import user
 # from .models import user, Course
 
 from django.core.validators import RegexValidator
+from django.contrib.auth.validators import ASCIIUsernameValidator
+from django.utils.translation import gettext_lazy as _
 import datetime
 
 from django.forms import formset_factory
@@ -154,7 +156,8 @@ class LoginUser(forms.Form):
 
 class RegisterUser(UserCreationForm):
     """ docstring - for Creating Dashboard users by the controller """
-    username = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={
+    username = forms.CharField(max_length=15,
+                               required=True, widget=forms.TextInput(attrs={
         'class': 'form-control-lg col-md-5',
         'placeholder': 'Sistemə daxil olmaq üçün'}))
     first_name = forms.CharField(max_length=25, required=True, widget=forms.TextInput(attrs={

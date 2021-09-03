@@ -151,6 +151,7 @@ class Quiz(models.Model):
     time = models.IntegerField(help_text="Duration of quiz in minutes", blank=True, null=True)
     status = models.BooleanField("Akitv|Deaktiv", null=False)
     group = models.ManyToManyField(Course, related_name="quiz_group")
+    quiz_creation_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -198,6 +199,7 @@ class Result(models.Model):
     std_user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.FloatField()
+    quiz_work_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         result = self.std_user.first_name + ' ' + self.std_user.last_name + ', ' + self.quiz.name

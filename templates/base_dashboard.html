@@ -171,6 +171,13 @@
                         {% endif %}
                 </div>
 
+          <li {% block active_materials %} {% endblock %}>
+            <a href="{% url 'topics_n_materials' %}">
+              <i class="now-ui-icons education_glasses"></i>
+              <p>Dərs Materialları</p>
+            </a>
+          </li>
+
           <li {% block active_notifications %} {% endblock %}>
             <a href="{% url 'notifications' %}">
               <i class="now-ui-icons ui-1_bell-53"></i>

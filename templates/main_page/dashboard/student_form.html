@@ -71,8 +71,9 @@
                  <div class="field">
                     <label>İstifadəçi adı</label>
                     <div class="control">
-                      {% render_field userForm.username style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Username" %}
+                      {% render_field userForm.username id="form_username" style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Username" %}
                     </div>
+                     <span class="error_form" id="username_error_message"></span>
                   </div>
                   <br>
 
@@ -187,44 +188,7 @@
   <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
   <script src="{% static 'demo/demo.js' %}"></script>
 
-<script type="text/javascript">
-
-  $(function() {
-     $("#fphone_error_message").hide();
-
-     var error_fphone = false;
-
-     $("#form_fphone").focusout(function(){
-        check_fphone();
-     });
-
-     function check_fphone() {
-        var pattern = /^[0-9]{7,7}$/;
-        var fphone = $("#form_fphone").val();
-        if (pattern.test(fphone) && fphone !== '') {
-           $("#fphone_error_message").hide();
-           $("#form_fphone").css("border","1px solid #34F458");
-        } else {
-           $("#fphone_error_message").html("Mobil nömrə ancaq rəqəmlərdən ibarət ola bilər");
-           $("#fphone_error_message").show();
-           $("#fphone_fname").css("border","1px solid #F90A0A");
-           error_fphone = true;
-        }
-        if (fphone.length < 7 ){
-          $("#fphone_error_message").html("Mobil nömrə 7 rəqəmdən ibarət olmalıdır");
-          $("#fphone_error_message").show();
-          $("#form_fphone").css("border","1px solid #F90A0A");
-          error_fphone = true;
-        }
-     }
-
-     $("#std_form").submit(function() {
-        error_fphone = false;
-
-        check_fphone();
-  });
-});
- </script>
+  <script src="{% static 'js/register_teacher.js' %}"></script>
 
 
 {% endblock main_body %}

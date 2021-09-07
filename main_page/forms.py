@@ -174,7 +174,6 @@ class RegisterUser(UserCreationForm):
     password2 = forms.PasswordInput()
 
     # groups = forms.ChoiceField(required=True)
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', "password1", "password2", "groups")

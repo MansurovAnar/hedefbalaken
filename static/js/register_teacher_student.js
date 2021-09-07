@@ -2,9 +2,11 @@ const usernameField = document.querySelector("#form_username");
     usernameField.addEventListener("keyup", (e) => {
 
         const usernameVal = e.target.value;
-        console.log("USername", usernameVal)
+        console.log("Username:", usernameVal)
 
-        if (usernameVal.length > 0) {
+//        if (usernameVal.length > 0)
+        if (usernameVal.length > 0 || usernameVal == null || usernameVal  == "")
+         {
             fetch("/validate-username/", {
             body: JSON.stringify({ username: usernameVal }),
             method: "POST",
@@ -31,11 +33,17 @@ const usernameField = document.querySelector("#form_username");
   $(function() {
 
      $("#fphone_error_message").hide();
+     $("#username_error_message").hide();
 
      var error_fphone = false;
+     var error_username = false;
 
      $("#form_fphone").focusout(function(){
         check_fphone();
+     });
+
+     $("#form_username").focusout(function(){
+        check_username();
      });
 
      function check_fphone() {
@@ -62,9 +70,26 @@ const usernameField = document.querySelector("#form_username");
         }
      }
 
+     function check_username() {
+        var user_name = $("#form_username").val();
+        if (user_name){
+           $("#username_error_message").hide();
+           $("#form_username").css("border","1px solid #34F458");
+        } else {
+           $("#username_error_message").html("İstifadəçi adı mütləqdir.");
+           $("#username_error_message").css("color", "#F90A0A");
+           $("#username_error_message").css("font-size", "12px");
+           $("#username_error_message").show();
+           $("#form_username").css("border","1px solid #F90A0A");
+           error_username = true;
+        }
+     }
+
      $("#tchr_form").submit(function() {
         error_fphone = false;
+        error_username = false;
 
         check_fphone();
+        check_username();
   });
 });

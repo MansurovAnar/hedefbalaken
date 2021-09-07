@@ -318,6 +318,9 @@ def create_teacher(request):
                 teacher.image = request.FILES['image']
 
             teacher.save()
+
+            messages.success(request, '"' + str(teacher) + '"' + " istifadəçi adlı müəllim yaradıldı.")
+
             user_form = RegisterUser()
             teacher_form = TeacherProfileForm()
 
@@ -451,7 +454,7 @@ def create_student(request):
             print("[ INFO ] Student form SAVED")
             # std = StudentProfile.objects.all()
             # print(std)
-            messages.success(request, '"' + str(stdnt) + '"' + " istifadəçi adlı tələbə uğurla əlavə olundu.")
+            messages.success(request, '"' + str(stdnt) + '"' + " istifadəçi adlı tələbə yaradıldı.")
             user_form = RegisterUser()
             student_form = StudentProfileForm()
             contextt = {"userForm": user_form, "studentForm": student_form,
@@ -1034,13 +1037,14 @@ class UsernameValidationView(View):
         data = json.loads(request.body)
         username = data['username']
 
-
-        # if str(username) == "empty string":
-        #     return JsonResponse({'username_error': 'İstifadəçi adı mütləqdir.'}, status=406)
-        if len(username) < 3 and len(username) > 0:
-            return JsonResponse({'username_error': 'İstifadəçi adı minimum 3 simovoldan ibarət ola bilər.'}, status=408)
-        if not str(username).isalnum():
-            return JsonResponse({'username_error': 'İstifadəçi adı hərf və rəqəmdən ibarət ola bilər.'}, status=400)
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'username_error': 'Bu istifadəçi adı artıq götürülüb.'}, status=409)
+        print("USERNAME: ", username)
+        if username:
+            if len(username) < 3 and len(username) > 0:
+                return JsonResponse({'username_error': 'İstifadəçi adı minimum 3 simovoldan ibarət ola bilər.'}, status=408)
+            if not str(username).isalnum():
+                return JsonResponse({'username_error': 'İstifadəçi adı hərf və rəqəmdən ibarət ola bilər.'}, status=400)
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'username_error': 'Bu istifadəçi adı artıq götürülüb.'}, status=409)
+        elif not data['username']:
+            return JsonResponse({'username_error': 'İstifadəçi adı mütləqdir.'}, status=406)
         return JsonResponse({'username_valid': True})

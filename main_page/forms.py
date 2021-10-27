@@ -47,10 +47,10 @@ PHONE_PREFIXES = (
 course_l = []
 course_list = Course.objects.all()
 count = 0
-if course_list:
+if len(course_list) > 0:
     count = course_list.count()
 
-if count:
+if count > 0:
     for i in range(count):
         course_l.append((course_list[i].c_id, course_list[i].c_name))
 

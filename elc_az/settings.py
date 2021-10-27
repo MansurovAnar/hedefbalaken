@@ -104,10 +104,10 @@ DATABASES = {
     'default': {
         # PostgreSQL config
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfivsac6foe0ud',
-        'USER': 'xxrnmamkglkekf',
-        'PASSWORD': '70c62ce066e41061aafb3ee841b819f64de4cd7a149708bc0f7648a4b679b30e',
-        'HOST': 'ec2-52-4-111-46.compute-1.amazonaws.com',
+        'NAME': 'd45q2nreohr60p',
+        'USER': 'xzyfolujnhefrk',
+        'PASSWORD': '4139ffedc519bb6f4ccbbe7dd40fb45595652c4033b12b5c347de5f7237683dd',
+        'HOST': 'ec2-52-17-1-206.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
         # SQLite config
         # 'ENGINE': 'django.db.backends.sqlite3',

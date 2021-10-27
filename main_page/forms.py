@@ -20,6 +20,13 @@ import datetime
 from django.forms import formset_factory
 from django.forms import BaseInlineFormSet
 
+# Custom error messages test
+# from django.forms import Field
+# from django.utils.translation import ugettext_lazy
+# Field.default_error_messages = {
+#     'required': ugettext_lazy("Hello")
+# }
+
 
 this_year = datetime.date.today().year
 YEARS = [x for x in range(1940, this_year + 1)]  # automaticaly takes from 1940 to current year
@@ -157,18 +164,20 @@ class LoginUser(forms.Form):
 class RegisterUser(UserCreationForm):
     """ docstring - for Creating Dashboard users by the controller """
     username = forms.CharField(max_length=15,
-                               required=True, widget=forms.TextInput(attrs={
-        'class': 'form-control-lg col-md-5',
-        'placeholder': 'Sistemə daxil olmaq üçün'}))
+                               required=True,
+                               widget=forms.TextInput(attrs={
+                                                            'class': 'form-control-lg col-md-5',
+                                                            })
+                               )
     first_name = forms.CharField(max_length=25, required=True, widget=forms.TextInput(attrs={
         'class': 'form-control-lg col-md-5',
-        'placeholder': 'Ş/V-də olan ad'}))
+        }))
     last_name = forms.CharField(max_length=25, required=True, widget=forms.TextInput(attrs={
         'class': 'form-control-lg col-md-5',
-        'placeholder': 'Ş/V-də olan soyad'}))
+        }))
     email = forms.EmailField(max_length=50, required=True, widget=forms.TextInput(attrs={
         'class': 'form-control-lg col-md-5',
-        'placeholder': 'aktiv e-mail'}))
+        }))
 
     password1 = forms.PasswordInput()
     password2 = forms.PasswordInput()

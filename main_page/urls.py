@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from django.urls import path
 from . import views
+from . import validators
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -63,6 +64,10 @@ urlpatterns = [
 
     url(r'^lesson_materials/$', views.lesson_materials, name='topics_n_materials'),
 
-    path('validate-username/', csrf_exempt(views.UsernameValidationView.as_view()),
+    path('validate-username/', csrf_exempt(validators.UsernameValidationView.as_view()),
          name="validate-username"),
+    path('validate-firstname/', csrf_exempt(validators.FirstnameValidationView.as_view()),
+         name="validate-firstname"),
+    path('validate-lastname/', csrf_exempt(validators.LastnameValidationView.as_view()),
+         name="validate-lastname"),
 ]

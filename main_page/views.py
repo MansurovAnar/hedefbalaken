@@ -1,5 +1,7 @@
 from typing import List, Any
 
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+
 from .forms import RegisterUser
 from django.urls import reverse
 from .decorators import allowed_users
@@ -24,10 +26,8 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.forms import inlineformset_factory
 from .queries import (QuizData, QuizDataForTeacher)
-from django.contrib.auth.models import User
 from django.core import serializers
-from django.views import View
-import json
+
 
 def index(request):
     return render(request, 'main_page/index.html')
@@ -130,6 +130,7 @@ def whatsapp_redirect(request):
 
 ##########################################################################
 
+@xframe_options_sameorigin
 @login_required(login_url='login')
 def dashboard(request):
     return render(request, 'main_page/dashboard/dashboard.html')
@@ -1030,21 +1031,3 @@ def save_quiz_view(request, quiz_id):
 
 def lesson_materials(request):
     return render(request, 'main_page/dashboard/lesson_materials/topics_and_materials.html')
-
-# Username uniqness test
-class UsernameValidationView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        username = data['username']
-
-        print("USERNAME: ", username)
-        if username:
-            if len(username) < 3 and len(username) > 0:
-                return JsonResponse({'username_error': 'İstifadəçi adı minimum 3 simovoldan ibarət ola bilər.'}, status=408)
-            if not str(username).isalnum():
-                return JsonResponse({'username_error': 'İstifadəçi adı hərf və rəqəmdən ibarət ola bilər.'}, status=400)
-            if User.objects.filter(username=username).exists():
-                return JsonResponse({'username_error': 'Bu istifadəçi adı artıq götürülüb.'}, status=409)
-        elif not data['username']:
-            return JsonResponse({'username_error': 'İstifadəçi adı mütləqdir.'}, status=406)
-        return JsonResponse({'username_valid': True})

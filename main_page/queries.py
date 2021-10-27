@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from .models import *
 
-
+#Get Quiz data for student
 class QuizData:
     def __init__(self, request):
         self.user_result = []

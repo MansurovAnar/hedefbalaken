@@ -134,14 +134,14 @@ lastnameField.addEventListener("keyup", (c) => {
      });
 
      $("#form_email").focusout(function(){
-        emailIsValid();
+        check_email();
      });
 
      $("#psw1").focusout(function(){
-        check_password();
+        check_password1();
      });
      $("#psw2").focusout(function(){
-        check_password();
+        check_password2();
      });
 
      function check_fphone() {
@@ -150,6 +150,7 @@ lastnameField.addEventListener("keyup", (c) => {
         if (pattern.test(fphone) && fphone !== '') {
            $("#fphone_error_message").hide();
            $("#form_fphone").css("border","1px solid #34F458");
+           return "correct_phone";
         } else {
            $("#fphone_error_message").html("Mobil nömrə ancaq rəqəmlərdən ibarət ola bilər");
            $("#fphone_error_message").css("color", "#F90A0A");
@@ -157,6 +158,7 @@ lastnameField.addEventListener("keyup", (c) => {
            $("#fphone_error_message").show();
            $("#form_fphone").css("border","1px solid #F90A0A");
            error_fphone = true;
+           return "wrong_phone";
         }
         if (fphone.length < 7 ){
           $("#fphone_error_message").html("Mobil nömrə 7 rəqəmdən ibarət olmalıdır");
@@ -165,6 +167,7 @@ lastnameField.addEventListener("keyup", (c) => {
           $("#fphone_error_message").show();
           $("#form_fphone").css("border","1px solid #F90A0A");
           error_fphone = true;
+          return "wrong_phone";
         }
      }
 
@@ -178,6 +181,7 @@ lastnameField.addEventListener("keyup", (c) => {
                $("#username_error_message").show();
                $("#form_username").css("border","1px solid #F90A0A");
                error_username = true;
+               return "wrong_username";
             }
             else if(user_name.length >= 3){
                 if(!user_name.match(/^[0-9a-z]+$/)){
@@ -187,10 +191,12 @@ lastnameField.addEventListener("keyup", (c) => {
                    $("#username_error_message").show();
                    $("#form_username").css("border","1px solid #F90A0A");
                    error_username = true;
+                   return "wrong_username";
                 }
                 else {
                     $("#username_error_message").hide();
                     $("#form_username").css("border","1px solid #34F458");
+                    return "correct_username"
 
                 }
 
@@ -203,6 +209,7 @@ lastnameField.addEventListener("keyup", (c) => {
            $("#username_error_message").show();
            $("#form_username").css("border","1px solid #F90A0A");
            error_username = true;
+           return "wrong_username";
         }
      }
 
@@ -217,6 +224,7 @@ lastnameField.addEventListener("keyup", (c) => {
                $("#firstname_error_message").show();
                $("#form_firstname").css("border","1px solid #F90A0A");
                error_firstname = true;
+               return "wrong_firstname";
             }
             else if(first_name.length >= 3){
                 if(!first_name.match(/^[a-z]+$/)){
@@ -226,10 +234,12 @@ lastnameField.addEventListener("keyup", (c) => {
                    $("#username_error_message").show();
                    $("#form_username").css("border","1px solid #F90A0A");
                    error_firstname = true;
+                   return "wrong_firstname";
                 }
                 else {
                     $("#firstname_error_message").hide();
                     $("#form_firstname").css("border","1px solid #34F458");
+                    return "correct_firstname";
                 }
 
             }
@@ -240,6 +250,7 @@ lastnameField.addEventListener("keyup", (c) => {
            $("#firstname_error_message").show();
            $("#form_firstname").css("border","1px solid #F90A0A");
            error_firstname = true;
+           return "wrong_firstname";
         }
      }
 
@@ -253,6 +264,7 @@ lastnameField.addEventListener("keyup", (c) => {
                $("#lastname_error_message").show();
                $("#form_lastname").css("border","1px solid #F90A0A");
                error_lastname = true;
+               return "wrong_lastname";
            }
            else if(last_name.length >= 3){
                 if(!last_name.match(/^[a-z]+$/)){
@@ -262,10 +274,12 @@ lastnameField.addEventListener("keyup", (c) => {
                    $("#lastname_error_message").show();
                    $("#form_lastname").css("border","1px solid #F90A0A");
                    error_lastname = true;
+                   return "wrong_lastname";
                 }
                 else {
                     $("#lastname_error_message").hide();
                     $("#form_lastname").css("border","1px solid #34F458");
+                    return "correct_lastname";
                 }
 
             }
@@ -276,17 +290,17 @@ lastnameField.addEventListener("keyup", (c) => {
            $("#lastname_error_message").show();
            $("#form_lastname").css("border","1px solid #F90A0A");
            error_lastname = true;
+           return "wrong_lastname";
         }
      }
 
-  var emailIsValid = function check_email() {
-        console.log("NEW");
+   function check_email() {
         var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var email = $("#form_email").val();
         if (pattern.test(email) && email !== '') {
            $("#email_error_message").hide();
            $("#form_email").css("border","1px solid #34F458");
-           return "EmailOkay";
+           return "correct_email";
         } else {
            $("#email_error_message").html("Email düzgün formatda deyil.");
            $("#email_error_message").css("color", "#F90A0A");
@@ -294,13 +308,12 @@ lastnameField.addEventListener("keyup", (c) => {
            $("#email_error_message").show();
            $("#form_email").css("border","1px solid #F90A0A");
            error_email = true;
-//           return "Wrong email";
+           return "wrong_email";
         }
      }
 
-     function check_password() {
+     function check_password1() {
         var pswrd1 = $("#psw1").val();
-        var pswrd2 = $("#psw2").val();
 
         var lowerCaseLetters = /[a-z]/g;
         var upperCaseLetters = /[A-Z]/g;
@@ -313,10 +326,22 @@ lastnameField.addEventListener("keyup", (c) => {
             $("#password1_error_message").show();
             $("#psw1").css("border","1px solid #F90A0A");
             error_password1 = true;
+            return "wrong_password1";
         }
         else {
             $("#password1_error_message").hide();
+            return "correct_password1";
         }
+
+     }
+
+     function check_password2() {
+        var pswrd1 = $("#psw1").val();
+        var pswrd2 = $("#psw2").val();
+
+        var lowerCaseLetters = /[a-z]/g;
+        var upperCaseLetters = /[A-Z]/g;
+        var numbers = /[0-9]/g;
 
         if(pswrd2) {
             if(pswrd2 != pswrd1){
@@ -329,33 +354,37 @@ lastnameField.addEventListener("keyup", (c) => {
                $("#psw2").css("border","1px solid #F90A0A");
                error_password1 = true;
                error_password2 = true;
+               return "wrong_password2";
             }
             else {
                 $("#password1_error_message").hide();
                 $("#psw1").css("border","1px solid #34F458");
                 $("#password2_error_message").hide();
                 $("#psw2").css("border","1px solid #34F458");
+                return "correct_password2";
             }
         }
 
      }
 
-//     if (!error_username){
-//            $("#submit_form").attr("disabled", false);
-//
-//            console.log("NOT disabled");
-//        }
-//        else {
-//            console.log("Disabled");
-//            $("#submit_form").attr("disabled", true);
-//        }
-
      $("#tchr_form").submit(function(event) {
-        var valid = emailIsValid();
-        console.log(valid)
-        if(valid !== "EmailOkay"){
+        var emailValid = check_email();
+        var usernameValid = check_username();
+        var firstnameValid = check_firstname();
+        var lastnameValid = check_lastname();
+        var phoneValid = check_fphone();
+        var password1Valid = check_password1();
+        var password2Valid = check_password2();
+
+        if(emailValid !== "correct_email" || usernameValid !== "correct_username" ||
+            firstnameValid !== "correct_firstname" ||
+            lastnameValid !== "correct_lastname" ||
+            phoneValid !== "correct_phone" ||
+            password1Valid !== "correct_password1" ||
+            password2Valid !== "correct_password2"
+        ){
             event.preventDefault();
-            alert('Invalid input data. Reason' + valid);
+            alert('Formu düzgün doldurun!');
         }
 
         error_fphone = false;
@@ -370,7 +399,7 @@ lastnameField.addEventListener("keyup", (c) => {
         check_username();
         check_firstname();
         check_lastname();
-        emailIsValid();
+        check_email();
         check_password();
 
 

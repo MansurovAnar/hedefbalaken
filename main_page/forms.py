@@ -46,10 +46,13 @@ PHONE_PREFIXES = (
 # Creating a tuble of Courses with PK (first three letters of a Course) from DB
 course_l = []
 course_list = Course.objects.all()
-count = course_list.count()
+count = 0
+if course_list:
+    count = course_list.count()
 
-for i in range(count):
-    course_l.append((course_list[i].c_id, course_list[i].c_name))
+if count:
+    for i in range(count):
+        course_l.append((course_list[i].c_id, course_list[i].c_name))
 
 if course_l:
     COURSE_CHOICES = tuple(course_l)

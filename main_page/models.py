@@ -63,8 +63,8 @@ class StudentProfile(models.Model):
 # Create your models here.
 class Course(models.Model):
     """docstring for Course Model"""
-    c_id = models.CharField("Course_ID", max_length=4)
-    c_name = models.CharField("Course_name", max_length=20)
+    c_id = models.CharField("Course_ID", max_length=4, default="NON")
+    c_name = models.CharField("Course_name", max_length=20, default="")
     c_status = models.BooleanField(default=True)
     c_description = models.TextField(blank=True)
     c_photo = models.ImageField(upload_to="Courses/", default="")

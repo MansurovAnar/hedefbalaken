@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404
 
 from .models import *
 
-#Get Quiz data for student
+
+# Get Quiz data for student
 class QuizData:
     def __init__(self, request):
         self.user_result = []
@@ -54,6 +55,5 @@ class QuizDataForTeacher:
             return self.user_result_for_tcr
 
         except RequestAborted:
-            #log_info function will be called here
+            # log_info function will be called here
             pass
-

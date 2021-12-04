@@ -12,7 +12,8 @@
                             <div class="logo-img">
                                 <a href="{% url 'mainpage' %}">
                                     <img src="{% static 'img/logo.png' %}" alt="">
-                                </a>
+                                     </a>
+                                    <h2 style="color:white">Balakən</h2>
                             </div>
                         </div>
                         <div class="col-xl-7 col-lg-7">
@@ -29,7 +30,7 @@
                                 <div class="live_chat_btn">
                                     <a class="boxed_btn_orange" href="{% url 'whatsapp' %}">
                                         <i class="fa fa-phone"></i>
-                                        <span>+994 51 355 7271</span>
+                                        <span>+994 50 524 2346</span>
                                     </a>
                                 </div>
                             </div>
@@ -56,17 +57,17 @@
                 <div class="col-xl-3 col-md-6 col-lg-3">
                     <div class="single_team">
                         <div class="thumb">
-                            <img src="{{ member.t_photo }}" alt="">
+                            <img src="{{ MEDIA_URL }}{{ member.image.url }}" alt="">
                             <div class="social_link">
-                                <a href="{{ member.t_facebook }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                                <a href="{{ member.t_linkedin }}" target="_blank"><i class="fa fa-linkedin"></i></a>
-                                <a href="mailto:{{ member.t_email }}?Subject=Kurs haqqında" target="_blank"><i class="fa fa-envelope"></i></a>
+                                <a href="{{ member.facebook_url }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="{{ member.linkedin_url }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:{{ member.email }}?Subject=Kurs haqqında" target="_blank"><i class="fa fa-envelope"></i></a>
                             </div>
                         </div>
                         <div class="master_name text-center">
-                            <h3>{{ member.t_name }} {{ member.t_sname }} </h3>
-                            <h6> {{member.t_course }}</h6>
-                            <p>{{ member.t_about }}</p>
+                            <h3>{{ member.first_name }} {{ member.last_name }} </h3>
+                            <h6> {{member.member_role }}</h6>
+                            <p>{{ member.member_detail }}</p>
                         </div>
                     </div>
                 </div>
@@ -75,57 +76,55 @@
         </div>
     </div>
     <!-- our_team_member_end -->
-    
+
     <!-- about_area_start -->
-    <div class="about_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-5 col-lg-6">
-                    <div class="single_about_info">
-                        <h3>Over 7000 Tutorials <br>
-                            from 20 Courses</h3>
-                        <p>Our set he for firmament morning sixth subdue darkness creeping gathered divide our let god
-                            moving. Moving in fourth air night bring upon you’re it beast let you dominion likeness open
-                            place day great wherein heaven sixth lesser subdue fowl </p>
-                        <a href="#" class="boxed_btn">Enroll a Course</a>
-                    </div>
+  <div class="about_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6">
+                <div class="single_about_info">
+                    {% for desc in front_data %}
+                    <h3>{{ desc.description_header}}</h3>
+                    <p>{{ desc.description }}</p>
+                    {% endfor %}
+                    <a href="{% url 'courses' %}" class="boxed_btn">Öyrənməyə başla</a>
                 </div>
-                <div class="col-xl-6 offset-xl-1 col-lg-6">
-                    <div class="about_tutorials">
-                        <div class="courses">
-                            <div class="inner_courses">
-                                <div class="text_info">
-                                    <span>20+</span>
-                                    <p> Courses</p>
-                                </div>
+            </div>
+            <div class="col-xl-6 offset-xl-1 col-lg-6">
+                <div class="about_tutorials">
+                    <div class="courses">
+                        <div class="inner_courses">
+                            <div class="text_info">
+                                <span>10+</span>
+                                <p> İl təcrübə</p>
                             </div>
                         </div>
-                        <div class="courses-blue">
-                            <div class="inner_courses">
-                                <div class="text_info">
-                                    <span>7638</span>
-                                    <p> Courses</p>
-                                </div>
-
+                    </div>
+                    <div class="courses-blue">
+                        <div class="inner_courses">
+                            <div class="text_info">
+                                <span>10.000+</span>
+                                <p> Məzun</p>
                             </div>
+
                         </div>
-                        <div class="courses-sky">
-                            <div class="inner_courses">
-                                <div class="text_info">
-                                    <span>230+</span>
-                                    <p> Courses</p>
-                                </div>
-
+                    </div>
+                    <div class="courses-sky">
+                        <div class="inner_courses">
+                            <div class="text_info">
+                                <span>50+</span>
+                                <p> Kurs</p>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- about_area_end -->
 
-<br/><br/>
 <!-- test field-->
 <div class="container">
             <div class="row">

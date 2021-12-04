@@ -68,7 +68,7 @@ class Course(models.Model):
     c_status = models.BooleanField(default=True)
     c_description = models.TextField(blank=True)
     c_photo = models.ImageField(upload_to="Courses/", default="")
-    # c_cost = models.CharField("Cost of course", max_length=8, blank=True)
+    # c_cost = models.CharField("Cost of course", max_length=8, blank=True, default="0")
     teachers = models.ManyToManyField(TeacherProfile, related_name="courses", blank=True)
     students = models.ManyToManyField(StudentProfile, related_name="coursess", blank=True)
 
@@ -204,3 +204,54 @@ class Result(models.Model):
     def __str__(self):
         result = self.std_user.first_name + ' ' + self.std_user.last_name + ', ' + self.quiz.name
         return str(result)
+
+
+class FrontPageData(models.Model):
+    announcement = models.ImageField(upload_to="exam_pics/", blank=True)
+    slogan = models.CharField(max_length=50)
+    description_header = models.CharField(max_length=50)
+    description = models.TextField()
+    subscription_header = models.CharField(max_length=50)
+    subscription_text = models.CharField(max_length=100)
+    subscription_form_header = models.TextField(max_length=100)
+    our_specialities_header = models.CharField(max_length=50)
+    our_specialities_desc = models.TextField()
+    our_specialities_1 = models.CharField(max_length=50)
+    our_specialities_1_desc = models.TextField()
+    our_specialities_2 = models.CharField(max_length=50)
+    our_specialities_2_desc = models.TextField()
+    our_specialities_3 = models.CharField(max_length=50)
+    our_specialities_3_desc = models.TextField()
+    our_specialities_4 = models.CharField(max_length=50)
+    our_specialities_4_desc = models.TextField()
+    exam_dates_1 = models.ImageField(upload_to="exam_pics/", blank=True)
+    exam_dates_2 = models.ImageField(upload_to="exam_pics/", blank=True)
+    summativ_note = models.TextField()
+    exam_details = models.TextField()
+
+    def __str__(self):
+        f_page = "Ana seh detallari"
+        return f_page
+
+
+class TeamMember(models.Model):
+    first_name = models.CharField(max_length=15)
+    last_name = models.CharField(max_length=15)
+    image = models.ImageField(upload_to="team_member/", blank=True)
+    member_detail = models.CharField(max_length=100)
+    member_role = models.CharField(max_length=60, default="")
+    facebook_url = models.URLField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    email = models.CharField(max_length=30, blank=True)
+
+    def __str__(self):
+        return "Komanda üzvü - " + str(self.first_name) + ' ' + str(self.last_name)
+
+
+class FrontMenuNames(models.Model):
+    courses_exams = models.CharField(max_length=30)
+    about_us = models.CharField(max_length=30)
+    contacts = models.CharField(max_length=30)
+
+    def __str__(self):
+        return str("Menu Names")

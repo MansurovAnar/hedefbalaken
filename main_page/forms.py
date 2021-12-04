@@ -165,7 +165,7 @@ class LoginUser(forms.Form):
 
 
 class RegisterUser(UserCreationForm):
-    """ docstring - for Creating Dashboard users by the controller """
+    """ docsxtring - for Creating Dashboard users by the controller """
     username = forms.CharField(max_length=15,
                                required=True,
                                widget=forms.TextInput(attrs={

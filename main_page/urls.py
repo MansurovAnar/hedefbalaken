@@ -6,8 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
 
-    # url(r'^$', views.index, name='mainpage'),
-    url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^$', views.index, name='mainpage'),
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^mainpage/$', views.index, name='mainpage'),  # inside dirnaqs:
     url(r'^register/$', views.register, name='register'),
     url(r'^about/$', views.about, name='about'),

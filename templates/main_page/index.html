@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% load static%}
 
-{% block title %} International Learning Center {% endblock %}
+{% block title %} Hədəf Balakən {% endblock %}
 
 {% block main_body %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -26,41 +26,49 @@
                 <div class="row align-items-center no-gutters">
                     <div class="col-xl-2 col-lg-2">
                         <div class="logo-img">
-                            <img src="{% static 'img/logo.png' %}" alt="">
-                            </a>
+                            <img src="{% static 'img/logo.png' %}" alt=""> <h1 style="color:white">Balakən</h1>
                         </div>
                     </div>
-                    <div class="col-xl-7 col-lg-7">
+                    <div class="col-xl-6 col-lg-7">
                         <div class="main-menu  d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
+                                    {% for menu in menu_name %}
                                     <!-- <li><a class="active" href="Ən">home</a></li> -->
-                                    <li><a href="{% url 'courses' %}">Kurslarımız</a></li>
+                                    <li><a href="{% url 'courses' %}">{{ menu.courses_exams }}</a></li>
                                     <!-- <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                         <ul class="submenu">
                                             <li><a href="#">course details</a></li>
                                             <li><a href="#">elements</a></li>
                                         </ul>
                                     </li> -->
-                                    <li><a href="#">Haqqımızda</a></li>
+                                    <li><a href="{% url 'about'%}">{{ menu.about_us }}</a></li>
 <!--                                    <li><a href="#blogs">Bloq yazıları</a></li>-->
-                                    <li><a href="#contacts">Kontaktlar</a></li>
+                                    <li><a href="#contacts">{{ menu.contacts }}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                    <div class="col-xl-4 col-lg-4 d-none d-lg-block">
                         <div class="log_chat_btn d-flex align-items-center">
-                            <a class="boxed_btn_orange" href="{% url 'register' %}">
-                                <i class="flaticon-crown"></i>
-                                <span>Qeydiyyat</span>
-                            </a>
+<!--                            <a class="boxed_btn_orange" href="{% url 'register' %}">-->
+<!--                                <i class="flaticon-crown"></i>-->
+<!--                                <span>Qeydiyyat</span>-->
+<!--                            </a>-->
                             <div class="live_chat_btn">
                                 <a class="boxed_btn_orange2" href="{% url 'login' %}">
                                     <i class="fa fa-user"></i>
                                     <span>Daxil Ol</span>
                                 </a>
                             </div>
+                            &nbsp;
+                                <div class="live_chat_btn">
+                                    <a class="boxed_btn_orange" href="{% url 'whatsapp' %}">
+                                        <i class="fa fa-phone"></i>
+                                        <span>+994 50 524 2346</span>
+                                    </a>
+                                </div>
                         </div>
                     </div>
                     <div class="col-12">
@@ -85,10 +93,10 @@
                 </div>
                 <div class="col-xl-6 col-md-6">
                     <div class="slider_info">
-                        <h3>Learn your <br>
-                            Favorite Course <br>
-                            From Online</h3>
-                        <a href="{% url 'courses' %}" class="boxed_btn">Kurslarımıza göz atın</a>
+                        <h3>Sizi Hədəfə<br>
+                            aparan <br>
+                            ən inamlı yol!</h3>
+                        <a href="{% url 'courses' %}" class="boxed_btn">{% for menu in menu_name %} {{menu.courses_exams }}a göz atın {% endfor %}</a>
                     </div>
                 </div>
             </div>
@@ -97,17 +105,48 @@
 </div>
 <!-- slider_area_end -->
 
+<!-- exams pane start -->
+<div class="our_courses">
+    {% for exam in front_data %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title text-center mb-100">
+                    <h3>{{exam.exam_details}}</h3>
+                    <h4>{{exam.summativ_note}}</h4>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-md-6 col-lg-6">
+                <div class="single_course text-center">
+                    <img src="{{ MEDIA_URL }}{{ exam.exam_dates_1.url }}">
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-lg-6">
+                <div class="single_course text-center">
+                    <img src="{{ MEDIA_URL }}{{ exam.exam_dates_2.url }}">
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+       {% endfor %}
+</div>
+<!-- examps pane end-->
+<hr/><hr/>
 <!-- about_area_start -->
 <div class="about_area">
     <div class="container">
         <div class="row">
             <div class="col-xl-5 col-lg-6">
                 <div class="single_about_info">
-                    <h3>Over 7000 Tutorials <br>
-                        from 20 Courses</h3>
-                    <p>Our set he for firmament morning sixth subdue darkness creeping gathered divide our let god
-                        moving. Moving in fourth air night bring upon you’re it beast let you dominion likeness open
-                        place day great wherein heaven sixth lesser subdue fowl </p>
+                    {% for desc in front_data %}
+                    <h3>{{ desc.description_header}}</h3>
+                    <p>{{ desc.description }}</p>
+                    {% endfor %}
                     <a href="{% url 'courses' %}" class="boxed_btn">Öyrənməyə başla</a>
                 </div>
             </div>
@@ -116,16 +155,16 @@
                     <div class="courses">
                         <div class="inner_courses">
                             <div class="text_info">
-                                <span>20+</span>
-                                <p> Courses</p>
+                                <span>10+</span>
+                                <p> İl təcrübə</p>
                             </div>
                         </div>
                     </div>
                     <div class="courses-blue">
                         <div class="inner_courses">
                             <div class="text_info">
-                                <span>7638</span>
-                                <p> Courses</p>
+                                <span>10.000+</span>
+                                <p> Məzun</p>
                             </div>
 
                         </div>
@@ -133,8 +172,8 @@
                     <div class="courses-sky">
                         <div class="inner_courses">
                             <div class="text_info">
-                                <span>230+</span>
-                                <p> Courses</p>
+                                <span>50+</span>
+                                <p> Kurs</p>
                             </div>
 
                         </div>
@@ -149,36 +188,42 @@
 <!-- subscribe_newsletter_Start -->
 <div class="subscribe_newsletter">
     <div class="container">
+         {% for subs in front_data %}
         <div class="row">
             <div class="col-xl-6 col-lg-6">
                 <div class="newsletter_text">
-                    <h3>Subscribe Newsletter</h3>
-                    <p>Your domain control panel is designed for ease-of-use and allows for all aspects of your</p>
+
+                    <h3>{{ subs.subscription_header }}</h3>
+                    <p>{{subs.subscription_text}}</p>
+
                 </div>
             </div>
             <div class="col-xl-5 offset-xl-1 col-lg-6">
                 <div class="newsletter_form">
-                    <h4>Your domain control panel is</h4>
+
+                    <h4>{{subs.subscription_form_header}}</h4>
                     <form action="#" class="newsletter_form">
-                        <input type="text" placeholder="Enter your mail">
-                        <button type="submit">Sign Up</button>
+                        <input type="text" placeholder="məs: 0505242346">
+                        <button type="submit">Təsdiqlə</button>
                     </form>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 <!-- subscribe_newsletter_end -->
 
 <!-- our_courses_start -->
 <div class="our_courses">
+    {% for spec in front_data %}
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
                 <div class="section_title text-center mb-100">
-                    <h3>Our Course Speciality</h3>
-                    <p>Your domain control panel is designed for ease-of-use and <br>
-                        allows for all aspects of your domains.
+
+                    <h3>{{spec.our_specialities_header}}</h3>
+                    <p>{{spec.our_specialities_desc}}
                     </p>
                 </div>
             </div>
@@ -189,10 +234,9 @@
                     <div class="icon">
                         <i class="flaticon-art-and-design"></i>
                     </div>
-                    <h3>Premium Quality</h3>
+                    <h3>{{spec.our_specialities_1}}</h3>
                     <p>
-                        Your domain control panel is designed for ease-of-use <br> and <br>
-                        allows for all aspects of
+                        {{spec.our_specialities_1_desc}}
                     </p>
                 </div>
             </div>
@@ -201,10 +245,9 @@
                     <div class="icon blue">
                         <i class="flaticon-business-and-finance"></i>
                     </div>
-                    <h3>Premium Quality</h3>
+                    <h3>{{spec.our_specialities_2}}</h3>
                     <p>
-                        Your domain control panel is designed for ease-of-use <br> and <br>
-                        allows for all aspects of
+                        {{spec.our_specialities_2_desc}}
                     </p>
                 </div>
             </div>
@@ -213,10 +256,9 @@
                     <div class="icon">
                         <i class="flaticon-premium"></i>
                     </div>
-                    <h3>Premium Quality</h3>
+                    <h3>{{spec.our_specialities_3}}</h3>
                     <p>
-                        Your domain control panel is designed for ease-of-use <br> and <br>
-                        allows for all aspects of
+                        {{spec.our_specialities_3_desc}}
                     </p>
                 </div>
             </div>
@@ -225,15 +267,15 @@
                     <div class="icon gradient">
                         <i class="flaticon-crown"></i>
                     </div>
-                    <h3>Premium Quality</h3>
+                    <h3>{{spec.our_specialities_4}}</h3>
                     <p>
-                        Your domain control panel is designed for ease-of-use <br> and <br>
-                        allows for all aspects of
+                        {{spec.our_specialities_4_desc}}
                     </p>
                 </div>
             </div>
         </div>
     </div>
+       {% endfor %}
 </div>
 <!-- our_courses_end -->
 

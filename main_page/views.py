@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from .models import (Course, TeacherProfile,
                      StudentProfile, Quiz,
-                     Question, Answer, Result,
+                     Question, Answer, Result, FrontPageData,
+                     TeamMember, FrontMenuNames
                      )
 from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
@@ -30,11 +31,17 @@ from django.core import serializers
 
 
 def index(request):
-    return render(request, 'main_page/index.html')
+    front_data = FrontPageData.objects.all()
+    menu_names = FrontMenuNames.objects.all()
+    context = {"front_data": front_data, "menu_name": menu_names }
+    return render(request, 'main_page/index.html', context)
 
 
 def about(request):
-    return render(request, 'main_page/about.html')
+    team_members = TeamMember.objects.all()
+    front_data = FrontPageData.objects.all()
+    context = {"team_members": team_members, "front_data": front_data}
+    return render(request, 'main_page/about.html', context)
 
 
 @csrf_protect
@@ -120,12 +127,13 @@ def logoutUser(request):
 
 def courses(request):
     course_list = Course.objects.all()
-    args = {'courses': course_list}
+    menu_names = FrontMenuNames.objects.all()
+    args = {'courses': course_list, "menu_name": menu_names }
     return render(request, 'main_page/courses.html', args)
 
 
 def whatsapp_redirect(request):
-    return HttpResponseRedirect('https://wa.me/00994513557271')
+    return HttpResponseRedirect('https://wa.me/00994505242346')
 
 
 ##########################################################################

@@ -31,7 +31,7 @@
                         <div class="live_chat_btn">
                             <a target="_blank" class="boxed_btn_orange" href="{% url 'whatsapp' %}">
                                 <i class="fa fa-phone"></i>
-                                <span>+994 51 355 7271</span>
+                                <span>+994 50 524 2346</span>
                             </a>
                         </div>
                     </div>
@@ -47,7 +47,9 @@
 <!-- header-end -->
 <!-- bradcam_area_start -->
 <div class="bradcam_area breadcam_bg overlay2">
-    <h3>Kurslarımız</h3>
+   {% for menu in menu_name %}
+    <h3>{{ menu.courses_exams }}</h3>
+    {% endfor %}
 </div>
 <!-- bradcam_area_end -->
 
@@ -79,7 +81,7 @@
                             <div class="single_courses">
                                 <div class="thumb">
                                     <a href="#" data-toggle="modal" data-target="#{{course.c_id}}exampleModal">
-                                        <img src="{{course.c_photo.url}}" alt="">
+                                        <img src="{{MEDIA_URL}}{{course.c_photo.url}}" alt="">
                                     </a>
                             <div class="courses_info">
                                     <span>{{course.c_name}}</span>
@@ -88,11 +90,11 @@
                                     <div class="star_prise d-flex justify-content-between">
                                         <div class="star">
                                             <i class="flaticon-mark-as-favorite-star"></i>
-                                            <span>(4.5)</span>
+                                            <span>(5.0)</span>
                                         </div>
                                         <div class="prise">
                                             <span class="active_prise">
-                                                            89.00 AZN
+                                                           -
                                                         </span>
                                         </div>
                                     </div>

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import (user, Course,
                      TeacherProfile, StudentProfile,
-                     Quiz, Question, Answer, Result)
+                     Quiz, Question, Answer, Result,
+                     FrontPageData, TeamMember, FrontMenuNames)
 
 # Register your models here.
 
@@ -20,3 +21,6 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz)
 admin.site.register(Answer)
 admin.site.register(Result)
+admin.site.register(FrontPageData)
+admin.site.register(TeamMember)
+admin.site.register(FrontMenuNames)

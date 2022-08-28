@@ -1,0 +1,150 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--           {% block active_payment %} class='active' {% endblock active_payment%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+              <div>
+                  <h4 class="card-title"> Tələbələrin ödəniş cədvəli</h4>
+                  <form style="float:left;" action="{% url 'searchstudentinpaymentlist' %}" method="get">
+                      <div class="input-group no-border" >
+                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                      </div>
+                    </form>
+               </div>
+                  <div class="align-self-end ml-auto" style="margin-bottom:20px;">
+                  <a class="btn btn-primary float-right" href="{% url 'createstudentpayment' %}" >Yeni ödəniş</a>
+                </div>
+              </div>
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              {% endif %}
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th></th>
+                      <th>
+                        Ad / Soyad
+                      </th>
+                      <th>
+                        Qrup
+                      </th>
+                       <th class="text-center">
+                        Qeydiyyat <br>tarixi
+                      </th>
+                       <th class="text-center">
+                        Aylıq ödəniş <br> miqdarı
+                      </th>
+                      <th class="text-center">
+                        Ödənilən <br>məbləğ / tarixi
+                      </th>
+                      <th></th>
+                    </thead>
+                    <tbody>
+                    {% for payment in payments %}
+                      <tr>
+                        <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                        >{{forloop.counter}}.</td>
+                        <td
+                              {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                        >
+
+                         <a style="color:#477fb3;" title="Ödəniş məlumatlarını yenilə" href="{% url 'updatestudentpayment' payment_id=payment.pk %}">{{ payment.student.student.first_name }}&nbsp;{{ payment.student.student.last_name }}</a>
+                        </td>
+                        <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}>
+                            {{ payment.group.c_name }}
+                        </td>
+                        <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                            class="text-center" >
+                            {{ payment.startDate }}
+                        </td>
+                         <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                             class="text-center">
+                            {{ payment.monthlyAmount }} AZN
+                         </td>
+                          <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                              class="text-center">
+                              {% if payment.paidamounts %}
+                                {% for paid in payment.paidamounts %}
+                                    {% if paid.paidAmount %}
+                                        {{ paid.paidAmount }} AZN / {{ paid.paidDate }}
+                                        <br>
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                {% endfor %}
+                              {% else %}
+                                 --
+                              {% endif %}
+                          </td>
+                          <td {% if not payment.student.status %}
+                                style="opacity:.2"
+                              {% endif %}
+                          ><a href="{% url 'addstudentpaidamount' payment_id=payment.pk %}"><button type="button" class="btn btn-primary">Ödədi</button></a></td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end content -->
+
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+   <!--   Core JS Files   -->
+ <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+  {% endblock main_body %}
+</body>

@@ -63,23 +63,24 @@
                              {{ formset.management_form }}
                               {{ formset.non_form_errors }}
 
-                                {% for form in formset %}
+                                {% for form in formset.forms %}
                                     {% for hidden in form.hidden_fields %}
                                         {{ hidden }}
                                     {% endfor %}
                                     <div class="row form-row spacer">
-                                            <div class="col-4">
+                                            <div class="col-8">
                                                 <div class="input-group">
                                                     <div>
-                                                        <ul>
-                                                        <label>Varinat: </label><li>{{ form.text }}</li>
-                                                        <label>Doğrudur?: </label><li>{{ form.correct }}</li>
-                                                        {% if formset.can_delete %}
-                                                        <label>Varinatı sil: </label><li>{{ form.DELETE }}</li>
-                                                        {% endif %}
-                                                    </ul>
-                                                    </div>
+                                                        <label>Varinat: </label>
+                                                        {% render_field form.text style="color:#3299a8;border-radius:10px; height:20%;" id="tekin2" class="form-control" placeholder="Variantı daxil edin" %}
+                                                        <br>
+                                                        <label>Doğrudur?: </label>
+                                                        {% render_field form.correct style="color:#3299a8;border-radius:10px;"  class="form-control" %}
 
+                                                        {% if formset.can_delete %}
+                                                        <label>Varinatı  sil: </label><li>{{ form.DELETE }}</li>
+                                                        {% endif %}
+                                                    </div>
                                                     <div class="input-group-append">
                                                         <button class="btn btn-success add-form-row">+</button>
                                                     </div>
@@ -260,6 +261,10 @@
         deleteForm('form', $(this));
         return false;
     });
+
+    document.getElementById('tekin2').onclick = function() {
+   alert("button was clicked");
+}
     </script>
 
   {% endblock main_body %}

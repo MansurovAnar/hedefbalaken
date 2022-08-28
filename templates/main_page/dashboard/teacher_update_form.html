@@ -1,0 +1,214 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+
+{% block mycss %}
+    <style>
+      #mymessage {
+      display:none;
+      background: #f1f1f1;
+      color: #000;
+      position: relative;
+      padding: 10px;
+      margin-top: 5px;
+    }
+
+    #mymessage p {
+      padding: 5px 17px;
+      font-size: 10px;
+    }
+
+    /* Add a green text color and a checkmark when the requirements are right */
+    .valid {
+      color: green;
+    }
+
+    .valid:before {
+      position: relative;
+      left: -17px;
+      content: "✔";
+    }
+
+    /* Add a red text color and an "x" when the requirements are wrong */
+    .invalid {
+      color: red;
+    }
+
+    .invalid:before {
+      position: relative;
+      left: -17px;
+      content: "✖";
+    }
+
+    </style>
+{% endblock mycss %}
+
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<body>
+
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_teachercreate %} class='active' {% endblock active_teachercreate%} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Müəllim məlumatlarında dəyişiklik et</h4>
+            <div class="align-self-end ml-auto">
+              <a class="btn btn-primary float-right" href="{% url 'teachers' %}" >Müəllimlər listi</a>
+            </div>
+        </div>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{ message }}
+                </div>
+                </div>
+              {% endfor %}
+          {% endif %}
+
+        <form method="POST" id="tchr_form" enctype= "multipart/form-data">
+          {% csrf_token %}
+          <section class="section">
+            <div class="container ">
+              <div class="columns" style="margin: 0 auto; max-width: 536px;">
+                <div class="column is-half is-offset-one-quarter">
+
+                  {% for hidden in teacherForm.hidden_fields %}
+                      {{ hidden.errors }}
+                      {{ hidden }}
+                  {% endfor %}
+
+                  <div class="field">
+                    <label>İstifadəçi adı</label>
+                    <div class="control">
+                      <p>{{ teacher.user.username }}</p>
+                    </div>
+                     <span class="error_form" id="username_error_message"></span>
+                  </div>
+                  <br>
+
+                 <div class="field">
+                   <label>Ad</label>
+                   <div class="control">
+                      <p>{{ teacher.user.first_name }}</p>
+                   </div>
+                 </div>
+                  <br>
+
+                   <div class="field">
+                    <label>Soyad</label>
+                    <div class="control">
+                        <p>{{ teacher.user.last_name }}</p>
+                    </div>
+                  </div>
+                  <br>
+
+                 <div class="field">
+                    <label>Email</label>
+                    <div class="control">
+                      <p>{{ teacher.user.email }}</p>
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="field">
+                    <label>Status</label>
+                    <div class="control">
+                      {% render_field teacherForm.status style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+                    <div class="field">
+                        <div class="select">
+                          {% render_field teacherForm.phone_prefix %}
+                        </div>
+                            <div class="control">
+                                {% render_field teacherForm.phone_number class="input" id="form_fphone" title="Mobil nömrə daxil edin." placeholder="Mobil nömrəniz (Məs: 1234567 )" name="" required="" %}
+                            </div>
+                        <span class="error_form" id="fphone_error_message"></span>
+                    </div>
+                    <br>
+
+                    <div class="field">
+                    <label>Doğum günü</label>
+                    <div class="control">
+                      {% render_field teacherForm.birthdate style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Doğum tarixi" %}
+                    </div>
+                  </div>
+                  <br>
+
+                    <div class="field">
+                    <label>Profil Şəkli</label>
+                    <div class="control">
+                      {% render_field teacherForm.image title="Şəkil daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                    <br>
+
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="text-center custom-pro-edt-ds">
+                    <button type="submit" id="submit_form" class="btn btn-outline-success">Yadda saxla</button>
+                      <a type="button" class="btn btn-outline-warning" href="{% url 'teachers' %}">İmtina et</a>
+
+                  </div>
+              </div>
+          </div>
+            <br>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> <!-- end content -->
+
+
+{% endblock content %}
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+</div>
+
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  <script src="{% static 'js/register_teacher_sttd.js' %}"></script>
+  <script src="{% static 'js/password_validatee.js' %}"></script>
+
+{% endblock main_body %}
+</body>

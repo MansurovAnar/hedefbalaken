@@ -227,12 +227,12 @@ lastnameField.addEventListener("keyup", (c) => {
                return "wrong_firstname";
             }
             else if(first_name.length >= 3){
-                if(!first_name.match(/^[a-z]+$/)){
-                   $("#username_error_message").html("Ad ancaq hərfdən ibarət ola bilər.");
-                   $("#username_error_message").css("color", "#F90A0A");
-                   $("#username_error_message").css("font-size", "12px");
-                   $("#username_error_message").show();
-                   $("#form_username").css("border","1px solid #F90A0A");
+                if(!first_name.match(/^[a-zA-Z]+$/)){
+                   $("#firstname_error_message").html("Ad ancaq hərfdən ibarət ola bilər.");
+                   $("#firstname_error_message").css("color", "#F90A0A");
+                   $("#firstname_error_message").css("font-size", "12px");
+                   $("#firstname_error_message").show();
+                   $("#form_firstname").css("border","1px solid #F90A0A");
                    error_firstname = true;
                    return "wrong_firstname";
                 }
@@ -267,7 +267,7 @@ lastnameField.addEventListener("keyup", (c) => {
                return "wrong_lastname";
            }
            else if(last_name.length >= 3){
-                if(!last_name.match(/^[a-z]+$/)){
+                if(!last_name.match(/^[a-zA-Z]+$/)){
                    $("#lastname_error_message").html("Soyad ancaq hərfdən ibarət ola bilər.");
                    $("#lastname_error_message").css("color", "#F90A0A");
                    $("#lastname_error_message").css("font-size", "12px");

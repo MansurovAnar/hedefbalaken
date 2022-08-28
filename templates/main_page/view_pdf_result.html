@@ -1,0 +1,137 @@
+{% extends 'base.html'%}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block main_body %}
+
+<style>
+
+#regForm {
+    background-color: #ffffff;
+    margin: 0px auto;
+    padding: 5px;
+    border-radius: 10px
+}
+
+#register {
+    color: #6A1B9A
+}
+
+h1 {
+    text-align: center
+}
+
+@media (max-width: 800px) {
+  .card {
+    margin-top: 55px;
+  }
+</style>
+
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo-img">
+                                <a href="{% url 'mainpage' %}">
+                                    <img src="{% static 'img/logo.png' %}" alt="">
+                                     </a>
+                                    <h2 style="color:white">Balakən</h2>
+                            </div>
+                        </div>
+                        <div class="col-xl-7 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+
+                            </div>
+                        </div>
+                          <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="log_chat_area d-flex align-items-center">
+                                <a href="{% url 'register' %}" class="login popup-with-form">
+                                    <!-- <i class="flaticon-user"></i> -->
+                                    <span></span>
+                                </a>
+                                <div class="live_chat_btn">
+                                    <a class="boxed_btn_orange" href="{% url 'whatsapp' %}">
+                                        <i class="fa fa-phone"></i>
+                                        <span>+994 50 524 2346</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- header-end -->
+
+<!-- form field-->
+{% block content %}
+<div class="bradcam_area breadcam_bg overlay2">
+      <div class="container"
+           style="width: 80%; height: auto;
+                    margin: 0 auto;
+                    padding: 10px;
+                    position: relative;
+                    border-color: white;">
+<!--        <div class="roww" style="background-color: white; width: 80%;">-->
+<!--          <div class="col-md-12">-->
+              <div class="card">
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          {% if messages %}
+                            {% for message in messages %}
+                              <div class="container-fluid p-0">
+                                <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  {{ message }}
+                                </div>
+                              </div>
+                              {% endfor %}
+                          {% endif %}
+
+                          <div class="container mt-5">
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-md-8">
+                                    <div>
+                                        <form id="regForm" method="POST" enctype= multipart/form-data >
+                                          {% csrf_token %}
+                                            <h2 id="register">İmtahan nəticəsi</h2>
+                                          <div>
+                                              {% render_field form.id_number style="color:#3299a8;border-radius:10px; padding: 15px;" class="form-control" placeholder="İş nömrəsi" %}
+                                              <br>
+                                              <button type="submit" class="btn btn-success">Göstər</button>
+                                          </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                  </div>
+              </div>
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </div>
+     {% endblock content %}
+<!-- end form field -->
+
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+{% endblock %} <!-- end main_body block -->

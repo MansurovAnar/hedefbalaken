@@ -21,7 +21,6 @@
               <div class="card-header">
                 <h4 class="card-title"> Qruplar</h4>
                 <div class="align-self-end ml-auto">
-
                   <a class="btn btn-outline-primary float-right" href="{% url 'createcourse' %}" >Yeni qrup əlavə et</a>
                 </div>
               </div>
@@ -61,6 +60,8 @@
                       <th>
                         Şəkil
                       </th>
+                      <th>
+                      </th>
                     </thead>
                     <tbody>
                       {% for course in courses %}
@@ -89,7 +90,7 @@
                           {% endif %} >
                           {% if course.teachers.all%}
                             {% for tcr in course.teachers.all %}
-                              {{ tcr }}
+                              {{ tcr.user.first_name }}&nbsp;{{ tcr.user.last_name }}
                               <br>
                             {% endfor %}
                           {% else %}
@@ -100,17 +101,24 @@
                           {% if not course.c_status %}
                             style="opacity:.2"
                           {% endif %} >
-                          {% if course.students.all%}
+                          {% if course.students.all %}
                             {% for stdnt in course.students.all %}
-                              {{ stdnt }}
+                              <a href="{% url 'studentdetail' id=stdnt.pk %}">{{ stdnt.student.first_name }}&nbsp;{{ stdnt.student.last_name }}</a>
                               <br>
                             {% endfor %}
                           {% else %}
                             Yoxdur
                           {% endif %}
                         </td>
-                        <td>
+                        <td {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
                           <a href="{{ MEDIA_URl }}{{ course.c_photo.url }}"><img src="{{ course.c_photo.url }}" style="width:50px; height:40px;"></a>
+                        </td>
+                        <td {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
+                          <a href="{% url 'updatecourse' pk=course.pk %}"><button type="button" class="btn btn-primary">Yenilə</button></a>
                         </td>
                       </tr>
                       {% endfor %}

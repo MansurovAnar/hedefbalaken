@@ -10,7 +10,7 @@
   <div class="main-panel" id="main-panel">
       <!-- Navbar -->
       {% block navbar %} {{ block.super }}
-<!--           {% block active_profile %} class='active' {% endblock active_profile%}-->
+<!--           {% block active_teacherslist %} class='active' {% endblock active_teacherslist %}-->
       {% endblock navbar %}
 
 {% block content %}
@@ -19,20 +19,26 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Müəllimlərin siyahısı</h4>
+              <div>
+                  <h4 class="card-title"> Müəllimlərin siyahısı</h4>
+                  <form style="float:right;" action="{% url 'searchteacher' %}" method="get">
+                      <div class="input-group no-border" >
+                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                      </div>
+                    </form>
+              </div>
+
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
+                      <th></th>
                       <th>
-                        Ad
-                      </th>
-                      <th>
-                        Soyad
+                        Ad/Soyad
                       </th>
                        <th class="text-center">
-                        e-mail
+                        Nömrə
                       </th>
                        <th class="text-center">
                         Doğum tarixi
@@ -47,19 +53,42 @@
                     <tbody>
                     {% for teacher in teacher_info %}
                       <tr>
-                        <td>
-                          <a title="{{ teacher.user.username }}">{{ teacher.user.first_name }}</a>
+                        <td>{{forloop.counter}}.</td>
+                        <td
+                            {% if not teacher.status %}
+                                style="opacity:.2"
+                            {% endif %} >
+                          <a style="color:blue;" href="{% url 'updateteacher' id=teacher.pk %}">{{ teacher.user.first_name }} &nbsp; {{ teacher.user.last_name }}</a>
                         </td>
-                        <td>
-                          {{ teacher.user.last_name }}
+                        <td class="text-center"
+                            {% if not teacher.status %}
+                                style="opacity:.2"
+                            {% endif %} >
+                            {% if teacher.phone_prefix == "Aze1" %}
+                                (050)
+                            {% elif teacher.phone_prefix == "Aze2" %}
+                                (051)
+                            {% elif teacher.phone_prefix == "Bak1" %}
+                                (055)
+                            {% elif teacher.phone_prefix == "Bak2" %}
+                                (099)
+                            {% elif teacher.phone_prefix == "Nar1" %}
+                                (070)
+                            {% elif teacher.phone_prefix == "Nar2" %}
+                                (077)
+                            {% endif %}
+                               {{ teacher.phone_number }}
                         </td>
-                        <td>
-                          {{ teacher.user.email }}
-                        </td>
-                        <td class="text-center">
+                        <td class="text-center"
+                            {% if not teacher.status %}
+                                style="opacity:.2"
+                            {% endif %} >
                           {{ teacher.birthdate}}
                         </td>
-                          <td class="text-center">
+                          <td class="text-center"
+                              {% if not teacher.status %}
+                                style="opacity:.2"
+                              {% endif %} >
                             {% for key, values in teacher_info_detail.items %}
                               {% if key == teacher.user.username %}
                                 {% for group in values %}
@@ -68,7 +97,10 @@
                               {% endif %}
                             {% endfor %}
                         </td>
-                          <td class="text-center">
+                          <td class="text-center"
+                              {% if not teacher.status %}
+                                style="opacity:.2"
+                              {% endif %} >
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{teacher.user.id}}studentsModalLong">
                               <i class="fas fa-eye"></i></button>
                         </td>

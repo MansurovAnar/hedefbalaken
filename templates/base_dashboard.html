@@ -117,6 +117,49 @@
               <p>Profilim</p>
             </a>
           </li>
+            {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+                <li class="menu_drop_head">
+                    <a>
+                    <i class="now-ui-icons business_badge"></i>
+                    <p>Listlər</p>
+                    </a>
+                </li>
+            {% endif %}
+            <div class="sub_menu" style="margin-left:20%">
+             {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+                <li {% block active_teacherslist %} {% endblock %}>
+                    <a href="{% url 'teachers'%}">
+                    <i class="now-ui-icons ui-1_simple-add"></i>
+                        <p>Müəllimlər</p>
+                    </a>
+                </li>
+              {% endif %}
+
+              {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+                <li {% block active_studentslist %} {% endblock %}>
+                    <a href="{% url 'students'%}">
+                    <i class="now-ui-icons ui-1_simple-add"></i>
+                    <p>Tələbələr</p>
+                    </a>
+                </li>
+              {% endif %}
+             </div>
+            {% if request.user.is_superuser or request.user|hasgroup:"controller" or request.user|hasgroup:"teacher"%}
+                <li {% block active_payment %} {% endblock %}>
+                <a href="{% url 'studentpaymentlist' %}">
+                  <i class="now-ui-icons design-2_ruler-pencil"></i>
+                  <p>Ödəniş Cədvəli</p>
+                </a>
+              </li>
+            {% endif %}
+            {% if request.user.is_superuser or request.user|hasgroup:"controller" or request.user|hasgroup:"teacher"%}
+          <li {% block active_journal %} {% endblock %}>
+            <a href="{% url 'journal_groups' %}">
+              <i class="now-ui-icons users_single-02"></i>
+              <p>E-Jurnal</p>
+            </a>
+          </li>
+            {% endif %}
 
             {% if request.user.is_superuser or request.user|hasgroup:"controller" or request.user|hasgroup:"teacher"%}
                 <li {% block active_quiz_create %} {% endblock %}>
@@ -145,35 +188,34 @@
           </li>
             {% endif %}
 
-                     {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
-                        <li class="menu_drop_head">
-                            <a>
-                            <i class="now-ui-icons business_badge"></i>
-                            <p>İstifadəçi Qeydiyyatı</p>
-                            </a>
-                        </li>
-                    {% endif %}
-                        <div class="sub_menu" style="margin-left:20%">
-                        {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
-                        <li {% block active_teachercreate %} {% endblock %}>
-                            <a href="{% url 'createteacher'%}">
-                            <i class="now-ui-icons ui-1_simple-add"></i>
-                                <p>Müəllim </p>
-                            </a>
-                        </li>
-                        {% endif %}
+         {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+            <li class="menu_drop_head">
+                <a>
+                <i class="now-ui-icons business_badge"></i>
+                <p>İstifadəçi Qeydiyyatı</p>
+                </a>
+            </li>
+          {% endif %}
+          <div class="sub_menu" style="margin-left:20%">
+            {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+            <li {% block active_teachercreate %} {% endblock %}>
+                <a href="{% url 'createteacher'%}">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+                    <p>Müəllim </p>
+                </a>
+            </li>
+            {% endif %}
 
-                      {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
-                        <li {% block active_studentcreate %} {% endblock %}>
-                            <a href="{% url 'createstudent'%}">
-                            <i class="now-ui-icons ui-1_simple-add"></i>
-                            <p>Tələbə</p>
-                            </a>
-                        </li>
-                        {% endif %}
-                </div>
-
-
+            {% if request.user.is_superuser or  request.user|hasgroup:"controller" %}
+            <li {% block active_studentcreate %} {% endblock %}>
+                <a href="{% url 'createstudent'%}">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+                <p>Tələbə</p>
+                </a>
+            </li>
+            {% endif %}
+          </div>
+            
 <!--          <li {# {% block active_tables %} {% endblock %} #}>-->
 <!--            <a href="{% url 'tables'%}" >-->
 <!--              <i class="now-ui-icons design_bullet-list-67"></i>-->
@@ -181,14 +223,14 @@
 <!--            </a>-->
 <!--          </li>-->
 
-            {% if request.user.is_superuser or request.user|hasgroup:"controller" %}
+           {% if request.user.is_superuser or request.user|hasgroup:"controller" %}
             <li>
-            <a href="#">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Web saytın idarəsi</p>
-            </a>
-          </li>
-            {% endif %}
+                <a href="#">
+                  <i class="now-ui-icons text_caps-small"></i>
+                  <p>Web saytın idarəsi</p>
+                </a>
+           </li>
+          {% endif %}
         </ul>
       </div>
     </div>

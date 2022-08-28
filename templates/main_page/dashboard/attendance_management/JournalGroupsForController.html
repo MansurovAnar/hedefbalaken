@@ -1,0 +1,92 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--           {% block active_journal %} class='active' {% endblock active_journal%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-header">
+                        <h4 class="card-title"> Elektron Jurnal</h4>
+                    </div>
+                  </div>
+                <div class="col-md-6">
+                  <div class="card-header">
+                        <h4 class="card-title">Qrup seçimi</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Qrup kodu
+                      </th>
+                      <th>
+                        Qruplar
+                      </th>
+                      <th>
+                        Müəllim
+                      </th>
+                      <th>
+                        Açıqlama
+                      </th>
+                    </thead>
+                    <tbody>
+                    {% for group in groups %}
+                      <tr>
+                        <td>
+                         {{ group.c_id }}
+                        </td>
+                        <td>
+                         <strong><a href="{% url 'showstdattendance' group_id=group.c_id %}">{{ group.c_name }}</a></strong>
+                        </td>
+                          <td>
+                         <strong>{{ group.teachers.all.0.user.first_name }} {{ group.teachers.all.0.user.last_name }}</strong>
+                        </td>
+                        <td>
+                         {{ group.c_description }}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+       <!-- end content -->
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+<!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

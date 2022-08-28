@@ -6,7 +6,6 @@
 {% block main_body %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -16,7 +15,134 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+header a {
+  text-decoration: none;
+}
+
+#brand {
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+#brand a {
+  color: #09c372;
+}
+
+ul {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+ul a {
+  color: white;
+}
+
+ul li {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+ul li:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+#login,
+#signup {
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+
+#login {
+  border: 1px solid #498afb;
+}
+
+#signup {
+  border: 1px solid #ff3860;
+}
+
+#signup a {
+  color: #ff3860;
+}
+
+#login a {
+  color: #498afb;
+}
+
+#hamburger-icon {
+  margin: auto 0;
+  display: none;
+  cursor: pointer;
+}
+
+#hamburger-icon div {
+  width: 35px;
+  height: 3px;
+  background-color: white;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.open .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-6px, 6px);
+  transform: rotate(-45deg) translate(-6px, 6px);
+}
+
+.open .bar2 {
+  opacity: 0;
+}
+
+.open .bar3 {
+  -webkit-transform: rotate(45deg) translate(-6px, -8px);
+  transform: rotate(45deg) translate(-6px, -8px);
+}
+
+.open .mobile-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  height: calc(70vh - 100px);
+  width: 100%;
+  background-color: #86cedb;
+  border-radius: 10px;
+}
+
+.mobile-menu li {
+  margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  header nav {
+    display: none;
+  }
+
+  #hamburger-icon {
+    display: block;
+  }
+}
+</style>
 
 <!-- header-start -->
 <header>
@@ -24,56 +150,69 @@
         <div id="sticky-header" class="main-header-area">
             <div class="container-fluid p-0">
                 <div class="row align-items-center no-gutters">
+
                     <div class="col-xl-2 col-lg-2">
+                        <div id="hamburger-icon" onclick="toggleMobileMenu(this)">
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                            <ul class="mobile-menu">
+                                <br>
+                              {% for menu in menu_name %}
+                                    <li><a href="{% url 'courses' %}">{{ menu.courses_exams }}</a></li>
+                                    <li><a href="{% url 'pdfresult' %}"> İmtahan nəticələri </a></li>
+                                    <li><a href="{% url 'about'%}">{{ menu.about_us }}</a></li>
+                                    <li><a href="#contacts">{{ menu.contacts }}</a></li>
+                                    <li><a href="{% url 'lessontable' %}">Cədvəl</a></li>
+                                {% endfor %}
+                                <li>
+                                    <a class="boxed_btn_orange" href="{% url 'login' %}">
+                                        <i class="fa fa-user"></i>
+                                        <span>Daxil Ol</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="boxed_btn_orange" href="{% url 'register' %}">
+                                        <i class="fa fa-phone"></i>
+                                        <span>Qeydiyyat</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                      </div>
                         <div class="logo-img">
                             <img src="{% static 'img/logo.png' %}" alt=""> <h1 style="color:white">Balakən</h1>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="main-menu  d-none d-lg-block">
-                            <nav>
-                                <ul id="navigation">
-                                    {% for menu in menu_name %}
-                                    <!-- <li><a class="active" href="Ən">home</a></li> -->
-                                    <li><a href="{% url 'courses' %}">{{ menu.courses_exams }}</a></li>
-                                    <!-- <li><a href="#">pages <i class="ti-angle-down"></i></a>
-                                        <ul class="submenu">
-                                            <li><a href="#">course details</a></li>
-                                            <li><a href="#">elements</a></li>
-                                        </ul>
-                                    </li> -->
-                                    <li><a href="{% url 'about'%}">{{ menu.about_us }}</a></li>
-<!--                                    <li><a href="#blogs">Bloq yazıları</a></li>-->
-                                    <li><a href="#contacts">{{ menu.contacts }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 d-none d-lg-block">
-                        <div class="log_chat_btn d-flex align-items-center">
-<!--                            <a class="boxed_btn_orange" href="{% url 'register' %}">-->
-<!--                                <i class="flaticon-crown"></i>-->
-<!--                                <span>Qeydiyyat</span>-->
-<!--                            </a>-->
-                            <div class="live_chat_btn">
-                                <a class="boxed_btn_orange2" href="{% url 'login' %}">
-                                    <i class="fa fa-user"></i>
-                                    <span>Daxil Ol</span>
-                                </a>
+
+                    <nav style="margin-left: 10%;">
+                        <ul>
+                            <br>
+                            {% for menu in menu_name %}
+                                <li><a href="{% url 'courses' %}">{{ menu.courses_exams }}</a></li>
+                                <li><a href="{% url 'pdfresult' %}"> İmtahan nəticələri </a></li>
+                                <li><a href="{% url 'about'%}">{{ menu.about_us }}</a></li>
+                                <li><a href="#contacts">{{ menu.contacts }}</a></li>
+                                <li><a href="{% url 'lessontable' %}">Cədvəl</a></li>
+                            {% endfor %}
+                             <div class="col-xl-4 col-lg-4">
+                               <ul>
+                                <li style="float: right; margin-left: 70%;">
+                                        <a class="boxed_btn_orange2" href="{% url 'login' %}" style="width: 150px;">
+                                            <i class="fa fa-user"></i>
+                                            <span>Daxil Ol</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="boxed_btn_orange" href="{% url 'register' %}" style="width: 170px;">
+                                            <i class="fa fa-phone"></i>
+                                            <span>Qeydiyyat</span>
+                                        </a>
+                                    </li>
+                                   </ul>
                             </div>
-                            &nbsp;
-                                <div class="live_chat_btn">
-                                    <a class="boxed_btn_orange" href="{% url 'whatsapp' %}">
-                                        <i class="fa fa-phone"></i>
-                                        <span>+994 50 524 2346</span>
-                                    </a>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="mobile_menu d-block d-lg-none"></div>
-                    </div>
+                        </ul>
+                      </nav>
                 </div>
             </div>
         </div>
@@ -95,8 +234,9 @@
                     <div class="slider_info">
                         <h3>Sizi Hədəfə<br>
                             aparan <br>
-                            ən inamlı yol!</h3>
-                        <a href="{% url 'courses' %}" class="boxed_btn">{% for menu in menu_name %} {{menu.courses_exams }}a göz atın {% endfor %}</a>
+                            ən İnamlı yol!</h3>
+                      {#  <a href="{% url 'courses' %}" class="boxed_btn">{% for menu in menu_name %} {{menu.courses_exams }}a göz atın {% endfor %}</a> #}
+                        <a href="{% url 'pdfresult' %}" class="boxed_btn">İmtahan nəticələri</a>
                     </div>
                 </div>
             </div>
@@ -284,4 +424,9 @@
     {% include 'footer.html'%} <!-- Footer is here -->
     {% endblock %} <!-- end footer -->
 </div>
+<script>
+    function toggleMobileMenu(menu) {
+    menu.classList.toggle('open');
+}
+</script>
 {% endblock %} <!-- end  body--> 

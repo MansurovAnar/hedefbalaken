@@ -31,12 +31,6 @@
                       <th>
                         Soyad
                       </th>
-                       <th class="text-center">
-                        Nömrə
-                      </th>
-                       <th class="text-center">
-                        Doğum tarixi
-                      </th>
                       <th>
                         Qrupu
                       </th>
@@ -54,25 +48,6 @@
                         </td>
                         <td>
                           {{ std.student.last_name }}
-                        </td>
-                        <td>
-                            {% if std.phone_prefix == "Aze1" %}
-                                (050)
-                            {% elif std.phone_prefix == "Aze2" %}
-                                (051)
-                            {% elif std.phone_prefix == "Bak1" %}
-                                (055)
-                            {% elif std.phone_prefix == "Bak2" %}
-                                (099)
-                            {% elif std.phone_prefix == "Nar1" %}
-                                (070)
-                            {% elif std.phone_prefix == "Nar2" %}
-                                (077)
-                            {% endif %}
-                          {{ std.phone_number }}
-                        </td>
-                        <td class="text-center">
-                          {{ std.birthdate}}
                         </td>
                           <td class="text-center">
                           {{ std.coursess.c_name }}

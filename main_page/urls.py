@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 from . import validators
 from django.views.decorators.csrf import csrf_exempt
+from . import journal_urls, payment_urls
 
 urlpatterns = [
 
@@ -37,10 +38,14 @@ urlpatterns = [
     url(r'^teacher/create$', views.create_teacher, name='createteacher'),
     url(r'^teacher/detail/(?P<pk>[-\w]+)/$', views.teacher_detail, name='teacherdetail'),
     url(r'^profile$', views.my_profile, name='myprofile'),
+    url(r'^update/teacher/(?P<id>[-\w]+)/$', views.update_teacher, name='updateteacher'),
+
 
     url(r'^student/table$', views.students_table, name='students'),
     url(r'^student/table4teacher$', views.students_table_for_teacher, name='students_for_teacher'),
     url(r'^student/create$', views.create_student, name='createstudent'),
+    url(r'^update/student/(?P<id>[-\w]+)/$', views.update_student, name='updatestudent'),
+    url(r'^student/detail/(?P<id>[-\w]+)/$', views.student_detail, name='studentdetail'),
 
     # ~~~~~~~~~~~~~~~~~ Quiz teacher Side -----
     url(r'^quiz/add$', views.add_quiz, name='createquiz'),
@@ -64,11 +69,21 @@ urlpatterns = [
     url(r'^quiz/work/(?P<quiz_id>[-\w]+)/save/$', views.save_quiz_view, name='savequizview'),
 
     url(r'^lesson_materials/$', views.lesson_materials, name='topics_n_materials'),
-
+     ### ~~~~~~~~~~  Validators ~~~~~~~ ######
     path('validate-username/', csrf_exempt(validators.UsernameValidationView.as_view()),
          name="validate-username"),
     path('validate-firstname/', csrf_exempt(validators.FirstnameValidationView.as_view()),
          name="validate-firstname"),
     path('validate-lastname/', csrf_exempt(validators.LastnameValidationView.as_view()),
          name="validate-lastname"),
+    url(r'^pdf_result/$', views.view_pdf, name='pdfresult'),
+    url(r'^lessontable/$', views.lesson_table, name='lessontable'),
+    ## tabel file is the file generated from excel, and will be updated like this every time table changes
+    url(r'^lessontable_file/$', views.lesson_table_file, name='lessontablefile'),
+
+    url(r'^search/student/$', views.search_student, name='searchstudent'),
+    url(r'^search/teacher/$', views.search_teacher, name='searchteacher'),
+    path('', include(journal_urls)),
+    path('', include(payment_urls)),
+
 ]

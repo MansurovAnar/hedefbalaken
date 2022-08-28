@@ -1,0 +1,182 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_courses %} class='active' {% endblock active_courses %} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Qrup məlumatları</h4>
+        </div>
+        {% if messages %}
+                {% for message in messages %}
+                  <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              {% endif %}
+        <form method="POST" enctype= "multipart/form-data">
+          {% csrf_token %}
+          <section class="section">
+            <div class="container ">
+              <div class="columns" style="margin: 0 auto; max-width: 536px;">
+                <div class="column is-half is-offset-one-quarter">
+
+                  {% for hidden in courseForm.hidden_fields %}
+                      {{ hidden }}
+                  {% endfor %}
+
+                    {% if courseForm.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{  error }}</strong>
+                                </div>
+                        {% endfor %}
+                    {% endif %}
+
+                  <div class="field">
+                    <label>Qrup ID</label>
+                    <div class="control">
+                      {% render_field courseForm.c_id style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Code" %}
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="field">
+                    <label>Ad</label>
+                    <div class="control">
+                      {% render_field courseForm.c_name style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Name" %}
+                    </div>
+                  </div>
+                  <br>
+
+
+                  <div class="field">
+                    <label>Status</label>
+                    <div class="control">
+                      {% render_field courseForm.c_status style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="field">
+                    <label>Açıqlama</label>
+                    <div class="control">
+                      {% render_field courseForm.c_description style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+
+                    <div class="field">
+                    <label>Müəllim(lər)</label>
+                    <div class="control">
+                      {% render_field courseForm.teachers style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+
+                   <div class="field">
+                    <label>Tələbə(lər)</label>
+                    <div class="control">
+                      {% render_field courseForm.students style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="field">
+                    <label>Şəkil</label>
+                    <div class="control">
+                      {% render_field courseForm.c_photo style="border-radius:10px; color:#3299a8;" %}
+                    </div>
+                  </div>
+                  <br>
+
+                </div>
+              </div>
+            </div>
+          </section>
+          <br>
+
+            <div id="addCourse" class="modal">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addCourseTitle">Yeni kurs</h5>
+                    </div>
+                    <div class="modal-body">
+                     "<b>{{ created_course}}</b>" kursu əlavə olundu.
+                    </div>
+                    <div class="modal-footer">
+                      <a class="btn btn-outline-info" onclick="document.getElementById('addCourse').style.display='none'" class="close" title="Bağla" >
+                        OK
+                      </a>
+                    </div>
+                  </div>
+                 </div>
+                </div>
+
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="text-center custom-pro-edt-ds">
+                    <!-- <input type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10" value="Save"> -->
+                    <button type="submit" class="btn btn-outline-success" >Yadda saxla</button>
+                      <!-- <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button> -->
+                      <a type="button" class="btn btn-outline-warning" href="{% url 'dashboardcourses' %}">İmtina et</a>
+                  </div>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> <!-- end content -->
+
+
+{% endblock content %}
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% if success %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            document.getElementById('addCourse').style.display='block'
+        });
+    </script>
+{% endif %}
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+{% endblock main_body %}
+</body>

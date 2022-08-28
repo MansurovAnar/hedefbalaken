@@ -71,6 +71,9 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title"> Müəllim əlavə et</h4>
+            <div class="align-self-end ml-auto">
+              <a class="btn btn-primary float-right" href="{% url 'teachers' %}" >Müəllimlər listi</a>
+            </div>
         </div>
 
           {% if messages %}
@@ -82,7 +85,7 @@
                   </button>
                   {{ message }}
                 </div>
-              </div>
+                </div>
               {% endfor %}
           {% endif %}
 
@@ -98,34 +101,45 @@
                       {{ hidden }}
                   {% endfor %}
 
-                 <div class="field">
-
-                    <div class="control form-group">
+                  <div class="field">
+                    <div class="control">
                       {% render_field userForm.username id="form_username" title="İstifadəçi adını daxil edin." style="color:#3299a8;border-radius:10px; border:1px;" class="form-control" name="" required="" placeholder="İstifadəçi adı"%}
                     </div>
                      <span class="error_form" id="username_error_message"></span>
                   </div>
+                    <br>
 
                     <div class="field">
-                    <div class="control form-group">
-                      {% render_field userForm.first_name id="form_firstname" title="Ad daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Ad" %}
-                    </div>
+                        <div class="control">
+                          {% render_field userForm.first_name id="form_firstname" title="Ad daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Ad" %}
+                        </div>
                         <span class="error_form" id="firstname_error_message"></span>
-                  </div>
+                    </div>
+                    <br>
 
-                 <div class="field">
-                    <div class="control form-group">
+                   <div class="field">
+                    <div class="control">
                       {% render_field userForm.last_name id="form_lastname" title="Soyad daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Soyad"%}
                     </div>
                      <span class="error_form" id="lastname_error_message"></span>
-                  </div>
+                   </div>
+                    <br>
 
                     <div class="field">
-                    <div class="control form-group">
-                      {% render_field userForm.email id="form_email" title="Email daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="E-mail"%}
+                        <label>Status</label>
+                        <div class="control">
+                          {% render_field teacherForm.status style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                        </div>
                     </div>
+                    <br>
+
+                    <div class="field">
+                        <div class="control">
+                          {% render_field userForm.email id="form_email" title="Email daxil edin." style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="E-mail" %}
+                        </div>
                         <span class="error_form" id="email_error_message"></span>
-                  </div>
+                    </div>
+                    <br>
 
                     <div class="field">
                         <div class="select">
@@ -134,18 +148,17 @@
                             <div class="control">
                                 {% render_field teacherForm.phone_number class="input" id="form_fphone" title="Mobil nömrə daxil edin." placeholder="Mobil nömrəniz (Məs: 1234567 )" name="" required="" %}
                             </div>
-
                         <span class="error_form" id="fphone_error_message"></span>
-                      </div>
-                  <br>
+                    </div>
+                    <br>
 
                     <div class="field">
                     <label>Doğum günü</label>
-                    <div class="control select">
+                    <div class="control">
                       {% render_field teacherForm.birthdate style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="Doğum tarixi" %}
                     </div>
                   </div>
-                  <br/><br/><br/>
+                  <br>
 
                     <div class="field">
                     <label>Profil Şəkli</label>
@@ -186,7 +199,7 @@
                     <!-- <input type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10" value="Save"> -->
                     <button type="submit" id="submit_form" class="btn btn-outline-success">Yadda saxla</button>
                       <!-- <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button> -->
-                      <a type="button" class="btn btn-outline-warning" href="{% url 'dashboard' %}">İmtina et</a>
+                      <a type="button" class="btn btn-outline-warning" href="{% url 'teachers' %}">İmtina et</a>
 
                   </div>
               </div>

@@ -33,8 +33,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['https://ganda-ems.herokuapp.com/']
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -111,7 +110,15 @@ DATABASES = {
         'PORT': '5432',
         # SQLite config
         # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'NAME': os.path.join(BASE_DIR, 'db.sql ite3'),
+        
+        #PostgreSQL a2Hosting
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'hedefbal_hedef_db',
+        # 'USER': 'hedefbal_hedefbal',
+        # 'PASSWORD': 'Oddmanout5~~',
+        # 'HOST': 'sg1-ss100.a2hosting.com',
+        # 'PORT': '5432',
     }
 }
 

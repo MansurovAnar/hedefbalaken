@@ -1,24 +1,22 @@
 import re
 from django import forms
-from django.db import models
 from django.contrib.auth.forms import UserCreationForm
-from .models import (TeacherProfile, StudentProfile,
-                     Course,
-                     Quiz, Question, Answer)
-from django.contrib.auth.models import User, Group
-from django.core.validators import RegexValidator
-import datetime
+from main_page.models.all_models import (TeacherProfile, StudentProfile,
+                                 Course,
+                                 Quiz, Question, Answer)
+from main_page.models.journal_models import StAttendance
+from django.contrib.auth.models import User
 
-from .models import user
+from main_page.models.all_models import user
 # from .models import user, Course
 
 from django.core.validators import RegexValidator
-from django.contrib.auth.validators import ASCIIUsernameValidator
-from django.utils.translation import gettext_lazy as _
 import datetime
 
 from django.forms import formset_factory
 from django.forms import BaseInlineFormSet
+
+from django.utils.translation import ugettext_lazy as _
 
 # Custom error messages test
 # from django.forms import Field
@@ -44,26 +42,32 @@ PHONE_PREFIXES = (
 )
 # Course choices
 # Creating a tuble of Courses with PK (first three letters of a Course) from DB
-course_l = []
-course_list = Course.objects.all()
+"""course_l = []
+if Course:
+    course_list = Course.objects.all()
+else:
+    course_list = []
 count = 0
-if len(course_list) > 0:
-    count = course_list.count()
+if course_list:
+    if len(course_list) > 0:
+        count = course_list.count()
 
-if count > 0:
-    for i in range(count):
-        course_l.append((course_list[i].c_id, course_list[i].c_name))
+    if count > 0:
+        for i in range(count):
+            course_l.append((course_list[i].c_id, course_list[i].c_name))
 
 if course_l:
     COURSE_CHOICES = tuple(course_l)
 else:
     COURSE_CHOICES = (
         ('YOX', 'Kurs yoxdur'),
-    )
-# COURSE_CHOICES = (
-#         ('ENG1', 'English'),
-#         ('ENG2', 'English 2'),
-#     )
+    )"""
+COURSE_CHOICES = (
+    ('5', '5-ci sinif'),
+    ('6', '6-cı sinif'),
+    ('7', '7-ci sinif'),
+    ('8', '8-ci sinif')
+)
 
 # END Course choices
 
@@ -98,7 +102,7 @@ class RegisterForm(forms.ModelForm):
                                 widget=forms.TextInput(
                                     attrs={
                                         'class': 'form-control-lg col-md-5',
-                                        'placeholder': 'Şəxsiyyət Vəsiqəsinin FİN kodu'
+                                        'placeholder': 'Şəxsiyyət vəsiqəsi FİN nömrəsi'
                                     }
                                 )
                                 )
@@ -137,25 +141,27 @@ class RegisterForm(forms.ModelForm):
             }
         )
     )
-    u_birthdate = forms.DateField(required=True,
-                                  widget=forms.SelectDateWidget(years=YEARS,
-                                                                attrs={
-                                                                    'class': 'form-control-lg col-md-1.5'
-                                                                }
-                                                                )
-                                  )
 
-    u_course = forms.ChoiceField(choices=COURSE_CHOICES, required=True,
+    u_class = forms.ChoiceField(choices=COURSE_CHOICES, required=True,
                                  widget=forms.Select(attrs={
                                      'class': 'form-control-lg col-md-5',
-                                     'placeholder': 'Kurs seçimi'
+                                     'placeholder': 'Sinif'
                                  })
                                  )
+
+    u_school = forms.CharField(required=True, validators=[check_name, ],
+                             widget=forms.TextInput(
+                                 attrs={
+                                     'class': 'form-control-lg col-md-5',
+                                     'placeholder': 'Mətkəb adı',
+                                 }
+                             )
+                             )
 
     class Meta(object):
         """docstring for Meta"""
         model = user
-        fields = ['u_shx_pin', 'u_name', 'u_sname', 'u_phonenumberprefix', 'u_phonenumber', 'u_birthdate', 'u_course']
+        fields = ['u_shx_pin', 'u_name', 'u_sname', 'u_phonenumberprefix', 'u_phonenumber', 'u_class', 'u_school']
 
 
 class LoginUser(forms.Form):
@@ -214,10 +220,11 @@ class TeacherProfileForm(forms.ModelForm):
                                                               }
                                                               )
                                 )
+    status = forms.BooleanField(initial=False, required=False)
 
     class Meta:
         model = TeacherProfile
-        fields = ('image', 'phone_prefix', 'phone_number', 'birthdate')
+        fields = ('image', 'phone_prefix', 'phone_number', 'birthdate', 'status')
 
 
 class StudentProfileForm(forms.ModelForm):
@@ -243,28 +250,29 @@ class StudentProfileForm(forms.ModelForm):
                                                               }
                                                               )
                                 )
+    status = forms.BooleanField(initial=False, required=False)
 
     class Meta:
         model = StudentProfile
-        fields = ('image', 'phone_prefix', 'phone_number', 'birthdate')
+        fields = ('image', 'phone_prefix', 'phone_number', 'birthdate','status')
 
 
 class CourseCreate(forms.ModelForm):
     """ docstring - for Creating Course, new course"""
 
-    c_id = forms.CharField(required=True, max_length=4)
+    c_id = forms.CharField(required=True, max_length=4, error_messages={"unique": "Id unique olmalidir"})
     c_name = forms.CharField(required=True, max_length=20)
     c_status = forms.BooleanField(initial=True, required=False)
     c_description = forms.CharField(max_length=200, required=False, widget=forms.Textarea)
     c_photo = forms.ImageField()
     teachers = forms.ModelMultipleChoiceField(
         required=False,
-        queryset=TeacherProfile.objects.all(),
+        queryset=TeacherProfile.objects.filter(status=True),
         widget=forms.CheckboxSelectMultiple
     )
     students = forms.ModelMultipleChoiceField(
         required=False,
-        queryset=StudentProfile.objects.all(),
+        queryset=StudentProfile.objects.filter(status=True),
         widget=forms.CheckboxSelectMultiple
     )
 
@@ -313,10 +321,54 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ('text', 'correct')
 
-AnswerFormset = formset_factory(AnswerForm, extra=1)
+        labels = {
+            'text': "",
+            'correct': _('Doğrudur '),
+        }
+        widgets = {
+            'text': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Variantı daxil edin', 'style': "align:left;color:#3299a8;border-radius:10px; width: 90%; margin: 30px;"}),
+            'correct': forms.CheckboxInput(attrs={'title': 'Doğrudursa kliklə'})
+        }
+
+class CustomAnswerInlineFormset(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super(CustomAnswerInlineFormset, self).__init__(*args, **kwargs)
+        # self.forms.widget.attrs.update({'placeholder': 'User Name'})
+
+        for form in self.forms:
+            print("\n\n")
+            for field in form.fields:
+                print(field)
+                form.fields['text'].widget.attrs.update({'class': 'form-control',
+                                                         'placeholder': 'Variantı daxil edin',
+                                                         'style': "align:left;color:#3299a8;border-radius:10px; width: 90%; margin: 30px;"})
+                form.fields['text'].label = "Variant"
+                # form.fields['correct'].widget.attrs.update({'style': "margin-botton:30%; margin-top:20px;"})
+                form.fields['correct'].label = "Doğru"
+                # form.fields['DELETE'].widget.attrs.update({'style': "padding:30%;margin-top:20%;"})
+                form.fields['DELETE'].label = "Sil"
 
 class CustomInlineFormset(BaseInlineFormSet):
     def clean(self):
         super().clean()
         for form in self.forms:
             print("Inside CUSTOM INLINE FORMSET- FORM \n: ", form)
+
+class StudentIDNumberForm(forms.Form):
+    id_number = forms.CharField(required=True,
+                                max_length=7,
+                                widget=forms.TextInput(
+                                    attrs={
+                                        'class': 'form-control-lg col-md-4',
+                                        'placeholder': 'İş nömrəsi (e.g 7212222) '
+                                    }
+                                )
+                                )
+
+class StudentAttendanceForm(forms.ModelForm):
+    first_hour = forms.BooleanField(required=False)
+    second_hour = forms.BooleanField(required=False)
+    student = forms.CharField(required=False)
+    class Meta:
+        model = StAttendance
+        fields = ('student', 'first_hour', 'second_hour',)

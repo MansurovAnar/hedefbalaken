@@ -53,7 +53,7 @@
                                 <div class="live_chat_btn">
                                     <a class="boxed_btn_orange" href="{% url 'whatsapp' %}">
                                         <i class="fa fa-phone"></i>
-                                        <span>+994 51 355 7271</span>
+                                        <span>+994 50 524 23 46</span>
                                     </a>
                                 </div>
                             </div>
@@ -83,9 +83,9 @@
             <div class="column is-half is-offset-one-quarter">
 
               <div class="field">
-                <label id="req">FİN kod</label>
+                <label id="req">Şəxsiyyət Vəsiqəsinin FİN nömrəsi</label>
                 <div class="control">
-                  {% render_field reg_form.u_shx_pin class="input" placeholder="Şəxsiyyət vəsiqsinin FİN kodu" id="form_fin" name="" required="" %}
+                  {% render_field reg_form.u_shx_pin class="input" placeholder="FİN nömrə" id="form_examid" name="" required="" %}
                 </div>
                 <span class="error_form" id="fin_error_message"></span>
               </div>
@@ -118,22 +118,22 @@
                 <span class="error_form" id="fphone_error_message"></span>
               </div>
 
-              <div class="field">
-                <label>Doğum tarixi</label>
-                <div class="control">
-                    {% render_field reg_form.u_birthdate id="form_fbirth" name="" required="" %}
-                </div>
-                <span class="error_form" id="fbirth_error_message"></span>
-              </div>
 
               <div class="field">
-                <label id="req">Kurslar</label>
+                <label id="req">Sinif</label>
                 <div class="control">
                   <div class="select">
-                    {% render_field reg_form.u_course id="form_fcourse" name="" required="" %}
+                    {% render_field reg_form.u_class id="form_fcourse" name="" required="" %}
                   </div>
                 </div>
                 <span class="error_form" id="fcourse_error_message"></span>
+              </div>
+
+               <div class="field">
+                <label id="req">Məktəbin adı</label>
+                <div class="control">
+                    {% render_field reg_form.u_school class="input" id="form_freferance" name="" required="" %}
+                </div>
               </div>
 
               <br>

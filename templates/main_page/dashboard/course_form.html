@@ -23,14 +23,18 @@
         <div class="card-header">
           <h4 class="card-title"> Qrup məlumatları</h4>
         </div>
-          {% if success %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              "<b>{{created_course}}</b>" qrupu uğurla əlavə olundu.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          {% endif %}
+        {% if messages %}
+                {% for message in messages %}
+                  <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              {% endif %}
         <form method="POST" enctype= "multipart/form-data">
           {% csrf_token %}
           <section class="section">
@@ -112,25 +116,6 @@
             </div>
           </section>
           <br>
-
-            <div id="addCourse" class="modal">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="addCourseTitle">Yeni kurs</h5>
-                    </div>
-                    <div class="modal-body">
-                     "<b>{{ created_course}}</b>" kursu əlavə olundu.
-                    </div>
-                    <div class="modal-footer">
-                      <a class="btn btn-outline-info" onclick="document.getElementById('addCourse').style.display='none'" class="close" title="Bağla" >
-                        OK
-                      </a>
-                    </div>
-                  </div>
-                 </div>
-                </div>
-
           <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="text-center custom-pro-edt-ds">

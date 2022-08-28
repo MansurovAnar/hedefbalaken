@@ -1,0 +1,96 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_courses %} class='active' {% endblock active_courses %} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ student.student.first_name }} {{ student.student.last_name }} haqqında ətraflı məlumat</h4>
+            <div class="align-self-end ml-auto">
+                  <a class="btn btn-primary float-right" title="Qruplar listinə geri qayıt" href="{% url 'dashboardcourses' %}" >Geri</a>
+                </div>
+        </div>
+        <br>
+
+        <div class="container" style="padding-left:20px;padding-right:20px;">
+              <div class="row" style="width:100%;">
+                <div class="span4" style="width:100%;">
+                  <a href="{{ MEDIA_URl }}{{ student.image.url }}"><img class="img-left" src="{{ MEDIA_URl }}{{ student.image.url }}" style="float: left; margin-right: 10px; width:200px; height:200px;"/></a>
+
+                    <h4 style="margin:0; font-size:15px;color:#1282cc;">Ad, Soyad</h4>
+                    <p style="font-size:13px;">{{ student.student.first_name }} {{ student.student.last_name }}</p>
+
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Mobil nömrə</h4>
+                    <p>({{ prefix }}){{ student.phone_number }}</p>
+
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Status</h4>
+                    <p>
+                        {% if student.status %}
+                            Aktiv
+                        {% else %}
+                            Deaktiv
+                        {% endif %}
+                    </p>
+
+                    <h4 style="margin:0; font-size:15px; color:#1282cc;">Kurslar</h4>
+                    <p style="font-size:13px;">
+                        {% if student.coursess.all %}
+                            {% for crs in student.coursess.all %}
+                                {{ crs }}
+                                <br>
+                            {% endfor %}
+                        {% else %}
+                            Yoxdur
+                        {% endif %}
+                    </p>
+
+                  <div class="row">
+                    <div class="span4">
+
+                    </div>
+                 </div>
+                </div>
+             </div>
+             <br/>
+
+          </div>
+       </div>
+    </div>
+  </div>
+</div> <!-- end content -->
+
+
+{% endblock content %}
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+{% endblock main_body %}
+</body>

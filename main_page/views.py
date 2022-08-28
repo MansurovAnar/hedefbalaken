@@ -1,39 +1,42 @@
-from typing import List, Any
-
-from django.views.decorators.clickjacking import xframe_options_sameorigin
-
-from .forms import RegisterUser
-from django.urls import reverse
-from .decorators import allowed_users
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.forms import inlineformset_factory
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from .models import (Course, TeacherProfile,
-                     StudentProfile, Quiz,
-                     Question, Answer, Result, FrontPageData,
-                     TeamMember, FrontMenuNames
-                     )
+from django.urls import reverse
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.csrf import csrf_protect
+from django.db.models import Q
+
+from .decorators import allowed_users
 from .forms import (RegisterForm, LoginUser,
                     CourseCreate, TeacherProfileForm,
                     StudentProfileForm,
                     QuestionForm, AnswerForm,
-                    QuizForm, AnswerFormset, CustomInlineFormset
+                    QuizForm,
+                    StudentIDNumberForm
                     )
-from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
-from django.template.loader import render_to_string
-from django.contrib import messages
-from django.forms import inlineformset_factory
+from .forms import RegisterUser, CustomAnswerInlineFormset
+from main_page.models.all_models import (Course, TeacherProfile,
+                                 StudentProfile, Quiz,
+                                 Question, Answer, Result, FrontPageData,
+                                 TeamMember, FrontMenuNames
+                                 )
+from main_page.models.payment_models import StdPaymentAmount2
 from .queries import (QuizData, QuizDataForTeacher)
-from django.core import serializers
-
+from django.http import FileResponse
+import os
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.forms import formset_factory
+import datetime
 
 def index(request):
     front_data = FrontPageData.objects.all()
     menu_names = FrontMenuNames.objects.all()
-    context = {"front_data": front_data, "menu_name": menu_names }
+    context = {"front_data": front_data, "menu_name": menu_names}
     return render(request, 'main_page/index.html', context)
 
 
@@ -46,11 +49,16 @@ def about(request):
 
 @csrf_protect
 def register(request):
-    reg_form = RegisterForm(request.POST)
-    if reg_form.is_valid():
-        reg_form.save()
-        print("Valid")
-    return render(request, 'main_page/Registration.html', {'reg_form': reg_form})
+    if request.method == "POST":
+        reg_form = RegisterForm(request.POST)
+        print(reg_form)
+        if reg_form.is_valid():
+            print(reg_form)
+            reg_form.save()
+    else:
+        reg_form = RegisterForm()
+    context = {'reg_form': reg_form}
+    return render(request, 'main_page/Registration.html', context)
 
 
 ######################################################################################
@@ -128,7 +136,7 @@ def logoutUser(request):
 def courses(request):
     course_list = Course.objects.all()
     menu_names = FrontMenuNames.objects.all()
-    args = {'courses': course_list, "menu_name": menu_names }
+    args = {'courses': course_list, "menu_name": menu_names}
     return render(request, 'main_page/courses.html', args)
 
 
@@ -157,21 +165,12 @@ def tables(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller'])
 def students_table(request):
-    students_info = StudentProfile.objects.all()
-    teacher_info = TeacherProfile.objects.all()
-    teachers_student_detail = {}
+    students_info = StudentProfile.objects.all().order_by('-status')
 
-    for tcr in teacher_info:
-        teacher_students = []
-        for grp in tcr.get_groups():
-            for std in students_info:
-                for std_grp in std.get_groups():
-                    if std_grp == grp:
-                        if not (std in teacher_students):
-                            teacher_students.append(std)
-        teachers_student_detail[str(tcr)] = teacher_students
-
-    context = {'students_info': students_info, 'teacher_students': teachers_student_detail}
+    context = {
+                'students_info': students_info,
+                'previous_page': request.META.get('HTTP_REFERER'),
+               }
     return render(request, 'main_page/dashboard/students_table.html', context)
 
 
@@ -187,10 +186,11 @@ def students_table_for_teacher(request):
         teacher_students = []
         for grp in tcr.get_groups():
             for std in students_info:
-                for std_grp in std.get_groups():
-                    if std_grp == grp:
-                        if not (std in teacher_students):
-                            teacher_students.append(std)
+                if std.status:
+                    for std_grp in std.get_groups():
+                        if std_grp == grp:
+                            if not (std in teacher_students):
+                                teacher_students.append(std)
         teachers_student_detail[str(tcr)] = teacher_students
 
     std_results_for_tcr = quizData.get_results_for_teacher()
@@ -205,7 +205,7 @@ def students_table_for_teacher(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['controller'])
 def teachers_table(request):
-    teacher_info = TeacherProfile.objects.all()
+    teacher_info = TeacherProfile.objects.all().order_by('-status')
     teacher_info_detail = {}
     students = StudentProfile.objects.all()
     teachers_student_detail = {}
@@ -235,7 +235,7 @@ def teachers_table(request):
 
 @login_required(login_url='login')
 def courses_in_dashboard(request):
-    courses_list = Course.objects.all()
+    courses_list = Course.objects.all().order_by('-c_status')
     context = {'courses': courses_list}
     return render(request, 'main_page/dashboard/course_tables.html', context)
 
@@ -256,9 +256,13 @@ def create_course(request):
             context['courseForm'] = courseForm
             context['success'] = True
             context['created_course'] = crs
+            messages.success(request, '"' + str(crs) + '"' + " qrupu yaradıldı.")
             return render(request, 'main_page/dashboard/course_form.html', context)
         else:
-            print(courseForm.errors)
+            error_context = """
+                Qrup ID unique olmalıdır.
+            """
+            messages.error(request, error_context)
     else:
         courseForm = CourseCreate()
     context['courseForm'] = courseForm
@@ -346,6 +350,26 @@ def create_teacher(request):
                }
     return render(request, 'main_page/dashboard/teacher_form.html', context)
 
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def update_teacher(request, id):
+    context = {}
+    teacher = get_object_or_404(TeacherProfile, pk=id)
+
+    teacherForm = TeacherProfileForm(request.POST or None, instance=teacher)
+
+    if teacherForm.is_valid():
+        teacher_form = teacherForm.save(commit=False)
+        if 'image' in request.FILES:
+            teacher_form.image = request.FILES['image']
+        teacher_form.save()
+
+        messages.success(request, '"' + str(teacher_form) + '"' + " müəllimi haqqında məlumat yeniləndi.")
+        return redirect('teachers')
+    context['teacherForm'] = teacherForm
+    context['teacher'] = teacher
+    return render(request, 'main_page/dashboard/teacher_update_form.html', context)
 
 @login_required(login_url='login')
 def teacher_detail(request, pk):
@@ -357,8 +381,8 @@ def teacher_detail(request, pk):
         for std in students:
             if std.coursess.filter(c_name=crs):
                 teachers_student.append(std)
-                print("Student- {}, course- {} ".format(std, std.coursess.filter(c_name=crs)))
-    print("Teacher's students", teachers_student)
+    #             print("Student- {}, course- {} ".format(std, std.coursess.filter(c_name=crs)))
+    # print("Teacher's students", teachers_student)
     context = {"teacher_detail": teacher, "teachers_student": teachers_student}
 
     return render(request, 'main_page/dashboard/teacher_detail.html', context)
@@ -455,14 +479,17 @@ def create_student(request):
             stdnt = student_form.save(commit=False)
             stdnt.student = user
             if 'image' in request.FILES:
-                print('Found it')
                 stdnt.image = request.FILES['image']
             stdnt.save()
             # student_form.save_m2m()
 
-            print("[ INFO ] Student form SAVED")
-            # std = StudentProfile.objects.all()
-            # print(std)
+            # print("[ INFO ] Student form SAVED")
+            # Initial Payment for new student
+            initial_group = Course.objects.get(c_id='TST')
+            payment = StdPaymentAmount2.objects.create(
+                group=initial_group, student=stdnt, monthlyAmount=0, startDate=datetime.date.today()
+            )
+            # print("PAYMENT: ", payment)
             messages.success(request, '"' + str(stdnt) + '"' + " istifadəçi adlı tələbə yaradıldı.")
             user_form = RegisterUser()
             student_form = StudentProfileForm()
@@ -480,6 +507,45 @@ def create_student(request):
     context = {"userForm": user_form, "studentForm": student_form}
     return render(request, 'main_page/dashboard/student_form.html', context)
 
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def update_student(request, id):
+    context = {}
+    student = get_object_or_404(StudentProfile, pk=id)
+
+    studentForm = StudentProfileForm(request.POST or None, instance=student)
+
+    if studentForm.is_valid():
+        student_form = studentForm.save(commit=False)
+        if 'image' in request.FILES:
+            student_form.image = request.FILES['image']
+        student_form.save()
+        messages.success(request, '"' + str(student_form) + '"' + " tələbəsi haqqında məlumat yeniləndi.")
+        return redirect('students')
+    context['studentForm'] = studentForm
+    context['student'] = student
+    return render(request, 'main_page/dashboard/student_update_form.html', context)
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def student_detail(request, id):
+    context = {}
+    PHONE_PREFIXES = (
+        ('Aze1', '050'),
+        ('Aze2', '051'),
+        ('Bak1', '055'),
+        ('Bak2', '099'),
+        ('Nar1', '070'),
+        ('Nar2', '077'),
+    )
+    student = get_object_or_404(StudentProfile, pk=id)
+    student_phonePrefix = dict(PHONE_PREFIXES).get(student.phone_prefix)
+
+    context['student'] = student
+    context['prefix'] = student_phonePrefix
+    return render(request, 'main_page/dashboard/student_detail.html', context)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###########################  Yeni Quiz, Question, Answer modelləri üzərində test viewlar #######################
@@ -686,6 +752,7 @@ def add_question_variant_formset(request, id):
     quests = Question.objects.filter(quiz=quiz)
 
     question_variants = {}
+    AnswerFormset = formset_factory(AnswerForm, extra=1)
 
     for q in quests:
         if q.get_answers():
@@ -694,10 +761,11 @@ def add_question_variant_formset(request, id):
             for answr in q.get_answers():
                 answers_list.append(answr)
             variants_list = answers_list
-            print("Answers list: ", variants_list)
+            # print("Answers list: ", variants_list)
             question_variants[str(q)] = variants_list
-    print(question_variants)
-
+    # print(question_variants)
+    if request.method == 'POST':
+        print(request.POST)
     if request.method == 'GET':
         answer_formset = AnswerFormset(request.GET or None)
         question_form = QuestionForm()
@@ -705,7 +773,7 @@ def add_question_variant_formset(request, id):
         answer_formset = AnswerFormset(request.POST)
         question_form = QuestionForm(request.POST)
         if question_form.is_valid() and answer_formset.is_valid():
-            print("FORM-lar valid")
+            # print("FORM-lar valid")
             # before, save question
             question_instance = question_form.save(commit=False)
             question_instance.quiz = quiz
@@ -714,19 +782,19 @@ def add_question_variant_formset(request, id):
 
             question_instance.save()
             question_form.save()
-            print("Question saved")
+            # print("Question saved")
 
             for form in answer_formset:
                 if form['text'].value():
                     # save answer
                     answer_instance = form.save(commit=False)
                     answer_instance.question = question_instance
-                    print("QUestion instance: ", question_instance)
-                    print("QUestion form: ", question_form)
+                    # print("QUestion instance: ", question_instance)
+                    # print("QUestion form: ", question_form)
 
                     answer_instance.save()
                     # form.save()
-                    print("Answer saved")
+                    # print("Answer saved:answer_instance ", answer_instance)
 
             questions = Question.objects.filter(quiz=quiz)
 
@@ -740,7 +808,7 @@ def add_question_variant_formset(request, id):
                     for answr in q.get_answers():
                         answers_list.append(answr)
                     variants_list = answers_list
-                    print("Answers list: ", variants_list)
+                    # print("Answers list: ", variants_list)
                     question_variants[str(q)] = variants_list
             messages.success(request, '"' + str(question_instance.text) + '"' + " sualı əlavə edildi.")
             context = {'quiz': quiz,
@@ -749,11 +817,11 @@ def add_question_variant_formset(request, id):
                        'formset': AnswerFormset(),
                        'question_form': QuestionForm()
                        }
-            return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+            return render(request, 'main_page/dashboard/quiz_app/add_answer_formset.html',
                           context)
 
     questions = Question.objects.filter(quiz=quiz)
-    return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+    return render(request, 'main_page/dashboard/quiz_app/add_answer_formset.html',
                   {'quiz': quiz,
                    'questions': questions,
                    'question_variants': question_variants,
@@ -778,51 +846,37 @@ def update_question_variant_formset(request, quiz_id, question_id):
             for answr in q.get_answers():
                 answers_list.append(answr)
             variants_list = answers_list
-            print("Answers list: ", variants_list)
             question_variants[str(q)] = variants_list
-    print(question_variants)
 
-    AnswerInlineformset = inlineformset_factory(Question, Answer, fields=('text', 'correct',),
-                                                can_delete=True, max_num=6, extra=3)
+    AnswerInlineformset = inlineformset_factory(Question, Answer, formset=CustomAnswerInlineFormset, fields=('text', 'correct',),
+                                                can_delete=True, max_num=6, extra=0)
 
-    print("Debug 000 ")
     if request.method == 'POST':
         question_form = QuestionForm(request.POST, instance=question)
         formset = AnswerInlineformset(request.POST, instance=question)
-        print("Formset: ", formset)
-        print(": ", question_form)
 
-        print("Debug 0 ")
         if question_form.is_valid() and formset.is_valid():
-            print("Debug 1 ")
-            print("FORM-lar valid")
             # before, save question
             question_instance = question_form.save(commit=False)
             question_instance.quiz = quiz
             if 'image' in request.FILES:
-                print("Debug 2 ")
                 question_instance.image = request.FILES['image']
 
             question_instance.save()
             question_form.save()
-            print("Question saved")
+
 
             for form in formset:
                 if form['text'].value():
-                    print("DELETED? ", form['DELETE'].value())
+                    # print("DELETED? ", form['DELETE'].value())
                     # save answer
                     answer_instance = form.save(commit=False)
                     if form['DELETE'].value():
                         answer_instance.delete()
-                        print("Instance DELETED")
                     else:
                         answer_instance.question = question_instance
-                        print("QUestion instance: ", question_instance)
-                        print("QUestion form: ", question_form)
-
                         answer_instance.save()
                         # form.save()
-                        print("Answer updated")
             # print("FORMSET HAS CHANGED ", formset.has_changed())
             messages.success(request, '"' + str(question.text) + '"' + " sualının variant(lar)ı yeniləndi.")
         else:
@@ -836,7 +890,7 @@ def update_question_variant_formset(request, quiz_id, question_id):
         )
 
     questions = Question.objects.filter(quiz=quiz)
-    return render(request, 'main_page/dashboard/quiz_app/add_quest_answr_formset.html',
+    return render(request, 'main_page/dashboard/quiz_app/update_answer_formset.html',
                   {'update': True,
                    'quiz': quiz,
                    'questions': questions,
@@ -1039,3 +1093,58 @@ def save_quiz_view(request, quiz_id):
 
 def lesson_materials(request):
     return render(request, 'main_page/dashboard/lesson_materials/topics_and_materials.html')
+
+@csrf_exempt
+def view_pdf(request):
+    if request.method == 'POST':
+        form = StudentIDNumberForm(request.POST)
+        if form.is_valid():
+            all_files = os.listdir("media/pdf")
+            ish_nomre = form.cleaned_data["id_number"]
+            pdf = str(ish_nomre) + '.pdf'
+            if pdf in all_files:
+                filepath = os.path.join("media/pdf", pdf)
+                return HttpResponse(open(filepath, 'rb'), content_type='application/pdf')
+                # return FileResponse(open(filepath, 'rb'), content_type='application/pdf')
+            else:
+                messages.error(request, "İş nömrəsini düzgün daxil edin")
+    else:
+        form = StudentIDNumberForm()
+    return render(request, 'main_page/view_pdf_result.html', {'form': form})
+
+
+@xframe_options_sameorigin
+def lesson_table(request):
+    return render(request, 'main_page/LessonTable.html')
+
+@xframe_options_sameorigin
+def lesson_table_file(request):
+    return render(request, 'main_page/hedef_cdvl.html')
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def search_student(request):
+    query = request.GET.get('q')
+    lookup = StudentProfile.objects.filter(Q(student__first_name__contains=query) |
+                                           Q(student__last_name__contains=query) |
+                                           Q(student__username__contains=query)).order_by('-status')
+    print("LOOKUP FIND: ", lookup)
+    return render(request, 'main_page/dashboard/student_search.html',
+                  context={'search_result': lookup
+
+    })
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def search_teacher(request):
+    query = request.GET.get('q')
+    lookup = TeacherProfile.objects.filter(Q(user__first_name__contains=query) |
+                                           Q(user__last_name__contains=query) |
+                                           Q(user__username__contains=query)).order_by('-status')
+    print("LOOKUP FIND: ", lookup)
+    return render(request, 'main_page/dashboard/teacher_search.html',
+                  context={'search_result': lookup
+
+    })

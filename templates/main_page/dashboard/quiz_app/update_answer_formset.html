@@ -1,0 +1,244 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--          {% block active_quiz_create %} class='active' {% endblock active_quiz_create%}-->
+      {% endblock navbar %}
+
+      <style>
+          .variant-form {
+            border-bottom: 1px solid gray;
+            margin: 20px;
+          }
+          .hidden {
+            display: none;
+          }
+      </style>
+{% block content %}
+      <div class="content">
+          <div class="row">
+          <div class="col-md-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Quiz adı ~ <strong style="color:#4287f5;">{{ quiz.name }}</strong></h4>
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header">
+                      {% if update %}
+                        <h4 class="card-title">Dəyişiklik et</h4>
+                      {% else %}
+                        <h4 class="card-title">Yeni sual</h4>
+                      {% endif %}
+                  </div>
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="container-fluid p-0">
+                        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          {{ message }}
+                        </div>
+                      </div>
+                      {% endfor %}
+                  {% endif %}
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <form method="POST" enctype= multipart/form-data >
+                              {% csrf_token %}
+
+                              {% render_field question_form.image style="color:#3299a8;border-radius:10px; width: 50%;" class="form-control" placeholder="Şəkilli sual üçün şəkil daxil edin" %}
+                              <br>
+                              {% render_field question_form.text id="question_field" style="color:#3299a8;border-radius:10px; width: 90%;" class="form-control" placeholder="Sualı daxil edin" %}
+                              <br>
+                              {% for hidden in formset.hidden_fields %}
+                                {{ hidden }}
+                                {{ hidden.errors }}
+                              {% endfor %}
+                             {{ formset.management_form }}
+                              {{ formset.non_form_errors }}
+
+                             <div class="container">
+                              <div id="variant-form-list">
+                                {% for form in formset.forms %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    <div class="variant-form">
+                                        {{ form }}
+                                    </div>
+                                {% endfor %}
+                                 <div id="empty-form" class='hidden'>{{ formset.empty_form }}</div>
+                                </div>
+                               <button id="add-more" class="btn btn-success">+</button>
+                               </div>
+                              <button type="submit" class="btn btn-success">Yadda saxla</button>
+                              <a type="button" class="btn btn-warning" href="{% url 'createquiz' %}">İmtina et</a>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4 class="card-title">
+                              Suallar
+                          </h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              {% if questions %}
+                              <table class="table">
+                                  <thead class="text-primary">
+                                    <th>№</th>
+                                    <th>Sual</th>
+                                    <th>Variantlar</th>
+                                    <th>Şəkil</th>
+                                    <th class="text-center">Əməliyyatlar</th>
+                                  </thead>
+                                  <tbody>
+                                      {% for question in questions %}
+                                      <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                          <td>
+                                              <strong> {{ question.text }} </strong> <br/>
+                                          </td>
+                                          <td>
+                                              {% for key, values in question_variants.items %}
+                                                {% if question.text == key %}
+                                                    {% for value in values %}
+                                                        <p>{{ value.text }}
+                                                        {% if value.correct %}
+                                                           - ✅
+                                                        {% endif %}
+                                                            </p>
+                                                    {% endfor %}
+                                                {% endif %}
+                                              {% endfor %}
+                                          </td>
+                                          <td>
+                                              {% if question.image %}
+                                                <a href="{{ MEDIA_URL }}{{ question.image.url }}"><img src="{{ question.image.url }}" style="width:50px; height:40px;"></a>
+                                              {% else %}
+                                                Yoxdur
+                                              {% endif %}
+                                          </td>
+                                          <td class="text-center">
+                                              <a title="Dəyişdir" class="btn btn-success" href="{% url 'updatequestion' quiz_id=quiz.id question_id=question.id %}">
+                                                  <i class="fas fa-edit"></i>
+                                              </a>
+                                            <!--   Sualı silmək üçün modal-->
+                                                  <button type="button" name="button" class="btn btn-danger" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='block'">
+                                                        <span data-feather="trash"><i class="fas fa-trash"></i></span>
+                                              </button>
+                                              <div id="{{question.id}}deleteQuestion" class="modal">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="{{question.id}}deleteQuestionTitle">Sualı sil</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <b>{{ question.text }}</b> sualı silinəcək. Əminsiniz?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <a class="btn btn-outline-info" onclick="document.getElementById('{{question.id}}deleteQuestion').style.display='none'" class="close" title="Bağla" >
+                                                        Bağla
+                                                      </a>
+                                                      <a class="btn btn-outline-danger" title="Sualı sil" href="{% url 'deletequestion' id=question.id %}">Sil</a>
+                                                    </div>
+                                                  </div>
+                                                 </div>
+                                                </div>
+                                              </td>
+                                      </tr>
+                                  {% endfor %}
+                                  </tbody>
+                              </table>
+                              {% else %}
+                                <h3 class="text-center">Sual yoxdur</h3>
+                              {% endif %}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          </div>
+         {% endblock content %}
+
+   {% block footer %} {{ block.super }}{% endblock footer%}
+
+  </div>
+
+<!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+  <script src="{% static 'js/quiz_add_new_variants.js' %}"></script>
+
+    <script>
+        const addMoreBtn = document.getElementById('add-more')
+        const totalNewForms = document.getElementById('id_answer_set-TOTAL_FORMS')
+
+        addMoreBtn.addEventListener('click', add_new_form)
+
+        function add_new_form (event){
+            if(event) {
+                event.preventDefault()
+                }
+            const currentVariantForms = document.getElementsByClassName('variant-form')
+            const currentFormCount = currentVariantForms.length
+
+            const formCopyTarget = document.getElementById('variant-form-list')
+            const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+            copyEmptyFormEl.setAttribute('class', 'variant-form')
+            copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+
+            const questTextEl = document.getElementsByName('answer_set-${currentFormCount}-text')
+<!--            console.log(questTextEl.className)-->
+<!--            questTextEl.className = "form-control";-->
+<!--            questTextEl.style.border-radius = '10px'-->
+<!--            questTextEl.style.width = '90%'-->
+<!--            questTextEl.style.margin = '30px'-->
+<!--            questTextEl.style.color = '#3299a8'-->
+<!--            -->
+
+            const regex = new RegExp('__prefix__', 'g')
+            copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+
+
+
+            totalNewForms.setAttribute('value', currentFormCount + 1)
+
+            formCopyTarget.append(copyEmptyFormEl)
+
+
+        }
+    </script>
+
+  {% endblock main_body %}
+</body>

@@ -1,0 +1,132 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+
+{% block mycss %}
+
+{% endblock mycss %}
+
+{% load widget_tweaks %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_payment %} class='active' {% endblock active_payment %} -->
+      {% endblock navbar %}
+
+{% block content %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Ödəniş əlavə et</h4>
+            <div class="align-self-end ml-auto">
+              <a class="btn btn-primary float-right" href="{% url 'studentpaymentlist' %}" >Ödənişlər listi</a>
+            </div>
+        </div>
+
+        <form method="POST"  id="std_form" enctype= "multipart/form-data">
+          {% csrf_token %}
+          <section class="section">
+            <div class="container ">
+              <div class="columns" style="margin: 0 auto; max-width: 536px;">
+                <div class="column is-half is-offset-one-quarter">
+
+                  {% for hidden in paymentForm.hidden_fields %}
+                      {{ hidden.errors }}
+                      {{ hidden }}
+                  {% endfor %}
+                    <div>
+                        <strong>Yeni ödəniş əlavə et</strong>
+                    </div>
+                    <br>
+                    <div class="field">
+                    <label>Qrup</label>
+                    <div class="control">
+                      {% render_field paymentForm.group style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+                    <div class="field">
+                    <label>Şagird</label>
+                    <div class="control">
+                      {% render_field paymentForm.student style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+                  <br>
+                    <div class="field">
+                    <label>Ödəniş miqdarı</label>
+                    <div class="control">
+                      {% render_field paymentForm.monthlyAmount style="color:#3299a8;border-radius:10px;" class="form-control" placeholder="0" %}
+                    </div>
+                  </div>
+                  <br>
+
+                 <div class="field">
+                    <label>Başladığı tarix</label>
+                    <div class="control">
+                      {% render_field paymentForm.startDate style="color:#3299a8;border-radius:10px;" class="form-control" %}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="text-center custom-pro-edt-ds">
+                    <!-- <input type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10" value="Save"> -->
+                    <button type="submit" class="btn btn-outline-success">Yadda saxla</button>
+                      <!-- <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button> -->
+                      <a type="button" class="btn btn-outline-warning" href="{% url 'studentpaymentlist' %}">İmtina et</a>
+
+                  </div>
+              </div>
+          </div>
+         <br>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> <!-- end content -->
+
+
+{% endblock content %}
+
+{% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+</div>
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  <script src="{% static 'js/password_validatee.js' %}"></script>
+  <script src="{% static 'js/register_teacher_sttd.js' %}"></script>
+
+
+{% endblock main_body %}
+</body>

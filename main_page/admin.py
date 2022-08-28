@@ -1,8 +1,10 @@
 from django.contrib import admin
-from .models import (user, Course,
-                     TeacherProfile, StudentProfile,
-                     Quiz, Question, Answer, Result,
-                     FrontPageData, TeamMember, FrontMenuNames)
+from main_page.models.all_models import (user, Course, TeacherProfile, StudentProfile,
+                                 Quiz, Question, Answer, Result,
+                                 FrontPageData, TeamMember, FrontMenuNames)
+from main_page.models.journal_models import TeacherAttendance, StAttendance
+from main_page.models.ticket_models import TicketSeller
+from main_page.models.payment_models import StdPaymentAmount2, StdPaidAmount
 
 # Register your models here.
 
@@ -24,3 +26,8 @@ admin.site.register(Result)
 admin.site.register(FrontPageData)
 admin.site.register(TeamMember)
 admin.site.register(FrontMenuNames)
+admin.site.register(StAttendance)
+admin.site.register(TeacherAttendance)
+admin.site.register(TicketSeller)
+admin.site.register(StdPaymentAmount2)
+admin.site.register(StdPaidAmount)

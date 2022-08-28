@@ -1,0 +1,112 @@
+{% extends 'base_dashboard.html'%}
+{% load static %}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+<!--           {% block active_journal %} class='active' {% endblock active_journal%}-->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="card-header">
+                        <h5 class="card-title"> Elektron Jurnal</h5>
+                    </div>
+                  </div>
+                <div class="col-md-4">
+                  <div class="card-header">
+                        <h5 class="card-title">Qrup: <strong>{{ group.c_name }}</strong></h5>
+                    </div>
+                  </div>
+                <div class="col-md-4">
+                  <div class="card-header">
+                        <h5 class="card-title">Dərs iştirakı</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Şagird
+                      </th>
+                      <th>
+                        1-ci saat
+                      </th>
+                      <th>
+                        2-ci saat
+                      </th>
+                    </thead>
+                    <tbody>
+                    <div id="form-header" style="position: relative;">
+                      <form method="POST" enctype= "multipart/form-data">
+                          {% csrf_token %}
+                        {% for hidden in formset.hidden_fields %}
+                          {{ hidden }}
+                          {{ hidden.errors }}
+                        {% endfor %}
+                        {{ formset.management_form }}
+                        {{ formset.non_form_errors }}
+                        {% for form in formset.forms %}
+                        <tr>
+                          <td>
+                            {% for std in students %}
+                              {% if forloop.counter == forloop.parentloop.counter %}
+                                {{ std.student.first_name }}&nbsp;{{ std.student.last_name }}
+                              {% endif %}
+                            {% endfor %}
+                          </td>
+                          <td>
+                            {{ form.first_hour }}
+                          </td>
+                          <td>
+                            {{ form.second_hour }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        <h5 class="card-title">Tarix: <strong>{{ current_date }}</strong></h5>
+                        <div id="form-button" style="position: absolute;bottom: -15px;left: 4%;">
+                          <button type="submit" class="btn btn-success">Yadda saxla</button>
+                        </div>
+                      </form>
+                    </div>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+       <!-- end content -->
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+</div>
+
+<!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>

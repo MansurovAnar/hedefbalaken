@@ -8,7 +8,9 @@ pipeline{
 	}
 	stages{
 		stage('CloneFromGithub'){
-	    	 echo "This stage will be completed later"	
+	    	 	steps{
+				echo "This stage will be completed later"	
+			}
 		}
 		
 		stage('BuildDockerImg'){

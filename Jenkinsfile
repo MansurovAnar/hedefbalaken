@@ -25,20 +25,20 @@ pipeline{
 	
 		stage('LoginToDockerHub'){
 			steps{
-				sh 'docker login -u $registryCredential'
+				sh 'echo $registryCredential_PSW | docker login -u $registryCredential_USR --password-stdin'
 			}
 		}
 		
 		stage('PushToDockerHub'){
 			steps{
-				sh 'docker push hedefbalaken_dock:lts'
+				sh 'docker push $registry:lts'
 			}
 		}
 	}
 
 	post{
 		always{
-			sh 'docker logut'
+			sh 'docker logout'
 		}
 	}
 }

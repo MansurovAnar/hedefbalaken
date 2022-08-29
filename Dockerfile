@@ -5,10 +5,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /hedef_on_docker
 
-COPY /hedefbalaken/requirements.txt /hedef_on_docker/
+#COPY . /hedef_on_docker/
 
-RUN pip install -r reuqirements.txt
+#COPY /hedefbalaken/requirements.txt /hedef_on_docker/
 
-COPY . /hedef_on_docker/
+#RUN pip install -r reuqirements.txt
 
 EXPOSE 8000

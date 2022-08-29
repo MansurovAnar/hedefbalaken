@@ -16,26 +16,26 @@ pipeline{
 		
 		stage('BuildDockerImg'){
 			 steps{
-				sh 'docker build -t hedefbalaken_dock:lts . '
+				echo 'docker build -t hedefbalaken_dock:lts . '
 			}
 		}
 	
 		stage('LoginToDockerHub'){
 			steps{
-				sh 'docker login -u $registryCredential'
+				echo 'docker login -u $registryCredential'
 			}
 		}
 		
 		stage('PushToDockerHub'){
 			steps{
-				sh 'docker push hedefbalaken_dock:lts'
+				echo 'docker push hedefbalaken_dock:lts'
 			}
 		}
 	}
 
 	post{
 		always{
-			sh 'docker logut'
+			echo 'docker logut'
 		}
 	}
 }

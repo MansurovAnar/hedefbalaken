@@ -2,7 +2,7 @@ pipeline{
 	agent any
 	
 	environment{
-		registry = "anarmansurov/hedefbalaken_dock:lts"
+		registry = "hedefbalaken_dock:lts"
 		registryCredential = credentials('dockerhub')
 		dockerImage = ''
 	}

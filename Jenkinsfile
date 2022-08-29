@@ -9,7 +9,8 @@ pipeline{
 	stages{
 		stage('CloneFromGithub'){
 	    	 	steps{
-				echo "This stage will be completed later"	
+				echo "Cloning Hedef Project from github"
+				git 'https://github.com/MansurovAnar/hedefbalaken'	
 			}
 		}
 		

@@ -7,6 +7,6 @@ WORKDIR /hedef_on_docker
 
 COPY requirements.txt /hedef_on_docker/
 
-RUN pip install -r reuqirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8000

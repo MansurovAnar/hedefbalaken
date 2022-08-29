@@ -16,7 +16,7 @@ pipeline{
 		
 		stage('BuildDockerImg'){
 			 steps{
-				echo 'docker build -t hedefbalaken_dock:lts . '
+				sh 'docker build -t hedefbalaken_dock:lts . '
 			}
 		}
 	

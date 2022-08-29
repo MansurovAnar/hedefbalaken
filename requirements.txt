@@ -13,7 +13,7 @@ gunicorn==20.1.0
 pdfminer.six==20211012
 pdfplumber==0.6.0
 Pillow==8.1.2
-psycopg2==2.8.6
+#psycopg2==2.8.6
 #psycopg2-binary==2.8.6
 pycparser==2.21
 PyPDF2==1.26.0

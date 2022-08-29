@@ -10,7 +10,10 @@ pipeline{
 		stage('CloneFromGithub'){
 	    	 	steps{
 				echo "Cloning Hedef Project from github"
-				git 'https://github.com/MansurovAnar/hedefbalaken'	
+				git branch:'master'
+				    credentialsId:'jenkins_github'
+				    url: 'https://github.com/MansurovAnar/hedefbalaken'	
+				echo "Cloned from GIT"
 			}
 		}
 		

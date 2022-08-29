@@ -2,7 +2,7 @@ pipeline{
 	agent any
 	
 	environment{
-		registry = "hedefbalaken_dock:lts"
+		registry = "anarmansurov/hedefbalaken_dock:lts"
 		registryCredential = credentials('dockerhub')
 		dockerImage = ''
 	}
@@ -19,7 +19,7 @@ pipeline{
 		
 		stage('BuildDockerImg'){
 			 steps{
-				sh 'docker build -t hedefbalaken_dock:lts . '
+				sh 'docker build -t anarmansurov/hedefbalaken_dock:lts . '
 			}
 		}
 	

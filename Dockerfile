@@ -1,3 +1,5 @@
+LABEL maintainer.qa="Anar Mansurov"
+
 FROM python:3.9-slim-buster
 
 ENV PYTHONDONTWRITEBYTECODE=1

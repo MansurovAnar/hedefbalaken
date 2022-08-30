@@ -12,3 +12,5 @@ RUN pip install -r requirements.txt
 COPY . /hedef_on_docker/
 
 EXPOSE 8000
+
+

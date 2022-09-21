@@ -21,9 +21,19 @@
               <div class="card-header">
               <div>
                   <h4 class="card-title"> Müəllimlərin siyahısı</h4>
-                  <form style="float:right;" action="{% url 'searchteacher' %}" method="get">
+                  <form action="{% url 'searchteacher' %}" method="get" >
                       <div class="input-group no-border" >
-                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                        <input name="q" type="text" class="form-control" placeholder="Axtar...">
+                        <div class="input-group-append"  style="height:40px;">
+                          <div class="input-group-text">
+                              <button type="submit" class="btn btn-primary" style="border-radius:30px;">
+                                <i class="fas fa-search"></i>
+                              </button> &nbsp;
+                              <a href="{% url 'teachers' %}">
+                                  <h3 title="Müəllimlər cədvəlinə geri" ><i class="fa fa-times"></i></h3>
+                              </a>
+                          </div>
+                        </div>
                       </div>
                     </form>
               </div>

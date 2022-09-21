@@ -21,13 +21,23 @@
               <div class="card-header">
               <div>
                   <h4 class="card-title"> Tələbələrin ödəniş cədvəli</h4>
-                  <form style="float:left;" action="{% url 'searchstudentinpaymentlist' %}" method="get">
+                  <form action="{% url 'searchstudentinpaymentlist' %}" method="get" >
                       <div class="input-group no-border" >
-                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                        <input name="q" type="text" class="form-control" placeholder="Axtar...">
+                        <div class="input-group-append"  style="height:40px;">
+                          <div class="input-group-text">
+                              <button type="submit" class="btn btn-primary" style="border-radius:30px;">
+                                <i class="fas fa-search"></i>
+                              </button> &nbsp;
+                              <a href="{% url 'studentpaymentlist' %}">
+                                  <h3 title="Ödənişlər cədvəlinə geri" ><i class="fa fa-times"></i></h3>
+                              </a>
+                          </div>
+                        </div>
                       </div>
                     </form>
                </div>
-                  <div class="align-self-end ml-auto" style="margin-bottom:20px;">
+                <div class="align-self-end ml-auto" style="margin-bottom:20px;">
                   <a class="btn btn-primary float-right" href="{% url 'createstudentpayment' %}" >Yeni ödəniş</a>
                 </div>
               </div>
@@ -55,6 +65,9 @@
                       <th>
                         Qrup
                       </th>
+                      <th>
+                        Status
+                      </th>
                        <th class="text-center">
                         Qeydiyyat <br>tarixi
                       </th>
@@ -68,44 +81,56 @@
                     </thead>
                     <tbody>
                     {% for payment in search_result %}
-                      <tr>
-                        <td {% if not payment.student.status %}
-                                style="opacity:.2"
+                      <tr
+                              {% if not payment.monthlyAmount %}
+                                style="background-color: #fcf995;"
                               {% endif %}
+                      >
+                        <td
                         >{{forloop.counter}}.</td>
                         <td
-                              {% if not payment.student.status %}
+                              {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}
                         >
 
                          <a style="color:#477fb3;" title="Ödəniş məlumatlarını yenilə" href="{% url 'updatestudentpayment' payment_id=payment.pk %}">{{ payment.student.student.first_name }}&nbsp;{{ payment.student.student.last_name }}</a>
                         </td>
-                        <td {% if not payment.student.status %}
+                        <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}>
                             {{ payment.group.c_name }}
                         </td>
-                        <td {% if not payment.student.status %}
+                          <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
+                                style="opacity:.2"
+                              {% endif %}
+                            class="text-center" >
+                              {% if payment.status %}
+                                    Aktiv
+                              {% else %}
+                                    Deaktiv
+                              {% endif %}
+                        </td>
+                        <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}
                             class="text-center" >
                             {{ payment.startDate }}
                         </td>
-                         <td {% if not payment.student.status %}
+                         <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}
                              class="text-center">
                             {{ payment.monthlyAmount }} AZN
                          </td>
-                          <td {% if not payment.student.status %}
+                          <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}
                               class="text-center">
                               {% if payment.paidamounts %}
                                 {% for paid in payment.paidamounts %}
                                     {% if paid.paidAmount %}
-                                        {{ paid.paidAmount }} AZN / {{ paid.paidDate }}
+                                        <a href="{{ MEDIA_URL }}{{ paid.qaime.url }}" target="_blank">{{ paid.paidAmount }} AZN / {{ paid.paidDate }}</a>
                                         <br>
                                     {% else %}
                                         --
@@ -115,7 +140,7 @@
                                  --
                               {% endif %}
                           </td>
-                          <td {% if not payment.student.status %}
+                          <td {% if not payment.student.status or not payment.status or not payment.group.c_status %}
                                 style="opacity:.2"
                               {% endif %}
                           ><a href="{% url 'addstudentpaidamount' payment_id=payment.pk %}"><button type="button" class="btn btn-primary">Ödədi</button></a></td>

@@ -248,9 +248,18 @@ def create_course(request):
 
         if courseForm.is_valid():
             crs = courseForm.save(commit=False)
+
             crs.save()
             courseForm.save_m2m()
-            print(crs)
+
+            # sechilmish telebeler Payment cedveline elave edilir
+            selected_students = courseForm.cleaned_data['students']
+            added_students = list(set(selected_students))
+            if added_students:
+                for added_student in added_students:
+                    StdPaymentAmount2.objects.create(group=crs, student=added_student,
+                                                     monthlyAmount=0, startDate=datetime.date.today(),
+                                                     status=True)
 
             courseForm = CourseCreate()
             context['courseForm'] = courseForm
@@ -274,7 +283,7 @@ def create_course(request):
 def update_course(request, pk):
     context = {}
     course = get_object_or_404(Course, pk=pk)
-    print("INSTANCEE   ", course.c_id)
+    previous_students = course.students.all()
     courseForm = CourseCreate(request.POST or None, instance=course)
 
     if courseForm.is_valid():
@@ -282,9 +291,24 @@ def update_course(request, pk):
         if 'c_photo' in request.FILES:
             print('Found it')
             course_form.c_photo = request.FILES['c_photo']
+        current_students = courseForm.cleaned_data['students']
+
+        added_students = list(set(current_students) - set(previous_students))
+        deleted_students = list(set(previous_students) - set(current_students))
+        if added_students:
+            for added_student in added_students:
+                StdPaymentAmount2.objects.update_or_create(group=course_form,
+                                                           student=added_student,
+                                                           monthlyAmount=0, startDate=datetime.date.today(),
+                                                           defaults={"status": True})
+
+        if deleted_students:
+            for deleted_student in deleted_students:
+                StdPaymentAmount2.objects.filter(student=deleted_student).update(status=False)
+
         course_form.save()
         courseForm.save_m2m()
-        print(course_form)
+
         messages.success(request, '"' + str(course_form) + '"' + " qrupu haqqında məlumat yeniləndi.")
 
         return redirect('dashboardcourses')
@@ -300,7 +324,6 @@ def course_detail(request, cid):
     context = {"crs_detail": crs}
 
     return render(request, 'main_page/dashboard/course_detail.html', context)
-
 
 @login_required(login_url='login')
 def delete_course(request, pk):
@@ -1094,6 +1117,7 @@ def save_quiz_view(request, quiz_id):
 def lesson_materials(request):
     return render(request, 'main_page/dashboard/lesson_materials/topics_and_materials.html')
 
+# Imtahan nəticələrini PDF şəklində görmək üçün
 @csrf_exempt
 def view_pdf(request):
     if request.method == 'POST':
@@ -1126,10 +1150,10 @@ def lesson_table_file(request):
 @allowed_users(allowed_roles=['controller'])
 def search_student(request):
     query = request.GET.get('q')
-    lookup = StudentProfile.objects.filter(Q(student__first_name__contains=query) |
-                                           Q(student__last_name__contains=query) |
-                                           Q(student__username__contains=query)).order_by('-status')
-    print("LOOKUP FIND: ", lookup)
+    lookup = StudentProfile.objects.filter(Q(student__first_name__icontains=query) |
+                                           Q(student__last_name__icontains=query) |
+                                           Q(student__username__icontains=query)).order_by('-status')
+
     return render(request, 'main_page/dashboard/student_search.html',
                   context={'search_result': lookup
 
@@ -1140,11 +1164,30 @@ def search_student(request):
 @allowed_users(allowed_roles=['controller'])
 def search_teacher(request):
     query = request.GET.get('q')
-    lookup = TeacherProfile.objects.filter(Q(user__first_name__contains=query) |
-                                           Q(user__last_name__contains=query) |
-                                           Q(user__username__contains=query)).order_by('-status')
-    print("LOOKUP FIND: ", lookup)
+    lookup = TeacherProfile.objects.filter(Q(user__first_name__icontains=query) |
+                                           Q(user__last_name__icontains=query) |
+                                           Q(user__username__icontains=query)).order_by('-status')
+
     return render(request, 'main_page/dashboard/teacher_search.html',
                   context={'search_result': lookup
+
+    })
+
+@csrf_protect
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def search_group(request):
+    query = request.GET.get('q')
+    lookup = Course.objects.filter(Q(c_id__icontains=query) |
+                                           Q(c_name__icontains=query) |
+                                           Q(c_description__icontains=query) |
+                                           Q(teachers__user__first_name__icontains=query) |
+                                           Q(teachers__user__last_name__icontains=query) |
+                                           Q(students__student__first_name__icontains=query) |
+                                           Q(students__student__last_name__icontains=query)
+                                        ).order_by('-c_status')
+    print("Lookup: ", set(lookup))
+    return render(request, 'main_page/dashboard/group_search.html',
+                  context={'search_result': set(lookup)
 
     })

@@ -10,7 +10,7 @@
   <div class="main-panel" id="main-panel">
       <!-- Navbar -->
       {% block navbar %} {{ block.super }}
-<!--           {% block active_profile %} class='active' {% endblock active_profile%}-->
+<!--           {% block active_studentslist %} class='active' {% endblock active_studentslist %}-->
       {% endblock navbar %}
 
 {% block content %}
@@ -21,9 +21,19 @@
               <div class="card-header">
                   <div>
                     <h4 class="card-title"> Tələbələrin siyahısı</h4>
-                    <form action="{% url 'searchstudent' %}" method="get">
+                    <form action="{% url 'searchstudent' %}" method="get" >
                       <div class="input-group no-border" >
-                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                        <input name="q" type="text" class="form-control" placeholder="Axtar...">
+                        <div class="input-group-append"  style="height:40px;">
+                          <div class="input-group-text">
+                              <button type="submit" class="btn btn-primary" style="border-radius:30px;">
+                                <i class="fas fa-search"></i>
+                              </button> &nbsp;
+                              <a href="{% url 'students' %}">
+                                  <h3 title="Tələbələr cədvəlinə geri" ><i class="fa fa-times"></i></h3>
+                              </a>
+                          </div>
+                        </div>
                       </div>
                     </form>
                    </div>

@@ -83,6 +83,7 @@ urlpatterns = [
 
     url(r'^search/student/$', views.search_student, name='searchstudent'),
     url(r'^search/teacher/$', views.search_teacher, name='searchteacher'),
+    url(r'^search/group/$', views.search_group, name='searchgroup'),
     path('', include(journal_urls)),
     path('', include(payment_urls)),
 

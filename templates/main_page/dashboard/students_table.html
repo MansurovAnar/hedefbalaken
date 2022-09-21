@@ -21,10 +21,17 @@
               <div class="card-header">
                   <div>
                     <h4 class="card-title "> Tələbələrin siyahısı</h4>
-                      <a href="{{ previous_page }}">Geri</a>
-                    <form style="float:right;" action="{% url 'searchstudent' %}" method="get">
+<!--                      <a href="{{ previous_page }}">Geri</a>-->
+                    <form action="{% url 'searchstudent' %}" method="get" >
                       <div class="input-group no-border" >
-                        <input name="q" type="text" class="form-control" placeholder="Axtarış">
+                        <input name="q" type="text" class="form-control" placeholder="Axtar...">
+                        <div class="input-group-append"  style="height:40px;">
+                          <div class="input-group-text">
+                              <button type="submit" class="btn btn-primary" style="border-radius:30px;">
+                                <i class="fas fa-search"></i>
+                              </button>
+                          </div>
+                        </div>
                       </div>
                     </form>
                    </div>

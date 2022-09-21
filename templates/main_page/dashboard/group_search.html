@@ -1,0 +1,177 @@
+{% extends 'base_dashboard.html'%}
+{% load static%}
+{% block title %} ELC | Dashboard {% endblock%}
+
+<body>
+{% block sidebar %} {{block.super}} {% endblock sidebar %}
+
+{% block main_body %}
+
+  <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      {% block navbar %} {{ block.super }}
+           <!-- {% block active_courses %} class='active' {% endblock active_courses%} -->
+      {% endblock navbar %}
+
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h4 class="card-title"> Qruplar</h4>
+                  <form action="{% url 'searchgroup' %}" method="get" >
+                      <div class="input-group no-border" >
+                        <input name="q" type="text" class="form-control" placeholder="Axtar...">
+                        <div class="input-group-append"  style="height:40px;">
+                          <div class="input-group-text">
+                              <button type="submit" class="btn btn-primary" style="border-radius:30px;">
+                                <i class="fas fa-search"></i>
+                              </button> &nbsp;
+                              <a href="{% url 'dashboardcourses' %}">
+                                  <h3 title="Qruplar cədvəlinə geri" ><i class="fa fa-times"></i></h3>
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+                <div class="align-self-end ml-auto">
+                  <a class="btn btn-outline-primary float-right" href="{% url 'createcourse' %}" >Yeni qrup əlavə et</a>
+                </div>
+              </div>
+             {% if search_result %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="container-fluid p-0">
+                    <div class="alert alert-success alert-dismissible" role="alert" >
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              {% endif %}
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        ID
+                      </th>
+                      <th>
+                        Ad
+                      </th>
+                      <th>
+                        Açıqlama
+                      </th>
+                      <th>
+                        Təlimçi(lər)
+                      </th>
+                      <th>
+                        Tələbə(lər)
+                      </th>
+                      <th>
+                        Şəkil
+                      </th>
+                      <th>
+                      </th>
+                    </thead>
+                    <tbody>
+                      {% for course in search_result %}
+                      <tr>
+                        <td
+                          {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %} >
+                          {{ course.c_id }}
+                        </td>
+                        <td
+                          {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
+                          <a style="color:blue;" href="{% url 'coursedetail' cid=course.c_id %}">{{ course.c_name }}</a>
+                        </td>
+                        <td
+                          {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
+                          {{ course.c_description }}
+                        </td>
+                        <td
+                          {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %} >
+                          {% if course.teachers.all%}
+                            {% for tcr in course.teachers.all %}
+                              {{ tcr.user.first_name }}&nbsp;{{ tcr.user.last_name }}
+                              <br>
+                            {% endfor %}
+                          {% else %}
+                            Yoxdur
+                          {% endif %}
+                        </td>
+                        <td
+                          {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %} >
+                          {% if course.students.all %}
+                            {% for stdnt in course.students.all %}
+                              <a href="{% url 'studentdetail' id=stdnt.pk %}">{{ stdnt.student.first_name }}&nbsp;{{ stdnt.student.last_name }}</a>
+                              <br>
+                            {% endfor %}
+                          {% else %}
+                            Yoxdur
+                          {% endif %}
+                        </td>
+                        <td {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
+                          <a href="{{ MEDIA_URl }}{{ course.c_photo.url }}"><img src="{{ course.c_photo.url }}" style="width:50px; height:40px;"></a>
+                        </td>
+                        <td {% if not course.c_status %}
+                            style="opacity:.2"
+                          {% endif %}>
+                          <a href="{% url 'updatecourse' pk=course.pk %}"><button type="button" class="btn btn-primary">Yenilə</button></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+                {% else %}
+                <div class="container"style="width:100%; height:500px; text-align:center;">
+                  <div class="container" style="text-align:center; width:300px; height:200px; position:absolute; top:10%; left:33%; padding:60px; background:#f2f4f7; border-radius:2%;">
+                    <h3 style="color:#41577a;">Nəticə yoxdur</h3>
+                    <br>
+                    <a class="btn btn-primary" href="{% url 'dashboardcourses' %}">Qruplar listinə qayıt</a>
+                  </div>
+                </div>
+
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div> <!-- end content -->
+         {% endblock content %}
+   {% block footer %} {{ block.super }}{% endblock footer%}
+    </div>
+
+
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  <script src="{% static 'js/now-ui-dashboard.min.js?v=1.5.0' %}" type="text/javascript"></script>
+  <script src="{% static 'demo/demo.js' %}"></script>
+
+  {% endblock main_body %}
+</body>
